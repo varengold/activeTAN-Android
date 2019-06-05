@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".gui.VerifyTransactionDetailsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/actionBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="?android:attr/actionBarStyle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/verify_transaction_details_title" />
+
+    <TextView
+        android:id="@+id/labelVisualizationClass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actionBar"
+        tools:text="transaction type" />
+
+    <TextView
+        android:id="@+id/labelDataElement1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelVisualizationClass"
+        tools:text="label 1" />
+
+    <TextView
+        android:id="@+id/contentDataElement1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/labelDataElement1"
+        app:layout_constraintStart_toStartOf="@+id/labelDataElement1"
+        app:layout_constraintTop_toBottomOf="@+id/labelDataElement1"
+        tools:text="content 1" />
+
+    <TextView
+        android:id="@+id/labelDataElement2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/labelDataElement1"
+        app:layout_constraintStart_toStartOf="@+id/labelDataElement1"
+        app:layout_constraintTop_toBottomOf="@+id/contentDataElement1"
+        tools:text="label 2" />
+
+    <TextView
+        android:id="@+id/contentDataElement2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/contentDataElement1"
+        app:layout_constraintStart_toStartOf="@+id/contentDataElement1"
+        app:layout_constraintTop_toBottomOf="@+id/labelDataElement2"
+        tools:text="content 2" />
+
+    <TextView
+        android:id="@+id/labelDataElement3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/labelDataElement1"
+        app:layout_constraintStart_toStartOf="@+id/labelDataElement1"
+        app:layout_constraintTop_toBottomOf="@+id/contentDataElement2"
+        tools:text="label 3" />
+
+    <TextView
+        android:id="@+id/contentDataElement3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/contentDataElement1"
+        app:layout_constraintStart_toStartOf="@+id/contentDataElement1"
+        app:layout_constraintTop_toBottomOf="@+id/labelDataElement3"
+        tools:text="content 3" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?android:attr/colorAccent"
+        android:onClick="onButtonValidate"
+        android:text="@string/confirm_transaction_details"
+        android:textColor="@color/solarizedBase3"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/instructionTAN"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="please check details / confirm the order" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/generatedTanContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="invisible"
+        app:cardBackgroundColor="?android:attr/colorForeground"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toTopOf="@+id/instructionTAN"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contentDataElement3"
+        app:layout_constraintVertical_bias="0.61"
+        tools:visibility="visible">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/textTAN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAlignment="center"
+                android:textColor="?android:attr/colorPrimaryDark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:text="123 456" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/enter_tan_onlinebanking"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

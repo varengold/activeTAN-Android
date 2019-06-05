@@ -1,0 +1,3 @@
+<resources>
+    <string name="backend_api_url">https://banking.varengold.de/OnlineBankingQS/api/activeTAN/</string>
+</resources>

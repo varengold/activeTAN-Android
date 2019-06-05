@@ -1,0 +1,32 @@
+<resources>
+    <string name="imprint">
+        <![CDATA[
+            <p>
+                <b>EFDIS AG Bankensoftware</b><br/>
+                Marienplatz 5<br/>
+                85354 Freising
+            </p>
+            <p>
+                Tel.: <a href="tel:+4981615373410">08161 5373-410</a><br/>
+                Fax: 08161 5373-590<br/>
+                E-Mail: <a href="mailto:info@efdis.de">info@efdis.de</a>
+            </p>
+            <p>
+                <b>Aufsichtsratvorsitzender</b><br/>
+                Christian Sperrer
+            </p>
+            <p>
+                <b>Vorstand</b><br/>
+                Konrad Filser<br/>
+                Kirsten Klosin<br/>
+                Christian Wust
+            </p>
+            <p>
+                <b>Ergänzende Informationen</b><br/>
+                Firmensitz: 85354 Freising, HRB&nbsp;117536<br/>
+                USt.&#x2009;Id.&#x2009;Nr.: DE&nbsp;189802523
+            </p>
+        ]]>
+    </string>
+</resources>
+

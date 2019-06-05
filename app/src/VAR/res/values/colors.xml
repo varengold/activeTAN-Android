@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#b09e70</color>
+    <color name="normalFont">#333d4a</color>
+    <color name="darkBackground">#323945</color>
+    <color name="mediumBackground">#465261</color>
+    <color name="lightBackground">#DFE1E4</color>
+
+    <color name="blue">#007bff</color>
+    <color name="indigo">#6610f2</color>
+    <color name="purple">#6f42c1</color>
+    <color name="pink">#e83e8c</color>
+    <color name="red">#dc3545</color>
+    <color name="orange">#fd7e14</color>
+    <color name="yellow">#ffc107</color>
+    <color name="green">#28a745</color>
+    <color name="teal">#20c997</color>
+    <color name="cyan">#17a2b8</color>
+    <color name="white">#ffffff</color>
+    <color name="gray">#6c757d</color>
+    <color name="grayDark">#343a40</color>
+    <color name="primary">#007bff</color>
+    <color name="secondary">#6c757d</color>
+    <color name="success">#28a745</color>
+    <color name="info">#17a2b8</color>
+    <color name="warning">#ffc107</color>
+    <color name="danger">#dc3545</color>
+    <color name="light">#f8f9fa</color>
+    <color name="dark">#343a40</color>
+</resources>

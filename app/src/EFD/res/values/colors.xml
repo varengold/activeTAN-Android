@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="whiteBackground">#FFFFFF</color>
+    <color name="lightGreyBackground">#F7F7F8</color>
+    <color name="greyPanelBackground">#7A868C</color>
+    <color name="darkBlueBackground">#000F23</color>
+
+    <color name="blueAccent">#3295D2</color>
+
+    <color name="normalFont">#414B56</color>
+    <color name="lightFont">#7A868C</color>
+    <color name="darkFont">#000F23</color>
+
+    <color name="red">#FF0000</color>
+</resources>

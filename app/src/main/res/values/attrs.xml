@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="qrScannerBorderColor" format="reference" />
+    <attr name="qrScannerMaskColor" format="reference" />
+    <attr name="bankLogoBackgroundColor" format="reference" />
+</resources>

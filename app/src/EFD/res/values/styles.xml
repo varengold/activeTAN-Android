@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/darkBlueBackground</item>
+        <item name="colorPrimaryDark">@color/darkBlueBackground</item>
+        <item name="colorAccent">@color/blueAccent</item>
+        <item name="android:colorBackground">@color/whiteBackground</item>
+        <item name="android:colorForeground">@color/lightGreyBackground</item>
+        <item name="android:textColorPrimary">@color/normalFont</item>
+        <item name="android:textColorPrimaryInverse">@color/darkFont</item>
+        <item name="android:textColorSecondary">@color/lightFont</item>
+        <item name="android:textColorSecondaryInverse">@color/darkFont</item>
+
+        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
+        <item name="android:toolbarStyle">?android:attr/actionBarStyle</item>
+
+        <item name="qrScannerBorderColor">@color/red</item>
+        <item name="qrScannerMaskColor">?android:attr/colorPrimaryDark</item>
+
+        <item name="bankLogoBackgroundColor">@android:color/transparent</item>
+    </style>
+
+    <style name="AppTheme.ActionBarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:background">@color/lightGreyBackground</item>
+        <item name="android:textColorPrimary">@color/normalFont</item>
+    </style>
+
+</resources>

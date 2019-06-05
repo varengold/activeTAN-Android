@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.efdis.tangenerator">
+
+    <!-- Camera is used to scan QR codes -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- Network communication is used temporarily during initialization -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--
+        The back-facing camera is required to scan QR codes properly.
+        The front-facing camera makes it difficult to align the device properly while scanning.
+        An external camera would compromise security,
+        since the QR code could be scanned from the same device.
+    -->
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true"
+        />
+
+    <!-- Autofocus simplifies and quickens QR code reading -->
+    <uses-feature android:name="android.hardware.camera.autofocus"
+        android:required="false"
+        />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:description="@string/app_description"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true"
+        android:usesCleartextTraffic="false"
+        >
+
+        <activity android:name=".gui.MainActivity"
+                android:screenOrientation="portrait"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".gui.VerifyTransactionDetailsActivity"
+            android:parentActivityName=".gui.MainActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".gui.InitializeTokenActivity"
+            android:parentActivityName=".gui.MainActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".gui.InstructionActivity"
+            android:parentActivityName=".gui.MainActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".gui.SettingsActivity"
+            android:parentActivityName=".gui.MainActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".gui.CopyrightActivity"
+            android:parentActivityName=".gui.MainActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".gui.PrivacyStatementActivity"
+            android:parentActivityName=".gui.MainActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity android:name=".gui.ImprintActivity"
+            android:parentActivityName=".gui.MainActivity"
+            android:screenOrientation="portrait"
+            />
+
+    </application>
+
+</manifest>

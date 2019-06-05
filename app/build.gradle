@@ -1,0 +1,82 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode 5
+        versionName "2019-06-04"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            // Don't mess with the release versions during debugging, so use a different appId.
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "client", "environment"
+    productFlavors {
+        prod {
+            dimension "environment"
+            resValue "string", "app_name", "activeTAN"
+        }
+
+        qs {
+            dimension "environment"
+            // To be able to install a second app variant, we must change the applicationId.
+            // Otherwise it would not be possible to use the same device for testing and production.
+            applicationIdSuffix ".QS"
+            resValue "string", "app_name", "activeTAN (Test)"
+        }
+
+        EFD {
+            // Demo portal efdis-online.de (extern) / dailybuild.efdis-online.de (intern)
+            dimension "client"
+            applicationId "de.efdis.activeTAN"
+        }
+
+        VAR {
+            dimension "client"
+            applicationId "de.varengold.activeTAN"
+        }
+
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(":material")
+
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+    implementation 'me.dm7.barcodescanner:zxing:1.9.13'
+
+    def room_version = '2.0.0'
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'com.google.android.material:material:1.0.0'
+}

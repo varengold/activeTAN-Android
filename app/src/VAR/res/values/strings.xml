@@ -1,0 +1,48 @@
+<resources>
+    <string name="bank_name">Varengold Bank AG</string>
+    <string name="imprint">
+        <![CDATA[
+            <p>
+                <b>Varengold Bank AG</b><br/>
+                Grosse Elbstrasse 14<br/>
+                22767 Hamburg
+            </p>
+            <p>
+                Tel.: <a href="tel:+49406686490">+49 40 66&#x2009;86&#x2009;49&#x2009;0</a><br/>
+                Fax: +49 40 66&#x2009;86&#x2009;49&#x2009;49<br/>
+                Email: <a href="mailto:info@varengold.de">info@varengold.de</a><br/>
+                Internet: <a href="https://www.varengold.de/">www.varengold.de</a>
+            </p>
+            <p>
+                <b>Vorstand</b><br/>
+                Dr. Bernhard Fuhrmann<br/>
+                Frank Otten
+            </p>
+            <p>
+                <b>Aufsichtsrat</b><br/>
+                Dr. Karl-Heinz Lemnitzer (Vorsitzender)<br/>
+                <i>Steuerberater und Wirtschaftsprüfer</i>
+            </p>
+            <p>
+                Michael Stephen Murphy (Stellv. Vorsitzender)<br/>
+                <i>Investmentbanker</i>
+            </p>
+            <p>
+                Vasil Stefanov<br/>
+                <i>Geschäftsführer</i>
+            </p>
+            <p>
+                <b>Register</b><br/>
+                Amtsgericht Hamburg, HRB&nbsp;73684
+            </p>
+            <p>
+                <b>Corporate Governance</b><br/>
+                Die Varengold Bank AG ist bei der Bundesanstalt für Finanzdienstleistungsaufsicht
+                (BaFin, Graurheindorfer Str. 108, 53117 Bonn; Tel.: 0228 / 4108 – 0)
+                unter der Nummer 109&#x2009;520 registriert und auf der Internetseite
+                <a href="https://www.bafin.de/">www.bafin.de</a> veröffentlicht.
+            </p>
+        ]]>
+    </string>
+</resources>
+

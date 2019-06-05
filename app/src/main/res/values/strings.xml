@@ -1,0 +1,330 @@
+<resources>
+    <string name="app_description">TAN-Generator für das activeTAN-Verfahren im Online-Banking</string>
+
+    <string name="menu_item_instruction">Anleitung</string>
+    <string name="instructionActivationTitle">Aktivierung</string>
+    <string name="instructionActivationSubtitle">Vor Inbetriebnahme&#x202f;</string> <!-- extra no-break space to prevent italic font clipping -->
+    <string name="instructionStep0">Vorbereitung</string>
+    <string name="instructionStep1">Schritt 1</string>
+    <string name="instructionStep2">Schritt 2</string>
+    <string name="instructionStep3">Schritt 3</string>
+    <string name="instructionStep4">Schritt 4</string>
+    <string name="instructionGoToTanAdmin">Melden Sie sich im Online-Banking an. Wählen Sie den Menüpunkt: Zugangsdaten und activeTAN-Verwaltung.</string>
+    <string name="instructionScanLetter">Scannen Sie mit dieser activeTAN-App den QR-Code von Ihrem Aktivierungsbrief.</string>
+    <string name="instructionRequestNewLetter">Haben Sie noch keinen Aktivierungsbrief erhalten? Sie können jederzeit im Online-Banking einen neuen Aktivierungsbrief anfordern.</string>
+    <string name="instructionEnterSerial">Die activeTAN-App generiert eine Seriennummer. Geben Sie die Seriennummer im Online-Banking ein.</string>
+    <string name="instructionGoToNextStep">Klicken Sie in der App und im Online-Banking jeweils auf „Weiter“, um zum nächsten Schritt zu gelangen.</string>
+    <string name="instructionScanQrScreen">Im Online-Banking wird ein QR-Code angezeigt. Scannen Sie den QR-Code mit dieser activeTAN-App und Ihrem Smartphone.</string>
+    <string name="instructionEnterStartTan">Die activeTAN-App generiert eine Start-TAN. Geben Sie die Start-TAN im Online-Banking ein.</string>
+    <string name="instructionCompleteActivation">Bestätigen Sie die Eingabe im Online-Banking. Die Aktivierung ist damit abgeschlossen.</string>
+    <string name="instructionArchiveLetter">Nehmen Sie den Aktivierungsbrief zu Ihren Bankunterlagen, um die Aktivierung später bei Bedarf erneut durchführen zu können.</string>
+    <string name="instructionPrimaryUseTitle">Verwendung</string>
+    <string name="instructionPrimaryUseSubtitle">TAN generieren&#x202f;</string> <!-- extra no-break space to prevent italic font clipping -->
+    <string name="instructionEnterOrder">Geben Sie Ihren Auftrag im Online-Banking ein.</string>
+    <string name="instructionSelectTanMethod">Falls Sie mehrere TAN-Verfahren benutzen, wählen Sie activeTAN zur Freigabe der Transaktion aus.</string>
+    <string name="instructionCheckOrder">Auf dem Smartphone werden Auftragsdaten angezeigt. Prüfen Sie die Daten und bestätigen Sie den Auftrag in der activeTAN-App.</string>
+    <string name="instructionEnterTan">Die activeTAN-App generiert eine TAN. Geben Sie die TAN im Online-Banking ein.</string>
+    <string name="instructionCompletePrimaryUse">Bestätigen Sie die Eingabe im Online-Banking. Der Auftrag wird freigegeben.</string>
+    <string name="instructionSecurityTitle">Sicherheit</string>
+    <string name="instructionSecuritySubtitle">Nutzungshinweise&#x202f;</string> <!-- extra no-break space to prevent italic font clipping -->
+    <string name="instructionLockScreen">Sperrbildschirm</string>
+    <string name="instructionEnableLockScreen">Sichern Sie Ihr Smartphone mit einem Sperrbildschirm (Muster, PIN oder Kennwort). Je nach Gerät können Sie auch biometische Merkmale (Fingerabdruck oder Iris) zum Entsperren benutzen.</string>
+    <string name="instructionDisabledLockScreen">Wenn kein Sperrbildschirm eingerichtet wird, verliert die activeTAN-App automatisch ihre Aktivierung und kann nicht mehr benutzt werden. Sie müssen den Sperrbildschirm reaktivieren, um die activeTAN-App erneut nutzen zu können.</string>
+    <string name="instructionTwoFactorSecurity">2-Faktor-Sicherheit</string>
+    <string name="instructionTwoDevices">Die Verwendung der activeTAN-App macht Ihr Online-Banking sicherer. Die Datenübertragung mittels QR-Code stellt sicher, dass Auftragsdaten auf einem unabhängigen zweiten Gerät geprüft werden können.</string>
+    <string name="instructionEasyOfflineUse">Weitere Vorteile: Der QR-Code kann schnell und komfortabel gescannt werden. Nach der einmaligen Aktivierung funktioniert activeTAN sogar ohne Internetverbindung.</string>
+    <string name="instructionUpdates">Aktualisierungen</string>
+    <string name="instructionEnableAutomaticUpdates">Sichern Sie alle Ihre Geräte ab, indem Sie Sicherheitsupdates automatisch installieren. So können potentielle Schwachstellen durch die Hersteller schnell behoben werden.</string>
+
+    <string name="menu_item_imprint">Impressum</string>
+
+    <string name="menu_item_copyright">Softwarelizenz</string>
+    <string name="license_introduction">
+        <![CDATA[
+            <p>
+                Dieses Programm ist Freie Software und unter den Bedingungen der
+                GNU General Public License Version 3 lizenziert.
+                Sie dürfen dieses Programm uneingeschränkt nutzen und unter bestimmen Bedingungen
+                weitergeben. Ihre vollständigen Rechte finden Sie in den Lizenzbestimmungen,
+                die unten aufgeführt sind. Die international juristisch anerkannte Softwarelizenz
+                ist in englischer Sprache verfasst, inoffizielle Übersetzungen finden Sie unter
+                <a href="https://www.gnu.org/licenses/translations#GPL">www.gnu.org/licenses/translations#GPL</a>.
+            </p>
+            <p>
+                <i>QR Code</i> ist ein eingetragenes Warenzeichen von DENSO WAVE INCORPORATED.
+            </p>
+            <p>
+                Dieses Programm basiert auf den folgenden Projekten von Drittanbietern:
+            </p>
+            <ul>
+                <li>
+                    ZXing Barcode-Scanner
+                    <br/>
+                    <a href="https://github.com/zxing/zxing/">github.com/zxing/zxing</a>
+                </li>
+                <li>
+                    Android-Bibliothek für ZXing
+                    <br/>
+                    <a href="https://github.com/dm77/barcodescanner/">github.com/dm77/barcodescanner</a>
+                </li>
+                <li>
+                    Material Design Icons von Google
+                    <br/>
+                    <a href="https://github.com/google/material-design-icons/">github.com/google/material-design-icons</a>
+                </li>
+            </ul>
+        ]]>
+    </string>
+
+    <string name="menu_item_privacy">Datenschutz</string>
+    <string name="title_privacy_statement">Datenschutzerklärung</string>
+    <string name="privacy_statement">
+        <![CDATA[
+        <p>
+            In dieser activeTAN-App werden personenbezogene Daten zum Zweck der Absicherung Ihres
+            Online-Banking-Zugangs gegen unbefugte Nutzung verarbeitet und/oder gespeichert.
+        </p>
+        <p>
+            Grundsätzliche Informationen zur Datenverarbeitung durch %1$s entnehmen Sie bitte den
+            Hinweisen zum Datenschutz, die auf unserer Homepage veröffentlicht sind.
+            Ergänzend hierzu informieren wir Sie im Nachfolgenden über die Besonderheiten der
+            Datenverarbeitung, die mit der Nutzung der activeTAN-App verbunden sind.
+        </p>
+        <h3>Datenerfassung in dieser App</h3>
+        <p>
+            Es werden zwei Arten von personenbezogenen Daten erfasst:
+        </p>
+        <ul>
+            <li>
+                Eine <b>Seriennummer</b>, die den TAN-Generator eindeutig identifiziert und die bei der
+                Aktivierung im Online-Banking Ihrer Person zugeordnet wird. Die Zuordnung erfolgt im
+                Banksystem und nicht in der App. Die Seriennummer wird im Smartphone gespeichert.
+            </li>
+            <li>
+                <b>Transaktionsdaten</b>, die bei der TAN-Generierung angezeigt werden (z.&nbsp;B. Betrag
+                und Empfänger-IBAN). Die Daten sind im QR-Code enthalten, werden zur Kontrolle der
+                Transaktion angezeigt, für die TAN-Berechnung benutzt und anschließend im Smartphone
+                gelöscht.
+            </li>
+        </ul>
+        <p>
+            Die Seriennummer wird im Rahmen der Aktivierung mit der Bank über eine gesicherte
+            Verbindung ausgetauscht, um das Smartphone dem eigenen Online-Banking-Zugang
+            zuordnen zu können. Dabei kommt die im Online-Banking übliche TLS-Verschlüsselung zum
+            Einsatz. Der Provider der Online-Banking-Seiten speichert automatisch Informationen in
+            technischen Protokollen, die bei der Übertragung anfallen. Das sind: App-Version,
+            Betriebssystem-Version, Zeitpunkt der Übertragung und öffentliche IP-Adresse des
+            Smartphones.
+        </ul>
+        <p>
+            Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen.
+        </p>
+        <p>
+            Nach Abschluss der Aktivierung ist keine Internetverbindung durch diese App
+            erforderlich. Transaktionsdaten für die Freigabe von Aufträgen im Online-Banking werden
+            über einen QR-Code und die Smartphone-Kamera erfasst, zur Kontrolle angezeigt und nach
+            der TAN-Berechnung <i>nicht</i> im Smartphone gespeichert.
+        </p>
+        <p>
+            Die Datenverarbeitung erfolgt auf Grundlage von DSGVO, Art.&nbsp;6, Abs.&nbsp;1b
+            zur Erfüllung eines Vertrags oder vorvertraglicher Maßnahmen.
+        </p>
+        ]]>
+    </string>
+
+    <string name="menu_item_settings">Einstellungen</string>
+    <string name="protect_usage">Benutzung absichern</string>
+    <string name="do_protect_usage_description">Bei Verwendung PIN abfragen</string>
+    <string name="dont_protect_usage_description">Ohne PIN verwenden</string>
+    <string name="token_status">Status</string>
+    <string name="active_since_label">Aktiv seit:</string>
+    <string name="last_used_label">Letzte Verwendung:</string>
+    <string name="last_used_never">nie</string>
+    <string name="title_change_description">Beschreibung ändern</string>
+    <string name="title_delete_token_confirmation">TAN-Generator löschen</string>
+    <string name="message_delete_token_confirmation">Dieser TAN-Generator wird permanent gesperrt. Für eine erneute Aktivierung ist der Aktivierungsbrief erforderlich. Bitte vergessen Sie nicht, den TAN-Generator auch im Online-Banking zu sperren.</string>
+    <string name="button_confirm_delete_token">Löschen</string>
+    <string name="message_token_deleted">TAN-Generator gelöscht</string>
+    <string name="no_settings_without_activation">Dieses Gerät wurde noch nicht aktiviert. Bitte aktivieren Sie diesen TAN-Generator im Online-Banking, bevor Sie Einstellungen vornehmen können.</string>
+
+    <string name="camera_permission_rationale">Die Kamera wird für das Lesen von QR-Codes benötigt.</string>
+
+    <string name="invalid_banking_qr">Kein Banking QR-Code</string>
+
+    <string name="scan_qr_code">Bitte QR-Code scannen</string>
+
+    <string name="device_auth_failed">Authentifizierung fehlgeschlagen</string>
+
+    <string name="repeat">Erneut versuchen</string>
+
+    <string name="unsupported_data_format_title">Ungültiger Banking QR-Code</string>
+    <string name="unsupported_data_format_message">Das Format wird durch diese App nicht unterstützt.</string>
+
+    <string name="verify_transaction_details_title">Auftrag prüfen</string>
+    <string name="confirmed_transaction_details_title">Auftrag freigeben</string>
+    <string name="confirm_transaction_details">OK</string>
+    <string name="enter_tan_onlinebanking">Bitte diese TAN im Online-Banking eingeben:</string>
+    <plurals name="verify_transaction_details">
+        <item quantity="zero">Bitte den Auftrag bestätigen</item>
+        <item quantity="other">Bitte die Auftragsdaten auf Richtigkeit prüfen</item>
+    </plurals>
+    <string name="choose_token">Schlüssel wählen</string>
+    <string name="no_tokens_available">Keine Schlüssel vorhanden</string>
+
+    <string name="initialization">Aktivierung</string>
+    <string name="step_no">Schritt %d/2</string>
+    <string name="step_generate_banking_key">Erstelle Geräteschlüssel</string>
+    <string name="initialization_letter_scanned">Sie haben Ihren activeTAN-Aktivierungsbrief gescannt.</string>
+    <string name="enter_serial_number">Bitte geben Sie diese Seriennummer im Online-Banking ein.</string>
+    <string name="go_to_scan_qr_code">Betätigen Sie „Weiter“, um den QR-Code im Online-Banking zu scannen.</string>
+    <string name="initialization_serial_number_entered">Sie haben die Seriennummer im Online-Banking eingegeben.</string>
+    <string name="next_step">Weiter</string>
+    <string name="scan_screen_qr_code">Bitte den QR-Code im Online-Banking scannen (nicht den Aktivierungsbrief).</string>
+    <string name="step_store_banking_key">Speichere Schlüssel</string>
+    <string name="label_serial_number">Seriennummer</string>
+    <string name="initialization_portal_scanned">Sie haben den QR-Code im Online-Banking gescannt.</string>
+    <string name="initial_tan">Start-TAN</string>
+    <string name="enter_initial_tan">Bitte geben Sie diese Start-TAN im Online-Banking ein.</string>
+    <string name="initialization_completed">Die activeTAN-Aktivierung ist damit abgeschlossen.</string>
+
+    <string name="initialization_failed_title">Initialisierung fehlgeschlagen</string>
+    <string name="initialization_failed_unprotected_device">Das Smartphone muss mit einem Muster, einer PIN oder einem Kennwort geschützt sein.</string>
+    <string name="initialization_failed_offline">Während der Aktivierung ist eine Internetverbindung erforderlich.</string>
+    <string name="initialization_failed_wrong_letter">Bitte prüfen Sie, ob Sie Ihren aktuellen Aktivierungsbrief benutzen und wiederholen Sie den Vorgang.</string>
+    <string name="initialization_failed_wrong_serial">Im Online-Banking wurde eine abweichende Seriennummer eingegeben. Möchten Sie den Vorgang wiederholen?</string>
+    <string name="initialization_failed_outdated">Es ist leider erforderlich, dass Sie die activeTAN-App aktualisieren.</string>
+    <string name="initialization_failed_communication">Bei der Kommunikation mit Ihrer Bank ist ein technischer Fehler aufgetreten. Bitte überprüfen Sie Ihre Internetverbindung. Möchten Sie den Vorgang wiederholen?</string>
+    <string name="initialization_failed_unknown_reason">Es ist ein technischer Fehler aufgetreten. Bitte probieren Sie es später erneut.</string>
+
+    <!--Data elements for unidirectional mode -->
+    <string name="DE10">Adresse</string>
+    <string name="DE11">Angebots-Nr.</string>
+    <string name="DE12">Anzahl</string>
+    <string name="DE13">Auftrags-ID</string>
+    <string name="DE14">Aut.-Merkmal</string>
+    <string name="DE15">Bankdaten</string>
+    <string name="DE16">Betrag</string>
+    <string name="DE17">BIC Empfänger</string>
+    <string name="DE18">BLZ Absender</string>
+    <string name="DE19">BLZ Empfänger</string>
+    <string name="DE20">BLZ Karte</string>
+    <string name="DE21">BLZ Zahler</string>
+    <string name="DE22">Eigene BLZ</string>
+    <string name="DE23">Eigene IBAN</string>
+    <string name="DE24">Eigenes Konto</string>
+    <string name="DE26">Händlername</string>
+    <string name="DE29">IBAN Absender</string>
+    <string name="DE32">IBAN Empfänger</string>
+    <string name="DE33">IBAN Zahler</string>
+    <string name="DE36">ISIN</string>
+    <string name="DE37">Kartennummer</string>
+    <string name="DE38">Konto Absender</string>
+    <string name="DE39">Konto Empfänger</string>
+    <string name="DE40">Konto Zahler</string>
+    <string name="DE41">Kreditkarte</string>
+    <string name="DE42">Limit</string>
+    <string name="DE43">Menge</string>
+    <string name="DE44">Mobilfunknummer</string>
+    <string name="DE45">Name Empfänger</string>
+    <string name="DE46">Postleitzahl</string>
+    <string name="DE47">Rate</string>
+    <string name="DE48">Referenzkonto</string>
+    <string name="DE49">Referenzzahl</string>
+    <string name="DE50">Stücke/Nominal</string>
+    <string name="DE51">TAN-Medium</string>
+    <string name="DE52">Termin</string>
+    <string name="DE53">Vertragskennung</string>
+    <string name="DE54">WP-Kenn-Nr.</string>
+    <string name="DE55">Konto Absender</string>
+    <string name="DE56">Konto Empfänger</string>
+    <string name="DE57">Konto Zahler</string>
+    <string name="DE58">Währung</string>
+    <string name="DE61">Auftragsart</string>
+    <string name="DE62">Anzahl Posten</string>
+    <string name="DE63">Bank Empfänger</string>
+    <string name="DE64">Produkt</string>
+
+    <!-- Visualisation classes for unidirectional mode -->
+    <string name="VC00">Bankauftrag allgemein</string>
+    <string name="VC01">Legitimation Kunde</string>
+    <string name="VC02">Legitimation Kunde</string>
+    <string name="VC03">Version TAN-Leser</string>
+    <string name="VC04">Überweisung Inland</string>
+    <string name="VC05">Umbuchung</string>
+    <string name="VC06">Umbuchung terminiert</string>
+    <string name="VC07">Überweisung Referenzkonto</string>
+    <string name="VC08">Überweisung Referenzkonto</string>
+    <string name="VC09">Überweisung SEPA/EU</string>
+    <string name="VC10">Überweisung Ausland</string>
+    <string name="VC11">Überweisung Ausland</string>
+    <string name="VC12">Sammelüberweisung Inland</string>
+    <string name="VC13">Sammelüberweisung SEPA</string>
+    <string name="VC14">Sammelüberweisung Ausland</string>
+    <string name="VC15">Lastschrift Inland</string>
+    <string name="VC16">Rückgabe Lastschrift</string>
+    <string name="VC17">Lastschrift SEPA</string>
+    <string name="VC18">Lastschrift Ausland</string>
+    <string name="VC19">Sammellastschrift Inland</string>
+    <string name="VC20">Sammellastschrift SEPA</string>
+    <string name="VC21">Sammellastschrift Ausland</string>
+    <string name="VC22">Terminüberweisung Inland</string>
+    <string name="VC23">Terminüberweisung SEPA</string>
+    <string name="VC24">Terminüberweisung Ausland</string>
+    <string name="VC25">Terminüberweisung Sammel Inland</string>
+    <string name="VC26">Terminüberweisung Sammel SEPA</string>
+    <string name="VC27">Terminüberweisung Sammel Ausland</string>
+    <string name="VC28">Terminlastschrift Inland</string>
+    <string name="VC29">Terminlastschrift SEPA</string>
+    <string name="VC30">Terminlastschrift Ausland</string>
+    <string name="VC31">Terminlastschrift Sammel Inland</string>
+    <string name="VC32">Terminlastschrift Sammel SEPA</string>
+    <string name="VC33">Terminlastschrift Sammel Ausland</string>
+    <string name="VC34">Dauerüberweisung Inland</string>
+    <string name="VC35">Dauerüberweisung SEPA</string>
+    <string name="VC36">Dauerüberweisung Ausland</string>
+    <string name="VC37">Dauerlastschrift Inland</string>
+    <string name="VC38">Dauerlastschrift SEPA</string>
+    <string name="VC39">Bestand abfragen</string>
+    <string name="VC40">Löschen Auftrag</string>
+    <string name="VC41">Aussetzen Auftrag</string>
+    <string name="VC42">Aussetzen Auftrag</string>
+    <string name="VC43">Ändern Auftrag</string>
+    <string name="VC44">Ändern Auftrag</string>
+    <string name="VC45">Freigabe Überweisung DTAUS</string>
+    <string name="VC46">Freigabe Lastschrift DTAUS</string>
+    <string name="VC47">Freigabe Überweisung DTAZV</string>
+    <string name="VC48">Freigabe Überweisung SEPA</string>
+    <string name="VC49">Freigabe Lastschrift SEPA</string>
+    <string name="VC50">Freigabe DSRZ-Dateien</string>
+    <string name="VC51">Kontoauszug und Quittung</string>
+    <string name="VC52">Kontoauszug an/abmelden</string>
+    <string name="VC53">Postfach an/abmelden</string>
+    <string name="VC54">Postkorb</string>
+    <string name="VC55">Datentresor</string>
+    <string name="VC56">Wertpapier Kauf</string>
+    <string name="VC57">Wertpapier Verkauf</string>
+    <string name="VC58">Wertpapier Geschäft</string>
+    <string name="VC59">Anlage Abschluss</string>
+    <string name="VC60">Kredit Abschluss</string>
+    <string name="VC61">Produkt Kauf</string>
+    <string name="VC62">Versicherung Abschluss</string>
+    <string name="VC63">Service Funktionen</string>
+    <string name="VC64">TAN-Medien Management</string>
+    <string name="VC65">Mobiltelefon laden</string>
+    <string name="VC66">GeldKarte laden</string>
+    <string name="VC67">Zahlung Internet</string>
+    <string name="VC68">Geldtransfer Internet</string>
+    <string name="VC69">Freistellung</string>
+    <string name="VC70">Adresse ändern</string>
+    <string name="VC71">Adresse ändern</string>
+    <string name="VC72">Überweisung Ausland</string>
+    <string name="VC73">Überweisung Ausland</string>
+    <string name="VC74">Rückgabe Lastschrift</string>
+    <string name="VC75">Löschen Auftrag</string>
+    <string name="VC76">Löschen Auftrag</string>
+    <string name="VC77">Aussetzen Auftrag</string>
+    <string name="VC78">Aussetzen Auftrag</string>
+    <string name="VC79">Ändern Auftrag</string>
+    <string name="VC80">Ändern Auftrag</string>
+    <string name="VC81">Zahlung Internet</string>
+</resources>
