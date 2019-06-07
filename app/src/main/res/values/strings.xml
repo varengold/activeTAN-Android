@@ -164,12 +164,20 @@
     <string name="confirmed_transaction_details_title">Auftrag freigeben</string>
     <string name="confirm_transaction_details">OK</string>
     <string name="enter_tan_onlinebanking">Bitte diese TAN im Online-Banking eingeben:</string>
-    <plurals name="verify_transaction_details">
-        <item quantity="zero">Bitte den Auftrag bestätigen</item>
-        <item quantity="other">Bitte die Auftragsdaten auf Richtigkeit prüfen</item>
-    </plurals>
-    <string name="choose_token">Schlüssel wählen</string>
-    <string name="no_tokens_available">Keine Schlüssel vorhanden</string>
+    <string name="verify_transaction_with_details">Bitte die Auftragsdaten auf Richtigkeit prüfen</string>
+    <string name="verify_transaction_without_details">Bitte den Auftrag bestätigen</string>
+    <string name="choose_token_title">TAN-Generator</string>
+    <string name="choose_token_message">
+        Dieses Gerät wurde mehrfach aktiviert.
+        Bitte wählen Sie den activeTAN-Generator für Ihren Online-Banking-Zugang.
+    </string>
+    <string name="no_tokens_available_message">
+        Dieses Gerät wurde noch nicht aktiviert.
+        Wenn eine frühere Aktivierung verloren gegangen ist,
+        kann es daran liegen, dass der Geräte-Sperrbildschirm deaktiviert worden ist
+        (siehe Anleitung / Sicherheit).
+        Bitte führen Sie eine neue Aktivierung durch.
+    </string>
 
     <string name="initialization">Aktivierung</string>
     <string name="step_no">Schritt %d/2</string>
@@ -187,7 +195,7 @@
     <string name="enter_initial_tan">Bitte geben Sie diese Start-TAN im Online-Banking ein.</string>
     <string name="initialization_completed">Die activeTAN-Aktivierung ist damit abgeschlossen.</string>
 
-    <string name="initialization_failed_title">Initialisierung fehlgeschlagen</string>
+    <string name="initialization_failed_title">Aktivierung fehlgeschlagen</string>
     <string name="initialization_failed_unprotected_device">Das Smartphone muss mit einem Muster, einer PIN oder einem Kennwort geschützt sein.</string>
     <string name="initialization_failed_offline">Während der Aktivierung ist eine Internetverbindung erforderlich.</string>
     <string name="initialization_failed_wrong_letter">Bitte prüfen Sie, ob Sie Ihren aktuellen Aktivierungsbrief benutzen und wiederholen Sie den Vorgang.</string>
@@ -230,7 +238,7 @@
     <string name="DE47">Rate</string>
     <string name="DE48">Referenzkonto</string>
     <string name="DE49">Referenzzahl</string>
-    <string name="DE50">Stücke/Nominal</string>
+    <string name="DE50">Stücke / Nominal</string>
     <string name="DE51">TAN-Medium</string>
     <string name="DE52">Termin</string>
     <string name="DE53">Vertragskennung</string>
@@ -254,7 +262,7 @@
     <string name="VC06">Umbuchung terminiert</string>
     <string name="VC07">Überweisung Referenzkonto</string>
     <string name="VC08">Überweisung Referenzkonto</string>
-    <string name="VC09">Überweisung SEPA/EU</string>
+    <string name="VC09">Überweisung SEPA / EU</string>
     <string name="VC10">Überweisung Ausland</string>
     <string name="VC11">Überweisung Ausland</string>
     <string name="VC12">Sammelüberweisung Inland</string>

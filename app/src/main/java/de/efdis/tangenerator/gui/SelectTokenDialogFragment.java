@@ -74,11 +74,13 @@ public class SelectTokenDialogFragment extends DialogFragment
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle(R.string.choose_token);
+        builder.setTitle(R.string.choose_token_title);
 
-        if (availableTokens == null || availableTokens.isEmpty()) {
-            builder.setMessage(R.string.no_tokens_available);
+        if (availableTokens == null || availableTokens.size() == 0) {
+            builder.setMessage(R.string.no_tokens_available_message);
         } else {
+            builder.setMessage(R.string.choose_token_message);
+
             ArrayList<String> labels = new ArrayList<>(availableTokens.size());
             for (BankingToken token : availableTokens) {
                 labels.add(token.getDisplayName());

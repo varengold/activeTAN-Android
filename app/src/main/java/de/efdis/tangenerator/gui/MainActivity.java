@@ -77,7 +77,13 @@ public class MainActivity
         // Check if we have a valid TAN generator.
         // If not, suggest to start initialization in the banking frontend.
 
-        onButtonRepeat(findViewById(R.id.buttonRepeat));
+        // In case:
+        //   - there was no camera permission in a previous start of this activity,
+        //   - the user has enable camera permission via system settings,
+        //   - the user has switched back to this activity,
+        // ... the camera can be started immediately.
+        // Thus, we must hide the previously shown camera permission rationale.
+        resetInstructionMessage();
 
         // Check Camera permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -102,6 +108,7 @@ public class MainActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Now that we have camera permission, start the camera fragment
+                    resetInstructionMessage();
                     getCameraFragment().onStart();
                 } else {
                     showCameraPermissionRationale();
@@ -127,14 +134,20 @@ public class MainActivity
         return (BankingQrCodeScannerFragment) fragment;
     }
 
-    public void onButtonRepeat(View buttonRepeat) {
+    private void resetInstructionMessage() {
         ImageView scanQrImage = findViewById(R.id.scanQrImage);
         scanQrImage.setVisibility(View.INVISIBLE);
 
+        Button buttonRepeat = findViewById(R.id.buttonRepeat);
         buttonRepeat.setVisibility(View.INVISIBLE);
 
         TextView textInstruction = findViewById(R.id.textInstruction);
         textInstruction.setText(R.string.scan_qr_code);
+
+    }
+
+    public void onButtonRepeat(View buttonRepeat) {
+        resetInstructionMessage();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission();

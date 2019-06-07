@@ -1,4 +1,4 @@
 <resources>
-    <string name="bank_name">efdis-online.de</string>
-    <string name="backend_api_url">https://efdis-online.de/OnlineBankingWebfrontend/api/activeTAN/</string>
+    <string name="bank_name" translatable="false">efdis-online.de</string>
+    <string name="backend_api_url" translatable="false">https://efdis-online.de/OnlineBankingWebfrontend/api/activeTAN/</string>
 </resources>

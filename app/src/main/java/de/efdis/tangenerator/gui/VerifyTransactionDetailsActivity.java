@@ -20,7 +20,6 @@
 package de.efdis.tangenerator.gui;
 
 import android.content.DialogInterface;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +34,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import androidx.appcompat.app.AlertDialog;
@@ -153,8 +153,11 @@ public class VerifyTransactionDetailsActivity
         }
 
         TextView instructionTAN = findViewById(R.id.instructionTAN);
-        instructionTAN.setText(getResources().getQuantityString(
-                R.plurals.verify_transaction_details, dataElementTypes.size()));
+        if (dataElementTypes.isEmpty()) {
+            instructionTAN.setText(R.string.verify_transaction_without_details);
+        } else {
+            instructionTAN.setText(R.string.verify_transaction_with_details);
+        }
     }
 
     private View findViewByName(String name) {
@@ -164,12 +167,12 @@ public class VerifyTransactionDetailsActivity
     }
 
     private String getString(VisualisationClass visualisationClass) {
-        String name = String.format("VC%02d", visualisationClass.getId());
+        String name = String.format(Locale.US, "VC%02d", visualisationClass.getId());
         return getString(name);
     }
 
     private String getString(DataElementType dataElementType) {
-        String name = String.format("DE%02d", dataElementType.getId());
+        String name = String.format(Locale.US, "DE%02d", dataElementType.getId());
         return getString(name);
     }
 
