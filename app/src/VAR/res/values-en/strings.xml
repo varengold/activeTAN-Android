@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="imprint">
+        <![CDATA[
+            <p>
+                <b>Varengold Bank AG</b><br/>
+                Grosse Elbstrasse 14<br/>
+                22767 Hamburg
+            </p>
+            <p>
+                Telephone no.: <a href="tel:+49406686490">+49 40 66&#x2009;86&#x2009;49&#x2009;0</a><br/>
+                Fax: +49 40 66&#x2009;86&#x2009;49&#x2009;49<br/>
+                Email: <a href="mailto:info@varengold.de">info@varengold.de</a><br/>
+                Web address: <a href="https://www.varengold.de/">www.varengold.de</a>
+            </p>
+            <p>
+                <b>Management Board</b><br/>
+                Dr. Bernhard Fuhrmann<br/>
+                Frank Otten
+            </p>
+            <p>
+                <b>Supervisory Board</b><br/>
+                Dr. Karl-Heinz Lemnitzer (Chairman)<br/>
+                <i>Tax consultant and certified accountant</i>
+            </p>
+            <p>
+                Michael Stephen Murphy (Deputy Chairman)<br/>
+                <i>Investment banker</i>
+            </p>
+            <p>
+                Vasil Stefanov<br/>
+                <i>Managing director</i>
+            </p>
+            <p>
+                <b>Registration</b><br/>
+                District Court Hamburg, HRB&nbsp;73684
+            </p>
+            <p>
+                <b>Corporate Governance</b><br/>
+                Die Varengold Bank AG is registered with the German Federal Supervisory Authority
+                (BaFin, Graurheindorfer Str. 108, 53117 Bonn; Fon: +49 228 / 4108 – 0)
+                with the number 109&#x2009;520 and listed on the website
+                <a href="https://www.bafin.de/">www.bafin.de</a>.
+            </p>
+        ]]>
+    </string>
+</resources>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="DE10">Address</string>
+    <string name="DE11">Quote No.</string>
+    <string name="DE12">Quantity</string>
+    <string name="DE13">Order ID</string>
+    <string name="DE14">Auth. Token</string>
+    <string name="DE15">Bank Data</string>
+    <string name="DE16">Amount</string>
+    <string name="DE17">BIC Recipient</string>
+    <string name="DE18">BCN Sender</string>
+    <string name="DE19">BCN Recipient</string>
+    <string name="DE20">BCN Card</string>
+    <string name="DE21">BCN Payer</string>
+    <string name="DE22">Own BCN</string>
+    <string name="DE23">Own IBAN</string>
+    <string name="DE24">Own Account</string>
+    <string name="DE26">Merchant</string>
+    <string name="DE29">IBAN Sender</string>
+    <string name="DE32">IBAN Recipient</string>
+    <string name="DE33">IBAN Payer</string>
+    <string name="DE36">ISIN</string>
+    <string name="DE37">Card No.</string>
+    <string name="DE38">Account Sender</string>
+    <string name="DE39">Account Recipient</string>
+    <string name="DE40">Account Payer</string>
+    <string name="DE41">Credit Card</string>
+    <string name="DE42">Limit</string>
+    <string name="DE43">Volume</string>
+    <string name="DE44">Mobile No.</string>
+    <string name="DE45">Name Recipient</string>
+    <string name="DE46">Post Code</string>
+    <string name="DE47">Installment</string>
+    <string name="DE48">Reference Account</string>
+    <string name="DE49">Reference No.</string>
+    <string name="DE50">Quantity / Nominal</string>
+    <string name="DE51">TAN Media</string>
+    <string name="DE52">Due Date</string>
+    <string name="DE53">Contract ID</string>
+    <string name="DE54">WKN</string>
+    <string name="DE55">Account Sender</string>
+    <string name="DE56">Account Recipient</string>
+    <string name="DE57">Account Payer</string>
+    <string name="DE58">Currency</string>
+    <string name="DE61">Order Type</string>
+    <string name="DE62">Assets</string>
+    <string name="DE63">Bank Recipient</string>
+    <string name="DE64">Product</string>
+    <string name="VC00">Common Bank Order</string>
+    <string name="VC01">User Identification</string>
+    <string name="VC02">User Identification</string>
+    <string name="VC03">Version TAN Device</string>
+    <string name="VC04">Credit Transfer National</string>
+    <string name="VC05">Transfer</string>
+    <string name="VC06">Transfer Scheduled</string>
+    <string name="VC07">Credit Transfer Reference Account</string>
+    <string name="VC08">Credit Transfer Reference Account</string>
+    <string name="VC09">Credit Transfer SEPA / EU</string>
+    <string name="VC10">Credit Transfer Foreign</string>
+    <string name="VC11">Credit Transfer Foreign</string>
+    <string name="VC12">Collective Credit Transfer National</string>
+    <string name="VC13">Collective Credit Transfer SEPA</string>
+    <string name="VC14">Collective Credit Transfer Foreign</string>
+    <string name="VC15">Direct Debit National</string>
+    <string name="VC16">Direct Debit Return</string>
+    <string name="VC17">Direct Debit SEPA</string>
+    <string name="VC18">Direct Debit Foreign</string>
+    <string name="VC19">Collective Direct Debit National</string>
+    <string name="VC20">Collective Direct Debit SEPA</string>
+    <string name="VC21">Collective Direct Debit Foreign</string>
+    <string name="VC22">Scheduled Credit Transfer National</string>
+    <string name="VC23">Scheduled Credit Transfer SEPA</string>
+    <string name="VC24">Scheduled Credit Transfer Foreign</string>
+    <string name="VC25">Collective Credit Transfer Scheduled National</string>
+    <string name="VC26">Collective Credit Transfer Scheduled SEPA</string>
+    <string name="VC27">Collective Credit Transfer Scheduled Foreign</string>
+    <string name="VC28">Direct Debit Scheduled National</string>
+    <string name="VC29">Direct Debit Scheduled SEPA</string>
+    <string name="VC30">Direct Debit Scheduled Foreign</string>
+    <string name="VC31">Collective Direct Debit Scheduled National</string>
+    <string name="VC32">Collective Direct Debit Scheduled SEPA</string>
+    <string name="VC33">Collective Direct Debit Scheduled Foreign</string>
+    <string name="VC34">Standing Order National</string>
+    <string name="VC35">Standing Order SEPA</string>
+    <string name="VC36">Standing Order Foreign</string>
+    <string name="VC37">Standing Order Debit National</string>
+    <string name="VC38">Standing Order Debit SEPA</string>
+    <string name="VC39">Portfolio Retrieval</string>
+    <string name="VC40">Delete Order</string>
+    <string name="VC41">Suspend Order</string>
+    <string name="VC42">Suspend Order</string>
+    <string name="VC43">Change Order</string>
+    <string name="VC44">Change Order</string>
+    <string name="VC45">Release Credit Transfer DTAUS</string>
+    <string name="VC46">Release Direct Debit DTAUS</string>
+    <string name="VC47">Release Credit Transfer DTAZV</string>
+    <string name="VC48">Release Credit Transfer SEPA</string>
+    <string name="VC49">Release Direct Debit SEPA</string>
+    <string name="VC50">Release DSRZ Files</string>
+    <string name="VC51">Account Statement and Receipt</string>
+    <string name="VC52">Account Statement Subscription</string>
+    <string name="VC53">Mailbox Subscription</string>
+    <string name="VC54">Mailbox</string>
+    <string name="VC55">Data Vault</string>
+    <string name="VC56">Buy Securities</string>
+    <string name="VC57">Sell Securities</string>
+    <string name="VC58">Trade Securities</string>
+    <string name="VC59">Asset Contract</string>
+    <string name="VC60">Loan Contract</string>
+    <string name="VC61">Product Contract</string>
+    <string name="VC62">Insurance Contract</string>
+    <string name="VC63">Service Features</string>
+    <string name="VC64">TAN Media Management</string>
+    <string name="VC65">Charge Mobile Phone</string>
+    <string name="VC66">Charge Chip Card</string>
+    <string name="VC67">Payment Internet</string>
+    <string name="VC68">Money Transfer Internet</string>
+    <string name="VC69">Exemption Order</string>
+    <string name="VC70">Address Change</string>
+    <string name="VC71">Address Change</string>
+    <string name="VC72">Credit Transfer Foreign</string>
+    <string name="VC73">Credit Transfer Foreign</string>
+    <string name="VC74">Direct Debit Return</string>
+    <string name="VC75">Delete Order</string>
+    <string name="VC76">Delete Order</string>
+    <string name="VC77">Suspend Order</string>
+    <string name="VC78">Suspend Order</string>
+    <string name="VC79">Change Order</string>
+    <string name="VC80">Change Order</string>
+    <string name="VC81">Payment Internet</string>
+    <string name="active_since_label">active since:</string>
+    <string name="app_description">TAN device for activeTAN procedure in online banking</string>
+    <string name="button_confirm_delete_token">Delete</string>
+    <string name="camera_permission_rationale">The camera is required to read QR codes.</string>
+    <string name="choose_token_title">TAN Generator</string>
+    <string name="confirm_transaction_details">OK</string>
+    <string name="confirmed_transaction_details_title">Approve Order</string>
+    <string name="device_auth_failed">Authentication failed</string>
+    <string name="do_protect_usage_description">Request PIN for usage</string>
+    <string name="dont_protect_usage_description">Use without PIN</string>
+    <string name="enter_initial_tan">Please enter this initial TAN in online banking.</string>
+    <string name="enter_serial_number">Please enter this serial number in online banking.</string>
+    <string name="enter_tan_onlinebanking">Please enter this TAN in online banking:</string>
+    <string name="go_to_scan_qr_code">Press “Continue” to scan the QR code in online banking.</string>
+    <string name="initial_tan">Initial TAN</string>
+    <string name="initialization">Initialization</string>
+    <string name="initialization_completed">Thereby, the activeTAN initialization is complete.</string>
+    <string name="initialization_failed_communication">A technical error occurred during communication with your bank. Please check your internet connection. Do you want to repeat the process?</string>
+    <string name="initialization_failed_offline">Internet connection is required during initialization.</string>
+    <string name="initialization_failed_outdated">Unfortunately, the activeTAN app needs to be updated.</string>
+    <string name="initialization_failed_title">Initialization failed</string>
+    <string name="initialization_failed_unknown_reason">A technical error has occurred. Please try again later.</string>
+    <string name="initialization_failed_unprotected_device">The device must be protected by pattern, PIN, or password.</string>
+    <string name="initialization_failed_wrong_letter">Please check, that you use the latest activation letter and repeat the process.</string>
+    <string name="initialization_failed_wrong_serial">A different serial number has been entered in online banking. Do you want to repeat the process?</string>
+    <string name="initialization_letter_scanned">You have scanned your activation letter.</string>
+    <string name="initialization_portal_scanned">You have scanned the QR code in online banking.</string>
+    <string name="initialization_serial_number_entered">You have entered the serial number in online banking.</string>
+    <string name="instructionActivationSubtitle">Before usage&#x202f;</string>
+    <string name="instructionActivationTitle">Initialization</string>
+    <string name="instructionArchiveLetter">Archive the activation letter to repeat the initialization at a later date if needed.</string>
+    <string name="instructionCheckOrder">The devices shows order details. Please check the data and approve the order in the activeTAN app.</string>
+    <string name="instructionCompleteActivation">Confirm your input in online banking. The initialization is completed.</string>
+    <string name="instructionCompletePrimaryUse">Confirm your input in online banking. The order is released.</string>
+    <string name="instructionDisabledLockScreen">If no lock screen is enabled, the activeTAN app loses its initialization automatically and can no longer be used. You have to re-enable the lock screen to use activeTAN app again.</string>
+    <string name="instructionEasyOfflineUse">More features: The QR code can be scanned quick and comfortably. After initial initialization, activeTAN may even be used without internet connection.</string>
+    <string name="instructionEnableAutomaticUpdates">Protect all your devices by automatic installation of security updates. Thereby, potential vulnerabilities may be fixed by vendors quickly.</string>
+    <string name="instructionEnableLockScreen">Protect your device with a lock screen (pattern, PIN, or password). Depending on the hardware, you may additionally use biometric identification (fingerprint or iris) to unlock.</string>
+    <string name="instructionEnterOrder">Enter your order in online banking.</string>
+    <string name="instructionEnterSerial">The activeTAN app generates a serial number. Enter the serial number in online banking.</string>
+    <string name="instructionEnterStartTan">The activeTAN app generates an initial TAN. Enter the initial TAN in online banking.</string>
+    <string name="instructionEnterTan">The activeTAN app generates a TAN. Enter the TAN in online banking.</string>
+    <string name="instructionGoToNextStep">Press “continue” in the app and in online banking to proceed to the next step.</string>
+    <string name="instructionGoToTanAdmin">Sign into online banking. Choose the menu item: Login details and activeTAN administration.</string>
+    <string name="instructionLockScreen">Lock screen</string>
+    <string name="instructionPrimaryUseSubtitle">TAN generation&#x202f;</string>
+    <string name="instructionPrimaryUseTitle">Primary usage</string>
+    <string name="instructionRequestNewLetter">You did not receive an activation letter yet? You may also request a new activation letter in online banking.</string>
+    <string name="instructionScanLetter">Scan the QR code on your activation letter with this activeTAN app.</string>
+    <string name="instructionScanQrScreen">The online banking shows a QR code. Scan the QR code with this activeTAN app and your device.</string>
+    <string name="instructionSecuritySubtitle">Usage notes&#x202f;</string>
+    <string name="instructionSecurityTitle">Security</string>
+    <string name="instructionSelectTanMethod">If you use different TAN procedures, select activeTAN to approve the order.</string>
+    <string name="instructionStep0">Preliminary</string>
+    <string name="instructionStep1">Step 1</string>
+    <string name="instructionStep2">Step 2</string>
+    <string name="instructionStep3">Step 3</string>
+    <string name="instructionStep4">Step 4</string>
+    <string name="instructionTwoDevices">The activeTAN app makes using your online banking more secure. Data transfer via QR code ensures an independent approval of order data on a second device.</string>
+    <string name="instructionTwoFactorSecurity">2-factor security</string>
+    <string name="instructionUpdates">Updates</string>
+    <string name="invalid_banking_qr">Invalid banking QR code</string>
+    <string name="label_serial_number">Serial number</string>
+    <string name="last_used_label">Last usage:</string>
+    <string name="last_used_never">never</string>
+    <string name="menu_item_copyright">License</string>
+    <string name="license_introduction">
+        <![CDATA[
+            <p>
+                This program is free software and licensed under the conditions of the
+                GNU General Public License version 3.
+                You may use this program without restrictions and share it under certain conditions.
+                Find your complete rights in the terms and conditions below.
+            </p>
+            <p>
+                <i>QR Code</i> is a registered trademark of DENSO WAVE INCORPORATED.
+            </p>
+            <p>
+                This program is based on the following third-party projects:
+            </p>
+            <ul>
+                <li>
+                    ZXing barcode scanner
+                    <br/>
+                    <a href="https://github.com/zxing/zxing/">github.com/zxing/zxing</a>
+                </li>
+                <li>
+                    Android library for ZXing
+                    <br/>
+                    <a href="https://github.com/dm77/barcodescanner/">github.com/dm77/barcodescanner</a>
+                </li>
+                <li>
+                    Material design icons by Google
+                    <br/>
+                    <a href="https://github.com/google/material-design-icons/">github.com/google/material-design-icons</a>
+                </li>
+            </ul>
+        ]]>
+    </string>
+    <string name="menu_item_imprint">Imprint</string>
+    <string name="menu_item_instruction">Manual</string>
+    <string name="menu_item_privacy">Privacy</string>
+    <string name="menu_item_settings">Settings</string>
+    <string name="message_delete_token_confirmation">This TAN generator will be deleted permanently. To repeat the initialization, the activation letter is required. Please also lock the TAN generator in online banking.</string>
+    <string name="next_step">Continue</string>
+    <string name="message_token_deleted">TAN generator deleted</string>
+    <string name="no_settings_without_activation">This device has not been initialized yet. Please initialize this TAN generator in online banking, before you may adjust its settings.</string>
+    <string name="no_tokens_available_message">
+        This device has not been initialized yet.
+        If you muss a previous initialization, this might have been caused by a disabled lock screen
+        (see manual / security).
+        Please perform a new initialization.
+    </string>
+    <string name="protect_usage">Protect usage</string>
+    <string name="repeat">Try again</string>
+    <string name="scan_qr_code">Please scan QR code</string>
+    <string name="scan_screen_qr_code">Please scan QR code in online banking (not on activation letter).</string>
+    <string name="step_generate_banking_key">Generating device key</string>
+    <string name="step_no">Step %d/2</string>
+    <string name="step_store_banking_key">Storing key</string>
+    <string name="title_change_description">Change description</string>
+    <string name="title_delete_token_confirmation">Delete TAN generator</string>
+    <string name="title_privacy_statement">Privacy Statement</string>
+    <string name="token_status">Status</string>
+    <string name="unsupported_data_format_message">The format is not supported by this app.</string>
+    <string name="unsupported_data_format_title">Invalid banking QR code</string>
+    <string name="verify_transaction_details_title">Check Order</string>
+    <string name="verify_transaction_with_details">Please check the order details for correctness</string>
+    <string name="verify_transaction_without_details">Please confirm the order</string>
+    <string name="choose_token_message">
+        This device has been initialized several times.
+        Please select the activeTAN generator for your online banking account.
+    </string>
+    <string name="privacy_statement">
+        <![CDATA[
+        <p>
+            This activeTAN app processes personal data for the purpose of
+            protecting the user&apos;s online banking account against unauthorized access.
+        </p>
+        <p>
+            Principle information regarding data processing by %1$s can be found in the
+            data privacy statement, which we have published on our website.
+            In addition, we inform you about the characteristics of data processing,
+            which comes along with usage of this activeTAN app.
+        </p>
+        <h3>Data processing by this app</h3>
+        <p>
+            Two groups of personal data are processed:
+        </p>
+        <ul>
+            <li>
+                A <b>serial number</b>, which identifies the TAN generator and which is assigned
+                to the user&apos;s personal online banking account during the process of
+                initialization.
+                The assignment occurs in the bank system only and not inside the app.
+                The serial number is stored on the device.
+            </li>
+            <li>
+                <b>Order details</b>, which are shown during TAN generation, e.&nbsp;g., amount and
+                recipient IBAN. The information is transferred via QR code. The details are display
+                to approve the order, are used during TAN generation, and eventually are deleted
+                from the device.
+            </li>
+        </ul>
+        <p>
+            During the initialization process, the serial number is exchanged with the bank via
+            internet connection. Thus, the bank may assign the user&apos;s personal to the
+            user&apos;s online banking account.
+            Any communication uses a secure TLS connection.
+            The online banking website&apos;s service provider automatically records information
+            about the established connection inside system log files.
+            The following data is collected this way:
+            the app version, the operating system version, the public IP address of the device,
+            and the date and time of access.
+        </ul>
+        <p>
+            This data is not stored together with the user&apos;s other personal data.
+        </p>
+        <p>
+            After completion of the initialization process no internet connection is required by
+            this app. Order details for approval in online banking are recorded via QR code and the
+            device&apos;s camera. The order details are displayed for checking purposes and are
+            <i>not</i> stored permanently on the device.
+        </p>
+        <p>
+            The processing of data is based on a contract or in order to take steps prior to
+            entering into a contract in accordance with Article&nbsp;6 (1) (b) GDPR.
+        </p>
+        ]]>
+    </string>
+</resources>
