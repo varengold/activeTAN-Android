@@ -29,6 +29,8 @@ import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.security.GeneralSecurityException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -102,8 +104,19 @@ public class VerifyTransactionDetailsActivity
             return;
         }
 
-        TextView visualizationClass = findViewById(R.id.labelVisualizationClass);
-        visualizationClass.setText(getString(hhduc.getVisualisationClass()));
+        TextView visualizationClass = findViewById(R.id.labelTransactionType);
+        if (hhduc.getVisualisationClass() == null) {
+            visualizationClass.setText(getString(R.string.synchronize_tan_generator));
+
+            TextView instructionEnterTAN = findViewById(R.id.instructionEnterTAN);
+            instructionEnterTAN.setText(R.string.enter_tan_and_atc_onlinebanking);
+        } else {
+            visualizationClass.setText(getString(hhduc.getVisualisationClass()));
+
+            // Don't show ATC and TAN/ATC-Labels
+            findViewById(R.id.atcContainer).setVisibility(View.GONE);
+            findViewById(R.id.labelTAN).setVisibility(View.GONE);
+        }
 
         List<DataElementType> dataElementTypes = hhduc.getDataElementTypes();
 
@@ -152,7 +165,7 @@ public class VerifyTransactionDetailsActivity
             content.setText(value);
         }
 
-        TextView instructionTAN = findViewById(R.id.instructionTAN);
+        TextView instructionTAN = findViewById(R.id.instructionVerifyData);
         if (dataElementTypes.isEmpty()) {
             instructionTAN.setText(R.string.verify_transaction_without_details);
         } else {
@@ -202,11 +215,23 @@ public class VerifyTransactionDetailsActivity
         return TanGenerator.formatTAN(tan);
     }
 
+    private String getFormattedTransactionCounter(BankingToken token) {
+        DecimalFormat format = new DecimalFormat();
+        format.setGroupingUsed(true);
+        DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator(' ');
+        format.setDecimalFormatSymbols(symbols);
+
+        return format.format(token.transactionCounter);
+    }
+
     @Override
     public void onTokenReadyToUse(BankingToken token) {
-        TextView generatedTanContainer = findViewById(R.id.generatedTanContainer);
+        View generatedTanContainer = findViewById(R.id.generatedTanContainer);
         TextView textTAN = findViewById(R.id.textTAN);
-        TextView instructionTAN = findViewById(R.id.instructionTAN);
+        TextView textATC = findViewById(R.id.textATC);
+
+        TextView instructionTAN = findViewById(R.id.instructionVerifyData);
         Button validateButton = findViewById(R.id.button);
 
         String tan;
@@ -220,6 +245,8 @@ public class VerifyTransactionDetailsActivity
         setTitle(R.string.confirmed_transaction_details_title);
 
         textTAN.setText(tan);
+        textATC.setText(getFormattedTransactionCounter(token));
+
         generatedTanContainer.setVisibility(View.VISIBLE);
 
         instructionTAN.setVisibility(View.INVISIBLE);

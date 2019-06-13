@@ -26,11 +26,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.activetan.TanGenerator;
 
-public class InitializeTokenStep3Fragment extends Fragment {
+public class InitializeTokenStep3Fragment
+        extends AbstractInitializeTokenStepFragment {
 
     private static final String ARG_TAN = "TAN";
 

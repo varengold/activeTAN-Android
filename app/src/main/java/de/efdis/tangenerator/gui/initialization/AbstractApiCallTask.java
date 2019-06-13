@@ -42,6 +42,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
+import java.security.cert.CertPathValidatorException;
+import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -51,6 +53,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLHandshakeException;
 
 import de.efdis.tangenerator.BuildConfig;
 import de.efdis.tangenerator.R;
@@ -213,18 +216,55 @@ public abstract class AbstractApiCallTask<INPUT, OUTPUT>
         if (postData == null) {
             connection.setRequestMethod("GET");
         } else {
-            connection.setDoOutput(true);
-
-            connection.setRequestMethod("POST");
-
-            connection.setRequestProperty("Content-Type", "application/octet-stream");
-
             OutputStream os;
-            try {
-                os = connection.getOutputStream();
-            } catch (IOException e) {
-                throw new ConnectException("I/O problem during connect: " + e.getMessage());
+            for (int tryCount = 1; true; tryCount++) {
+                try {
+                    connection.setDoOutput(true);
+
+                    connection.setRequestMethod("POST");
+
+                    connection.setRequestProperty("Content-Type", "application/octet-stream");
+
+                    os = connection.getOutputStream();
+
+                    // stop trying to connect
+                    break;
+                } catch (SSLHandshakeException e) {
+                    if (tryCount <= 5) {
+                        /*
+                         * During the first API call, it happens quite often that the OCSP server
+                         * responds with 'tryLater'. Instead of showing an error message to the
+                         * user, we try to fix this automatically.
+                         */
+                        if (e.getCause() instanceof CertificateException
+                                && e.getCause().getCause() instanceof CertPathValidatorException
+                                && e.getCause().getCause().getMessage().contains("TRY_LATER")) {
+
+                            // OCSP response error: TRY_LATER
+                            Log.w(getClass().getSimpleName(),
+                                    "SSL handshake failed, retrying automatically ...",
+                                    e);
+
+                            connection.disconnect();
+                            connection = null;
+
+                            try {
+                                Thread.sleep(500);
+                                prepareConnection();
+                                continue;
+                            } catch (InterruptedException ie) {
+                                Log.i(getClass().getSimpleName(),
+                                        "Thread.sleep() interrupted", ie);
+                            }
+                        }
+                    }
+
+                    throw new ConnectException("SSL handshake problem during connect: " + e.getMessage());
+                } catch (IOException e) {
+                    throw new ConnectException("I/O problem during connect: " + e.getMessage());
+                }
             }
+
             try {
                 byte[] encryptedPostData = cipher.doFinal(postData);
                 os.write(encryptedPostData);

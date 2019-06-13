@@ -10,12 +10,13 @@
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:elevation="2dp"
         android:theme="?android:attr/actionBarStyle"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/verify_transaction_details_title" />
 
     <TextView
-        android:id="@+id/labelVisualizationClass"
+        android:id="@+id/labelTransactionType"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -37,7 +38,7 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelVisualizationClass"
+        app:layout_constraintTop_toBottomOf="@+id/labelTransactionType"
         tools:text="label 1" />
 
     <TextView
@@ -111,7 +112,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/instructionTAN"
+        android:id="@+id/instructionVerifyData"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -133,7 +134,7 @@
         android:visibility="invisible"
         app:cardBackgroundColor="?android:attr/colorForeground"
         app:cardUseCompatPadding="true"
-        app:layout_constraintBottom_toTopOf="@+id/instructionTAN"
+        app:layout_constraintBottom_toTopOf="@+id/instructionVerifyData"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentDataElement3"
@@ -146,21 +147,7 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/textTAN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textAlignment="center"
-                android:textColor="?android:attr/colorPrimaryDark"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                tools:text="123 456" />
-
-            <TextView
-                android:id="@+id/textView"
+                android:id="@+id/instructionEnterTAN"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/enter_tan_onlinebanking"
@@ -169,6 +156,63 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/atcContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/instructionEnterTAN">
+
+                <TextView
+                    android:id="@+id/labelATC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/labelATC" />
+
+                <TextView
+                    android:id="@+id/textATC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/colorPrimaryDark"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:text="42" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tanContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/atcContainer">
+
+                <TextView
+                    android:id="@+id/labelTAN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/labelTAN" />
+
+                <TextView
+                    android:id="@+id/textTAN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorPrimaryDark"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:text="123 456" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

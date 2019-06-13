@@ -64,14 +64,16 @@ public class VisDataBuffer {
         write(hhduc.getStartCode());
         numDataBlocks ++;
 
-        write(FIELD_SEPARATOR);
-        write(hhduc.getVisualisationClass().getVisDataLine1());
-        numDataBlocks ++;
-
-        if (!hhduc.getVisualisationClass().getVisDataLine2().isEmpty()) {
+        if (hhduc.getVisualisationClass() != null) {
             write(FIELD_SEPARATOR);
-            write(hhduc.getVisualisationClass().getVisDataLine2());
-            numDataBlocks ++;
+            write(hhduc.getVisualisationClass().getVisDataLine1());
+            numDataBlocks++;
+
+            if (!hhduc.getVisualisationClass().getVisDataLine2().isEmpty()) {
+                write(FIELD_SEPARATOR);
+                write(hhduc.getVisualisationClass().getVisDataLine2());
+                numDataBlocks++;
+            }
         }
 
         for (DataElementType dataElementType : hhduc.getDataElementTypes()) {

@@ -141,6 +141,7 @@
     <string name="enter_initial_tan">Please enter this initial TAN in online banking.</string>
     <string name="enter_serial_number">Please enter this serial number in online banking.</string>
     <string name="enter_tan_onlinebanking">Please enter this TAN in online banking:</string>
+    <string name="enter_tan_and_atc_onlinebanking">Please enter these values in online banking:</string>
     <string name="go_to_scan_qr_code">Press “Continue” to scan the QR code in online banking.</string>
     <string name="initial_tan">Initial TAN</string>
     <string name="initialization">Initialization</string>
@@ -318,4 +319,7 @@
         </p>
         ]]>
     </string>
+    <string name="labelATC">ATC</string>
+    <string name="labelTAN">TAN</string>
+    <string name="synchronize_tan_generator">Synchronize TAN generator</string>
 </resources>

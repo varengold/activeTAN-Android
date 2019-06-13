@@ -164,8 +164,12 @@
     <string name="confirmed_transaction_details_title">Auftrag freigeben</string>
     <string name="confirm_transaction_details">OK</string>
     <string name="enter_tan_onlinebanking">Bitte diese TAN im Online-Banking eingeben:</string>
+    <string name="enter_tan_and_atc_onlinebanking">Bitte diese Werte im Online-Banking eingeben:</string>
     <string name="verify_transaction_with_details">Bitte die Auftragsdaten auf Richtigkeit prüfen</string>
     <string name="verify_transaction_without_details">Bitte den Auftrag bestätigen</string>
+    <string name="synchronize_tan_generator">TAN-Generator synchronisieren</string>
+    <string name="labelTAN">TAN</string>
+    <string name="labelATC">ATC</string>
     <string name="choose_token_title">TAN-Generator</string>
     <string name="choose_token_message">
         Dieses Gerät wurde mehrfach aktiviert.

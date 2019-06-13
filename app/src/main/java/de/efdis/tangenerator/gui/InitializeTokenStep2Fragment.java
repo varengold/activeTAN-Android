@@ -28,11 +28,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeListener;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment;
 
-public class InitializeTokenStep2Fragment extends Fragment {
+public class InitializeTokenStep2Fragment
+        extends AbstractInitializeTokenStepFragment {
 
     private BankingQrCodeListener listener;
 

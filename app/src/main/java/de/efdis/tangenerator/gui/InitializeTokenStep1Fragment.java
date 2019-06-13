@@ -29,11 +29,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingToken;
 
-public class InitializeTokenStep1Fragment extends Fragment {
+public class InitializeTokenStep1Fragment
+        extends AbstractInitializeTokenStepFragment {
 
     private static final String ARG_SERIAL_NUMBER = "SERIAL_NUMBER";
 

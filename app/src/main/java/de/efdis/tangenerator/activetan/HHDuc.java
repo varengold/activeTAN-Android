@@ -34,10 +34,26 @@ import java.util.zip.Checksum;
 
 public class HHDuc {
 
+    /**
+     * Legacy start codes have a maximum of 8 digits.
+     */
+    private static final int MAX_SHORT_START_CODE_DIGITS = 8;
+
+    /**
+     * Start codes with visualization class (prefix 1 and 2) have a maximum of 12 digits.
+     */
     private static final int MAX_START_CODE_DIGITS = 12;
+
     private int unpredictableNumber;
     private final VisualisationClass visualisationClass;
     private final LinkedHashMap<DataElementType, String> dataElements = new LinkedHashMap<>();
+
+    /**
+     * Create a new, empty HHDuc object without visualization class.
+     */
+    public HHDuc() {
+        this.visualisationClass = null;
+    }
 
     /**
      * Create a new, empty HHDuc object for the specified visualisation class with the default
@@ -126,28 +142,40 @@ public class HHDuc {
 
     public byte[] getStartCode() {
         StringBuffer startCode = new StringBuffer();
+        int maxStartCodeDigits;
 
-        if (getVisualisationClass().getDataElements().equals(
-                new LinkedList<>(dataElements.keySet()))) {
-            startCode.append("1");
-            startCode.append(String.format("%02d", visualisationClass.getId()));
+        if (getVisualisationClass() == null) {
+            maxStartCodeDigits = MAX_SHORT_START_CODE_DIGITS;
+
+            // Special case:
+            // The only supported case for HHDuc w/o visualisation class is start code '08...'
+            // for static TAN computation with display of the ATC.
+            startCode.append("08");
         } else {
-            startCode.append("2");
-            startCode.append(String.format("%02d", visualisationClass.getId()));
+            maxStartCodeDigits = MAX_START_CODE_DIGITS;
 
-            for (DataElementType dataElementType : dataElements.keySet()) {
-                startCode.append(String.format("%02d", dataElementType.getId()));
-            }
-            if (dataElements.size() < 3) {
-                startCode.append("0");
+            if (getVisualisationClass().getDataElements().equals(
+                    new LinkedList<>(dataElements.keySet()))) {
+                startCode.append("1");
+                startCode.append(String.format("%02d", visualisationClass.getId()));
+            } else {
+                startCode.append("2");
+                startCode.append(String.format("%02d", visualisationClass.getId()));
+
+                for (DataElementType dataElementType : dataElements.keySet()) {
+                    startCode.append(String.format("%02d", dataElementType.getId()));
+                }
+                if (dataElements.size() < 3) {
+                    startCode.append("0");
+                }
             }
         }
 
-        String randomNumber = String.format("%0" + MAX_START_CODE_DIGITS + "d", unpredictableNumber);
+        String randomNumber = String.format("%0" + maxStartCodeDigits + "d", unpredictableNumber);
         startCode.append(randomNumber.substring(
-                randomNumber.length() + startCode.length() - MAX_START_CODE_DIGITS));
+                randomNumber.length() + startCode.length() - maxStartCodeDigits));
 
-        assert startCode.length() == MAX_START_CODE_DIGITS;
+        assert startCode.length() == maxStartCodeDigits;
 
         return FieldEncoding.bcdEncode(startCode.toString());
     }
@@ -294,55 +322,61 @@ public class HHDuc {
                 throw new UnsupportedDataFormatException("Unsupported start code encoding");
         }
 
-        if (startCode < 100000000000L || startCode > 299999999999L) {
-            throw new UnsupportedDataFormatException(
-                    "Only start codes with length 12 and prefix 1 or 2 are supported");
-        }
-
-        int vc = (int) (startCode / 1000000000L) % 100;
-        VisualisationClass visualisationClass = VisualisationClass.forId(vc);
-        if (visualisationClass == null) {
-            throw new UnsupportedDataFormatException("Visualisation class " + vc + " unknown");
-        }
-
         final HHDuc hhduc;
-        if (startCode < 200000000000L) {
-            hhduc = new HHDuc(visualisationClass);
-            hhduc.setUnpredictableNumber((int) (startCode % 1000000000L));
+        if (8_000_000L <= startCode && startCode <= 8_999_999L) {
+            // Start code prefix 08: No visualization class
+            hhduc = new HHDuc();
+            hhduc.setUnpredictableNumber((int) (startCode % 1_000_000L));
         } else {
-            List<DataElementType> dataElements = new ArrayList<>(3);
+            if (startCode < 100_000_000_000L || startCode > 299_999_999_999L) {
+                throw new UnsupportedDataFormatException(
+                        "Only start codes with length 12 and prefix 1 or 2 are supported");
+            }
 
-            int unpredictableNumber;
+            int vc = (int) (startCode / 1_000_000_000L) % 100;
+            VisualisationClass visualisationClass = VisualisationClass.forId(vc);
+            if (visualisationClass == null) {
+                throw new UnsupportedDataFormatException("Visualisation class " + vc + " unknown");
+            }
 
-            int p = (int) ((startCode / 10000000) % 100);
-            int s = (int) ((startCode / 100000) % 100);
-            int t = (int) ((startCode / 1000) % 100);
-            if (p >= 10) {
-                dataElements.add(DataElementType.forId(p));
-                if (s >= 10) {
-                    dataElements.add(DataElementType.forId(s));
-                    if (t >= 10) {
-                        dataElements.add(DataElementType.forId(t));
-                        unpredictableNumber = (int) (startCode % 1000L);
+            if (startCode < 200_000_000_000L) {
+                hhduc = new HHDuc(visualisationClass);
+                hhduc.setUnpredictableNumber((int) (startCode % 1_000_000_000L));
+            } else {
+                List<DataElementType> dataElements = new ArrayList<>(3);
+
+                int unpredictableNumber;
+
+                int p = (int) ((startCode / 10_000_000) % 100);
+                int s = (int) ((startCode / 100_000) % 100);
+                int t = (int) ((startCode / 1000) % 100);
+                if (p >= 10) {
+                    dataElements.add(DataElementType.forId(p));
+                    if (s >= 10) {
+                        dataElements.add(DataElementType.forId(s));
+                        if (t >= 10) {
+                            dataElements.add(DataElementType.forId(t));
+                            unpredictableNumber = (int) (startCode % 1000L);
+                        } else {
+                            unpredictableNumber = (int) (startCode % 10_000L);
+                        }
                     } else {
-                        unpredictableNumber = (int) (startCode % 10000L);
+                        unpredictableNumber = (int) (startCode % 1_000_000L);
                     }
                 } else {
-                    unpredictableNumber = (int) (startCode % 1000000L);
+                    unpredictableNumber = (int) (startCode % 100_000_000L);
                 }
-            } else {
-                unpredictableNumber = (int) (startCode % 100000000L);
-            }
 
-            for (DataElementType dataElement : dataElements) {
-                if (dataElement == null) {
-                    throw new UnsupportedDataFormatException(
-                            "Start code contains an unknown data element ID");
+                for (DataElementType dataElement : dataElements) {
+                    if (dataElement == null) {
+                        throw new UnsupportedDataFormatException(
+                                "Start code contains an unknown data element ID");
+                    }
                 }
-            }
 
-            hhduc = new HHDuc(visualisationClass, dataElements.toArray(new DataElementType[0]));
-            hhduc.setUnpredictableNumber(unpredictableNumber);
+                hhduc = new HHDuc(visualisationClass, dataElements.toArray(new DataElementType[0]));
+                hhduc.setUnpredictableNumber(unpredictableNumber);
+            }
         }
 
         List<DataElementType> definedTypes = hhduc.getDataElementTypes();

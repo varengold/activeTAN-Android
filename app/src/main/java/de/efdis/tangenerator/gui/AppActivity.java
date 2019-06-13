@@ -85,6 +85,16 @@ public abstract class AppActivity
         }
     }
 
+    @Override
+    public void setTitle(CharSequence title) {
+        Toolbar actionBar = findViewById(R.id.actionBar);
+        if (actionBar != null) {
+            actionBar.setTitle(title);
+        } else {
+            super.setTitle(title);
+        }
+    }
+
     private void prepareActionBar(Toolbar actionBar) {
         setSupportActionBar(actionBar);
 

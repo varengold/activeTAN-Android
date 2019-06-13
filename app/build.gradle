@@ -5,8 +5,8 @@ android {
     defaultConfig {
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 6
-        versionName "2019-06-07"
+        versionCode 7
+        versionName "2019-06-13"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -63,7 +63,7 @@ dependencies {
 
     implementation project(":material")
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
+    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
