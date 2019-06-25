@@ -20,7 +20,6 @@
 package de.efdis.tangenerator.gui;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -31,13 +30,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
 import de.efdis.tangenerator.R;
+import de.efdis.tangenerator.activetan.KeyMaterialType;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeListener;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment;
-import de.efdis.tangenerator.activetan.KeyMaterialType;
+import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 
 /**
  * Activity to scan a QR code with the smartphone's camera.
@@ -63,6 +63,8 @@ public class MainActivity
 
     private static final int REQUEST_CAMERA_PERMISSION_CODE = 203;
 
+    public static final String EXTRA_SKIP_WELCOME_ACTIVITY = "SKIP_WELCOME_ACTIVITY";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,9 +75,22 @@ public class MainActivity
 
     @Override
     protected void onStart() {
-        // TODO
+        super.onStart();
+
         // Check if we have a valid TAN generator.
         // If not, suggest to start initialization in the banking frontend.
+        if (BankingTokenRepository.getAllUsable(this).isEmpty()) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null && extras.getBoolean(EXTRA_SKIP_WELCOME_ACTIVITY, false)) {
+                // The user has seen the welcome activity and knows what to do.
+                // Don't switch back to the welcome activity.
+            } else {
+                Intent intent = new Intent(this, WelcomeActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        }
 
         // In case:
         //   - there was no camera permission in a previous start of this activity,
@@ -93,8 +108,6 @@ public class MainActivity
                 requestCameraPermission();
             }
         }
-
-        super.onStart();
     }
 
     private void requestCameraPermission() {

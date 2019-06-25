@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="107dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_check_order"
+        app:srcCompat="@drawable/ic_check_order"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -115,7 +115,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_scan_screen"
+            app:srcCompat="@drawable/ic_scan_screen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/instructionStep1"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -147,7 +147,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_check_order"
+            app:srcCompat="@drawable/ic_check_order"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/instructionStep2"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -179,7 +179,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_enter_tan"
+            app:srcCompat="@drawable/ic_enter_tan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/instructionStep3"
             app:layout_constraintTop_toBottomOf="@+id/textView13" />

@@ -227,20 +227,19 @@ public abstract class AbstractApiCallTask<INPUT, OUTPUT>
 
                     os = connection.getOutputStream();
 
-                    // stop trying to connect
+                    // connection successful
                     break;
                 } catch (SSLHandshakeException e) {
                     if (tryCount <= 5) {
                         /*
                          * During the first API call, it happens quite often that the OCSP server
-                         * responds with 'tryLater'. Instead of showing an error message to the
-                         * user, we try to fix this automatically.
+                         * responds with 'tryLater' or not at all.
+                         * We can easily fix that for the user by attempting a new connection.
                          */
                         if (e.getCause() instanceof CertificateException
-                                && e.getCause().getCause() instanceof CertPathValidatorException
-                                && e.getCause().getCause().getMessage().contains("TRY_LATER")) {
+                                && e.getCause().getCause() instanceof CertPathValidatorException) {
 
-                            // OCSP response error: TRY_LATER
+                            // OCSP response error: TRY_LATER or UNKNOWN
                             Log.w(getClass().getSimpleName(),
                                     "SSL handshake failed, retrying automatically ...",
                                     e);

@@ -45,6 +45,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".gui.WelcomeActivity"
+            android:screenOrientation="portrait"
+            />
+
         <activity android:name=".gui.VerifyTransactionDetailsActivity"
             android:parentActivityName=".gui.MainActivity"
             android:screenOrientation="portrait"

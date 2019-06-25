@@ -17,27 +17,32 @@
  * along with the activeTAN app.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.efdis.tangenerator.gui;
+package de.efdis.tangenerator;
 
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.R;
+import de.efdis.tangenerator.gui.WelcomeActivity;
+import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
-public class InstructionPrimaryUseFragment extends AbstractInstructionCardFragment {
+@RunWith(AndroidJUnit4.class)
+public class WelcomeActivityScreenshots
+        extends AbstractInstrumentedScreenshots {
 
+    @Rule
+    public InMemoryDatabaseRule mockDatabaseRule
+            = new InMemoryDatabaseRule(false);
 
-    public InstructionPrimaryUseFragment() {
+    @Rule
+    public ActivityScenarioRule<WelcomeActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(WelcomeActivity.class);
+
+    @Test
+    public void takeScreenshots() {
+        captureScreen("welcome");
     }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_instruction_primary_use, container, false);
-    }
-
 }

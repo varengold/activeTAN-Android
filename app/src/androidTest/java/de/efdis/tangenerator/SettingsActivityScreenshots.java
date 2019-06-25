@@ -19,38 +19,36 @@
 
 package de.efdis.tangenerator;
 
-import android.Manifest;
-
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.MainActivity;
-
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
+import de.efdis.tangenerator.gui.SettingsActivity;
+import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
 @RunWith(AndroidJUnit4.class)
-public class ExampleInstrumentedTest {
+public class SettingsActivityScreenshots extends AbstractInstrumentedScreenshots {
 
     @Rule
-    public GrantPermissionRule cameraPermissionRule
-            = GrantPermissionRule.grant(
-                Manifest.permission.CAMERA);
+    public InMemoryDatabaseRule mockDatabaseRule
+            = new InMemoryDatabaseRule(true);
 
     @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<SettingsActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(SettingsActivity.class);
 
     @Test
-    public void checkMainActivityIsRunningWithCameraPermission() {
-        onView(withId(R.id.textInstruction)).check(matches(withText(R.string.scan_qr_code)));
+    public void takeScreenshots() {
+        Espresso.onView(ViewMatchers.withId(R.id.bankingTokenRecyclerView))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        captureScreen("settings");
     }
+
 }

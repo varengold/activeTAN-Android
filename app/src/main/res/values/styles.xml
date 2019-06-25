@@ -15,10 +15,7 @@
 
         <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
         <item name="android:toolbarStyle">?android:attr/actionBarStyle</item>
-
         <item name="qrScannerBorderColor">@color/solarizedRed</item>
-        <item name="qrScannerMaskColor">?android:attr/colorPrimaryDark</item>
-
         <item name="bankLogoBackgroundColor">@android:color/transparent</item>
     </style>
 

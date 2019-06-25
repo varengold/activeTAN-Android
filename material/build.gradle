@@ -1,12 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         // We use the vector icons from Material Design, which require version 21
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -14,7 +14,5 @@ android {
 }
 
 dependencies {
-
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
 
 }

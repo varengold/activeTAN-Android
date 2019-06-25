@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="qrScannerBorderColor" format="reference" />
-    <attr name="qrScannerMaskColor" format="reference" />
+    <declare-styleable name="BankingQrCodeScannerFragment">
+        <attr name="borderColor" format="reference|color" />
+        <attr name="maskColor" format="reference|color" />
+        <attr name="maskOpacity" format="fraction" />
+    </declare-styleable>
+
+    <attr name="qrScannerBorderColor" format="reference|color" />
     <attr name="bankLogoBackgroundColor" format="reference" />
 </resources>

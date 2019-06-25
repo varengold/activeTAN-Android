@@ -19,25 +19,26 @@
 
 package de.efdis.tangenerator.gui;
 
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import de.efdis.tangenerator.R;
 
-public class InstructionPrimaryUseFragment extends AbstractInstructionCardFragment {
-
-
-    public InstructionPrimaryUseFragment() {
-    }
-
+public class WelcomeActivity
+        extends AppActivity {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_instruction_primary_use, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
     }
 
+    public void onButtonStart(View button) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.EXTRA_SKIP_WELCOME_ACTIVITY, true);
+        startActivity(intent);
+        finish();
+        return;
+    }
 }

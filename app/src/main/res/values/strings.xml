@@ -1,6 +1,16 @@
 <resources>
     <string name="app_description">TAN-Generator für das activeTAN-Verfahren im Online-Banking</string>
 
+    <string name="welcome_title">Willkommen zu activeTAN</string>
+    <string name="welcome_subtitle">Das moderne TAN-Verfahren für Ihr Online-Banking</string>
+    <string name="welcome_subtitle_feature1">einfach</string>
+    <string name="welcome_subtitle_feature2">schnell</string>
+    <string name="welcome_subtitle_feature3">sicher</string>
+    <string name="welcome_subtitle_feature4">Made in Germany</string>
+    <string name="welcome_start_activation_label">Diese App wurde noch nicht aktiviert</string>
+    <string name="welcome_start_activation_instruction">Starten Sie jetzt die Aktivierung und lesen Sie den QR-Code von Ihrem activeTAN-Aktivierungsbrief ein.</string>
+    <string name="welcome_start_activation_start">Aktivierung starten</string>
+
     <string name="menu_item_instruction">Anleitung</string>
     <string name="instructionActivationTitle">Aktivierung</string>
     <string name="instructionActivationSubtitle">Vor Inbetriebnahme&#x202f;</string> <!-- extra no-break space to prevent italic font clipping -->
@@ -201,9 +211,11 @@
 
     <string name="initialization_failed_title">Aktivierung fehlgeschlagen</string>
     <string name="initialization_failed_unprotected_device">Das Smartphone muss mit einem Muster, einer PIN oder einem Kennwort geschützt sein.</string>
+    <string name="initialization_failed_no_camera_permission">Kein Zugriff auf die Kamera gestattet.</string>
     <string name="initialization_failed_offline">Während der Aktivierung ist eine Internetverbindung erforderlich.</string>
     <string name="initialization_failed_wrong_letter">Bitte prüfen Sie, ob Sie Ihren aktuellen Aktivierungsbrief benutzen und wiederholen Sie den Vorgang.</string>
     <string name="initialization_failed_wrong_serial">Im Online-Banking wurde eine abweichende Seriennummer eingegeben. Möchten Sie den Vorgang wiederholen?</string>
+    <string name="initialization_failed_wrong_qr_code">Falscher QR-Code</string>
     <string name="initialization_failed_outdated">Es ist leider erforderlich, dass Sie die activeTAN-App aktualisieren.</string>
     <string name="initialization_failed_communication">Bei der Kommunikation mit Ihrer Bank ist ein technischer Fehler aufgetreten. Bitte überprüfen Sie Ihre Internetverbindung. Möchten Sie den Vorgang wiederholen?</string>
     <string name="initialization_failed_unknown_reason">Es ist ein technischer Fehler aufgetreten. Bitte probieren Sie es später erneut.</string>

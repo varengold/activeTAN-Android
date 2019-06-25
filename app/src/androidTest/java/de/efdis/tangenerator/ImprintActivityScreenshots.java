@@ -17,27 +17,27 @@
  * along with the activeTAN app.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.efdis.tangenerator.gui;
+package de.efdis.tangenerator;
 
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.R;
+import de.efdis.tangenerator.gui.ImprintActivity;
 
-public class InstructionPrimaryUseFragment extends AbstractInstructionCardFragment {
+@RunWith(AndroidJUnit4.class)
+public class ImprintActivityScreenshots extends AbstractInstrumentedScreenshots {
 
+    @Rule
+    public ActivityScenarioRule<ImprintActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(ImprintActivity.class);
 
-    public InstructionPrimaryUseFragment() {
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_instruction_primary_use, container, false);
+    @Test
+    public void takeScreenshots() {
+        captureScreen("imprint");
     }
 
 }

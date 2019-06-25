@@ -39,7 +39,7 @@
                 android:layout_height="16dp"
                 android:layout_marginStart="16dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_check_black_24dp"
+                app:srcCompat="@drawable/ic_check_black_24dp"
                 android:tint="?android:attr/textColorSecondary"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/textView5" />
@@ -101,7 +101,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"
                 android:tint="?attr/colorAccent"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/textView9" />
@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"
                 android:tint="?attr/colorAccent"
                 app:layout_constraintStart_toStartOf="@id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/textView4" />
@@ -140,7 +140,7 @@
         android:layout_marginBottom="8dp"
         android:backgroundTint="?android:attr/colorAccent"
         android:text="@string/next_step"
-        android:textColor="@color/solarizedBase3"
+        android:textColor="?android:attr/colorBackground"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

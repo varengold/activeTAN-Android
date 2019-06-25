@@ -65,7 +65,7 @@ public class InitializeTokenStep2Fragment
         getCameraFragment().setBankingQrCodeListener(listener);
     }
 
-    private BankingQrCodeScannerFragment getCameraFragment() {
+    public BankingQrCodeScannerFragment getCameraFragment() {
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.cameraPreview);
         return (BankingQrCodeScannerFragment) fragment;
     }

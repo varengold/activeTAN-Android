@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="149dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_scan_letter"
+        app:srcCompat="@drawable/ic_scan_letter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -104,7 +104,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_scan_letter"
+            app:srcCompat="@drawable/ic_scan_letter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/instructionStep1"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
@@ -147,7 +147,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_enter_serial"
+            app:srcCompat="@drawable/ic_enter_serial"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/instructionStep2"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -190,7 +190,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_scan_screen"
+            app:srcCompat="@drawable/ic_scan_screen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/instructionStep3"
             app:layout_constraintTop_toBottomOf="@+id/textView14" />
@@ -222,7 +222,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_enter_starttan"
+            app:srcCompat="@drawable/ic_enter_starttan"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/instructionStep4"
             app:layout_constraintTop_toBottomOf="@+id/textView16" />

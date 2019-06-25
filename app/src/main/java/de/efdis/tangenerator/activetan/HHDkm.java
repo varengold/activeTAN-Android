@@ -20,6 +20,7 @@
 package de.efdis.tangenerator.activetan;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 
@@ -37,16 +38,32 @@ public class HHDkm {
         return type;
     }
 
+    public void setType(KeyMaterialType type) {
+        this.type = type;
+    }
+
     public byte[] getAesKeyComponent() {
         return aesKeyComponent;
+    }
+
+    public void setAesKeyComponent(byte[] aesKeyComponent) {
+        this.aesKeyComponent = aesKeyComponent;
     }
 
     public int getLetterNumber() {
         return letterNumber;
     }
 
+    public void setLetterNumber(int letterNumber) {
+        this.letterNumber = letterNumber;
+    }
+
     public String getDeviceSerialNumber() {
         return deviceSerialNumber;
+    }
+
+    public void setDeviceSerialNumber(String deviceSerialNumber) {
+        this.deviceSerialNumber = deviceSerialNumber;
     }
 
     public static HHDkm parse(byte[] rawBytes) throws UnsupportedDataFormatException {
@@ -99,6 +116,24 @@ public class HHDkm {
 
         return result;
 
+    }
+
+    public byte[] getBytes() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        baos.write(type.getHHDkmPrefix());
+
+        baos.write(aesKeyComponent, 0, aesKeyComponent.length);
+
+        if (type == KeyMaterialType.PORTAL) {
+            byte[] serialNumber = deviceSerialNumber.getBytes(DKCharset.INSTANCE);
+            baos.write(serialNumber, 0, serialNumber.length);
+        }
+
+        byte[] rawLetterNumber = FieldEncoding.bcdEncode(String.valueOf(letterNumber));
+        baos.write(rawLetterNumber, 0, rawLetterNumber.length);
+
+        return baos.toByteArray();
     }
 
     public static class UnsupportedDataFormatException extends Exception {

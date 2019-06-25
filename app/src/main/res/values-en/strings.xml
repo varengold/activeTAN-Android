@@ -322,4 +322,15 @@
     <string name="labelATC">ATC</string>
     <string name="labelTAN">TAN</string>
     <string name="synchronize_tan_generator">Synchronize TAN generator</string>
+    <string name="initialization_failed_no_camera_permission">Camera access not permitted.</string>
+    <string name="initialization_failed_wrong_qr_code">Wrong QR Code</string>
+    <string name="welcome_start_activation_instruction">To start initialization now, please scan the QR code from your activeTAN activation letter.</string>
+    <string name="welcome_start_activation_label">This app hasn\'t been initialized yet</string>
+    <string name="welcome_start_activation_start">Start initialization</string>
+    <string name="welcome_subtitle">The modern TAN procedure for your online banking</string>
+    <string name="welcome_subtitle_feature1">easy</string>
+    <string name="welcome_subtitle_feature2">quick</string>
+    <string name="welcome_subtitle_feature3">secure</string>
+    <string name="welcome_subtitle_feature4">Made in Germany</string>
+    <string name="welcome_title">Welcome to activeTAN</string>
 </resources>

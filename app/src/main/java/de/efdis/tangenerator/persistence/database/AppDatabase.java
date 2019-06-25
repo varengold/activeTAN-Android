@@ -39,6 +39,11 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract BankingTokenDao bankingTokenDao();
 
+    // For testing
+    protected static void setInstance(AppDatabase database) {
+        instance = database;
+    }
+
     public static synchronized AppDatabase getInstance(Context context) {
         if (instance == null) {
             Builder<AppDatabase> builder = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME);

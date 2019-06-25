@@ -19,13 +19,18 @@
 
 package de.efdis.tangenerator.gui.qrscanner;
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
-import androidx.annotation.ColorInt;
-import androidx.fragment.app.Fragment;
-import android.util.TypedValue;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.google.zxing.BarcodeFormat;
 
@@ -55,38 +60,44 @@ public class BankingQrCodeScannerFragment extends Fragment {
     }
 
     @Override
+    public void onInflate(@NonNull Context context, @NonNull AttributeSet attrs, @Nullable Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
+
+        // Forward attributes to scanner view
+        previewImage = new ZXingScannerView(context, attrs);
+
+        // The mask color should not have full opacity
+        {
+            TypedArray a = context.getTheme().obtainStyledAttributes(
+                    attrs,
+                    R.styleable.BankingQrCodeScannerFragment,
+                    0, 0);
+
+            @ColorInt
+            int maskColor = a.getColor(R.styleable.BankingQrCodeScannerFragment_maskColor, 0);
+
+            if ((maskColor & 0xff000000) == 0xff000000) {
+                int maskOpacity = Math.round(a.getFraction(
+                        R.styleable.BankingQrCodeScannerFragment_maskOpacity,
+                        255, 255, 64));
+
+                if (0 <= maskOpacity && maskOpacity <= 255) {
+                    maskColor = (maskColor & 0x00ffffff) | (maskOpacity << 24); // add opacity
+                    previewImage.setMaskColor(maskColor);
+                }
+            }
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        if (container == null) {
-            previewImage = new ZXingScannerView(getContext());
-        } else {
-            previewImage = new ZXingScannerView(container.getContext());
-        }
-
         previewImage.setFlash(false);
         previewImage.setAutoFocus(true);
         previewImage.setFormats(Arrays.asList(BarcodeFormat.QR_CODE));
         previewImage.setAspectTolerance(.5f);
         previewImage.setLaserEnabled(false);
         previewImage.setSquareViewFinder(true);
-
-        {
-            TypedValue tv = new TypedValue();
-            getContext().getTheme().resolveAttribute(R.attr.qrScannerBorderColor, tv, true);
-            @ColorInt
-            int borderColor = tv.data;
-            previewImage.setBorderColor(borderColor);
-        }
-
-        {
-            TypedValue tv = new TypedValue();
-            getContext().getTheme().resolveAttribute(R.attr.qrScannerMaskColor, tv, true);
-            @ColorInt
-            int maskColor = tv.data;
-            maskColor = (maskColor & 0x00ffffff) | 0x40000000; // add opacity
-            previewImage.setMaskColor(maskColor);
-        }
 
         return previewImage;
     }

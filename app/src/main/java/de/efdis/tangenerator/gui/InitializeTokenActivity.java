@@ -19,9 +19,11 @@
 
 package de.efdis.tangenerator.gui;
 
+import android.Manifest;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +33,7 @@ import android.widget.TextView;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -44,6 +47,7 @@ import de.efdis.tangenerator.gui.initialization.AbstractBackgroundTask;
 import de.efdis.tangenerator.gui.initialization.CreateBankingTokenTask;
 import de.efdis.tangenerator.gui.initialization.UploadEncryptedDeviceKeyTask;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeListener;
+import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 
 public class InitializeTokenActivity
@@ -79,6 +83,10 @@ public class InitializeTokenActivity
     }
 
     private boolean checkRequirements() {
+        /*
+         * Without the device being secured,
+         * we cannot store the banking key in the Android key store.
+         */
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         if (!keyguardManager.isDeviceSecure()) {
             onInitializationFailed(R.string.initialization_failed_unprotected_device,
@@ -87,14 +95,28 @@ public class InitializeTokenActivity
         }
 
         /*
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo == null || !networkInfo.isConnected()) {
-            onInitializationFailed(R.string.initialization_failed_offline,
-                    true);
+         * Without access to the camera, we cannot scan the banking QR code in step 2.
+         */
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            /*
+             * This should not happen. This activity is started as a result of scanning the letter
+             * QR code. Thus, the camera permission should already have been granted.
+             */
+            onInitializationFailed(R.string.initialization_failed_no_camera_permission,
+                    false);
             return false;
         }
-        */
+
+        /*
+         * We could check the network connection state here. That would have two drawbacks:
+         *   - It would require an extra permission ACCESS_NETWORK_STATE in the manifest.
+         *   - When connected to a restricted corporate network, the detected network state
+         *     might be 'disconnected' although the API endpoint can be reached.
+         *
+         * Thus, we use an optimistic approach and always try to reach the API endpoint, which is
+         * the first step of this activity. If connection fails, we show an error message to the
+         * user to indicate that the device might be offline.
+         */
 
         return true;
     }
@@ -232,16 +254,39 @@ public class InitializeTokenActivity
                 "the user did not scan the portal QR code: " + detailReason);
 
         // Instead of cancelling the ongoing process or restarting the whole process,
-        // the user may repeat the QR code scanning.
-        //
-        // TODO: Maybe we should show an additional hint
-        InitializeTokenStep2Fragment stepFragment = InitializeTokenStep2Fragment.newInstance();
+        // the user may repeat the portal QR code scanning.
+        final InitializeTokenStep2Fragment step2Fragment = (InitializeTokenStep2Fragment)
+                getSupportFragmentManager().findFragmentById(R.id.stepFragment);
 
-        {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.stepFragment, stepFragment);
-            transaction.commit();
-        }
+        final BankingQrCodeScannerFragment cameraPreview
+                = step2Fragment.getCameraFragment();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.initialization_failed_wrong_qr_code);
+        builder.setMessage(R.string.scan_screen_qr_code);
+
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                InitializeTokenActivity.this.finish();
+            }
+        });
+
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                cameraPreview.onResume();
+            }
+        });
+
+        builder.setPositiveButton(R.string.repeat, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override
