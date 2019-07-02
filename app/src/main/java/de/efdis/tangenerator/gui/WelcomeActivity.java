@@ -22,6 +22,7 @@ package de.efdis.tangenerator.gui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import de.efdis.tangenerator.R;
 
@@ -32,6 +33,9 @@ public class WelcomeActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        TextView welcomeTitle = findViewById(R.id.welcomeTitle);
+        setHtmlText(welcomeTitle, R.string.welcome_title_html);
     }
 
     public void onButtonStart(View button) {

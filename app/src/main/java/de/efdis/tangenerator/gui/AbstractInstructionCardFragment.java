@@ -19,7 +19,7 @@
 
 package de.efdis.tangenerator.gui;
 
-import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +44,15 @@ public abstract class AbstractInstructionCardFragment extends Fragment {
         toggleButton = getView().findViewById(R.id.cardToggleButton);
         image = getView().findViewById(R.id.cardImage);
 
-        if (toggleButton != null && body != null) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            /*
+             * In Android 6.0 I don't know how to change the visibility
+             * of views inside fragments. Workaround: Expand all views
+             * and don't make them toggleable.
+             */
+            image.setVisibility(View.GONE);
+            toggleButton.setVisibility(View.GONE);
+        } else {
             body.setVisibility(View.GONE);
 
             // Use the button to toggle visibility of the card's body

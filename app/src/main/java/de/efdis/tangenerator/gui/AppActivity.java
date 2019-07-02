@@ -32,10 +32,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.text.HtmlCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -56,13 +58,14 @@ public abstract class AppActivity
         extends AppCompatActivity {
 
     /** Utility method to apply HTML formatting to text. */
-    @SuppressWarnings("deprecation")
-    private static Spanned fromHtml(String html){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            return Html.fromHtml(html);
+    private static Spanned fromHtml(String html) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            // Android 6.0 does not support lists.
+            html = html
+                    .replace("<li>", "<p>&#x2022; ")
+                    .replace("</li>", "</p>");
         }
+        return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY);
     }
 
     public void setHtmlText(TextView textView, @StringRes int html) {
@@ -75,11 +78,15 @@ public abstract class AppActivity
         textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    protected Toolbar getToolbar() {
+        return findViewById(R.id.actionBar);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
 
-        Toolbar actionBar = findViewById(R.id.actionBar);
+        Toolbar actionBar = getToolbar();
         if (actionBar != null) {
             prepareActionBar(actionBar);
         }
@@ -87,7 +94,7 @@ public abstract class AppActivity
 
     @Override
     public void setTitle(CharSequence title) {
-        Toolbar actionBar = findViewById(R.id.actionBar);
+        Toolbar actionBar = getToolbar();
         if (actionBar != null) {
             actionBar.setTitle(title);
         } else {
@@ -110,7 +117,7 @@ public abstract class AppActivity
         }
     }
 
-    private Drawable getTintedDrawable(Context context, int id) {
+    private Drawable getTintedDrawable(Context context, @DrawableRes int id) {
         Drawable drawable = getDrawable(id);
 
         TypedArray ta = context.obtainStyledAttributes(
@@ -123,12 +130,19 @@ public abstract class AppActivity
         return drawable;
     }
 
-    private void prepareNavigationDrawer(Toolbar actionBar, final DrawerLayout drawerLayout, final NavigationView navigationDrawer) {
-        Drawable menuIcon = getTintedDrawable(
-                actionBar.getContext(),
-                io.material.R.drawable.ic_menu_black_24dp);
+    protected void setToolbarNavigationIcon(@DrawableRes int resource) {
+        Toolbar actionBar = getToolbar();
+        if (actionBar != null) {
+            Drawable icon = getTintedDrawable(
+                    actionBar.getContext(),
+                    resource);
 
-        actionBar.setNavigationIcon(menuIcon);
+            actionBar.setNavigationIcon(icon);
+        }
+    }
+
+    private void prepareNavigationDrawer(Toolbar actionBar, final DrawerLayout drawerLayout, final NavigationView navigationDrawer) {
+        setToolbarNavigationIcon(io.material.R.drawable.ic_menu_black_24dp);
 
         actionBar.setNavigationOnClickListener(
                 new View.OnClickListener() {
@@ -150,11 +164,7 @@ public abstract class AppActivity
     }
 
     private void prepareBackArrow(Toolbar actionBar, final Intent parent) {
-        Drawable backArrow = getTintedDrawable(
-                actionBar.getContext(),
-                io.material.R.drawable.ic_arrow_back_black_24dp);
-
-        actionBar.setNavigationIcon(backArrow);
+        setToolbarNavigationIcon(io.material.R.drawable.ic_arrow_back_black_24dp);
 
         actionBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

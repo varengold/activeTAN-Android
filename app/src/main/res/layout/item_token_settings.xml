@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/tokenDescriptionButton"
         app:layout_constraintStart_toStartOf="@+id/serialNumber"
@@ -50,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/protect_usage"
+        android:textColor="?android:attr/textColorPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/tokenDescription"
         app:layout_constraintStart_toStartOf="@+id/tokenDescription"
@@ -76,79 +78,59 @@
         tools:text="@string/do_protect_usage_description"
         />
 
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/token_status"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/tokenDescription"
-        app:layout_constraintStart_toStartOf="@+id/protectUsage"
-        app:layout_constraintTop_toBottomOf="@+id/protectUsageDescription" />
-
     <ImageButton
         android:id="@+id/deleteTokenButton"
         android:layout_width="48dp"
         android:layout_height="32dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_delete_forever_black_24dp"
         android:tint="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/statusDescription"
         app:layout_constraintEnd_toEndOf="@+id/tokenDescriptionButton"
-        app:layout_constraintTop_toTopOf="@+id/status" />
+        app:layout_constraintTop_toTopOf="@+id/statusDescription"
+        app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/statusDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/status"
-        app:layout_constraintStart_toStartOf="@+id/status"
-        app:layout_constraintTop_toBottomOf="@+id/status">
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/protectUsage"
+        app:layout_constraintStart_toStartOf="@+id/protectUsage"
+        app:layout_constraintTop_toBottomOf="@+id/protectUsageDescription">
 
         <TextView
             android:id="@+id/statusActiveSinceLabel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/active_since_label"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="?android:attr/textColorSecondary" />
+
 
         <TextView
             android:id="@+id/statusActiveSinceDate"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintBaseline_toBaselineOf="@+id/statusActiveSinceLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/statusActiveSinceLabel"
-            tools:text="01.01.2019" />
-
+            android:textColor="?android:attr/textColorPrimary"
+            tools:text="2019-01-01" />
 
         <TextView
             android:id="@+id/statusLastUsedLabel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="@string/last_used_label"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="@+id/statusActiveSinceLabel"
-            app:layout_constraintTop_toBottomOf="@+id/statusActiveSinceLabel" />
+            android:textColor="?android:attr/textColorSecondary" />
 
         <TextView
             android:id="@+id/statusLastUsedDate"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintBaseline_toBaselineOf="@+id/statusLastUsedLabel"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/statusLastUsedLabel"
+            android:textColor="?android:attr/textColorPrimary"
             tools:text="@string/last_used_never" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/divider"

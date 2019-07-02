@@ -128,7 +128,7 @@
     <string name="VC79">Change Order</string>
     <string name="VC80">Change Order</string>
     <string name="VC81">Payment Internet</string>
-    <string name="active_since_label">active since:</string>
+    <string name="active_since_label">Active since</string>
     <string name="app_description">TAN device for activeTAN procedure in online banking</string>
     <string name="button_confirm_delete_token">Delete</string>
     <string name="camera_permission_rationale">The camera is required to read QR codes.</string>
@@ -136,8 +136,8 @@
     <string name="confirm_transaction_details">OK</string>
     <string name="confirmed_transaction_details_title">Approve Order</string>
     <string name="device_auth_failed">Authentication failed</string>
-    <string name="do_protect_usage_description">Request PIN for usage</string>
-    <string name="dont_protect_usage_description">Use without PIN</string>
+    <string name="do_protect_usage_description">Request pattern, PIN or password for usage</string>
+    <string name="dont_protect_usage_description">Use without pattern, PIN or password</string>
     <string name="enter_initial_tan">Please enter this initial TAN in online banking.</string>
     <string name="enter_serial_number">Please enter this serial number in online banking.</string>
     <string name="enter_tan_onlinebanking">Please enter this TAN in online banking:</string>
@@ -192,7 +192,7 @@
     <string name="instructionUpdates">Updates</string>
     <string name="invalid_banking_qr">Invalid banking QR code</string>
     <string name="label_serial_number">Serial number</string>
-    <string name="last_used_label">Last usage:</string>
+    <string name="last_used_label">Last usage</string>
     <string name="last_used_never">never</string>
     <string name="menu_item_copyright">License</string>
     <string name="license_introduction">
@@ -252,7 +252,6 @@
     <string name="title_change_description">Change description</string>
     <string name="title_delete_token_confirmation">Delete TAN generator</string>
     <string name="title_privacy_statement">Privacy Statement</string>
-    <string name="token_status">Status</string>
     <string name="unsupported_data_format_message">The format is not supported by this app.</string>
     <string name="unsupported_data_format_title">Invalid banking QR code</string>
     <string name="verify_transaction_details_title">Check Order</string>
@@ -332,5 +331,17 @@
     <string name="welcome_subtitle_feature2">quick</string>
     <string name="welcome_subtitle_feature3">secure</string>
     <string name="welcome_subtitle_feature4">Made in Germany</string>
-    <string name="welcome_title">Welcome to activeTAN</string>
+    <string name="welcome_title_html">
+        <![CDATA[
+            Welcome to activeTAN<sup><small>&#xae;</small></sup>
+        ]]>
+    </string>
+    <string name="default_token_name">My online banking</string>
+    <string name="cannot_resume_initialization">Initialization has been canceled before. Please scan the activation letter again and start a new initialization in online banking.</string>
+    <string name="scan_letter_qr_code">Please scan activation letter</string>
+    <string name="initialization_confirm_return">Back</string>
+    <string name="initialization_confirm_cancel_message">Serial number will be lost and initialization has to be canceled in online banking as well.</string>
+    <string name="initialization_confirm_cancel_title">Cancel initialization?</string>
+    <string name="initialization_confirm_quit_title">Quit initialization?</string>
+    <string name="initialization_confirm_quit_message">Did you enter the initial TAN in online banking yet?</string>
 </resources>

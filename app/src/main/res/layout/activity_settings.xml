@@ -24,6 +24,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/no_settings_without_activation"
         android:textAlignment="center"
+        android:textColor="?android:attr/textColorSecondary"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

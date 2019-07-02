@@ -25,6 +25,8 @@ import android.security.keystore.KeyProperties;
 import android.util.Base64;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +34,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.ByteBuffer;
@@ -182,6 +185,16 @@ public abstract class AbstractApiCallTask<INPUT, OUTPUT>
         connection.setConnectTimeout(10000);
         connection.setReadTimeout(10000);
         connection.setRequestProperty("User-Agent", API_USER_AGENT);
+
+        // Prepare API request
+        connection.setRequestProperty("Accept", "text/*");
+        connection.setRequestProperty("Content-Type", "application/octet-stream");
+        connection.setDoOutput(true);
+        try {
+            connection.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void prepareCrypto() {
@@ -208,73 +221,63 @@ public abstract class AbstractApiCallTask<INPUT, OUTPUT>
         }
     }
 
-    private byte[] performRequest(byte[] postData) throws IOException, CallFailedException {
+    private byte[] performRequest(@NonNull byte[] postData) throws IOException, CallFailedException {
         if (connection == null) {
             throw new CallFailedException("connection has not be initialized");
         }
 
-        if (postData == null) {
-            connection.setRequestMethod("GET");
-        } else {
-            OutputStream os;
-            for (int tryCount = 1; true; tryCount++) {
-                try {
-                    connection.setDoOutput(true);
+        OutputStream os;
+        for (int tryCount = 1; true; tryCount++) {
+            try {
+                os = connection.getOutputStream();
 
-                    connection.setRequestMethod("POST");
+                // connection successful
+                break;
+            } catch (SSLHandshakeException e) {
+                if (tryCount <= 5) {
+                    /*
+                     * During the first API call, it happens quite often that the OCSP server
+                     * responds with 'tryLater' or not at all.
+                     * We can easily fix that for the user by attempting a new connection.
+                     */
+                    if (e.getCause() instanceof CertificateException
+                            && e.getCause().getCause() instanceof CertPathValidatorException) {
 
-                    connection.setRequestProperty("Content-Type", "application/octet-stream");
+                        // OCSP response error: TRY_LATER or UNKNOWN
+                        Log.w(getClass().getSimpleName(),
+                                "SSL handshake failed, retrying automatically ...",
+                                e);
 
-                    os = connection.getOutputStream();
+                        connection.disconnect();
+                        connection = null;
 
-                    // connection successful
-                    break;
-                } catch (SSLHandshakeException e) {
-                    if (tryCount <= 5) {
-                        /*
-                         * During the first API call, it happens quite often that the OCSP server
-                         * responds with 'tryLater' or not at all.
-                         * We can easily fix that for the user by attempting a new connection.
-                         */
-                        if (e.getCause() instanceof CertificateException
-                                && e.getCause().getCause() instanceof CertPathValidatorException) {
-
-                            // OCSP response error: TRY_LATER or UNKNOWN
-                            Log.w(getClass().getSimpleName(),
-                                    "SSL handshake failed, retrying automatically ...",
-                                    e);
-
-                            connection.disconnect();
-                            connection = null;
-
-                            try {
-                                Thread.sleep(500);
-                                prepareConnection();
-                                continue;
-                            } catch (InterruptedException ie) {
-                                Log.i(getClass().getSimpleName(),
-                                        "Thread.sleep() interrupted", ie);
-                            }
+                        try {
+                            Thread.sleep(500);
+                            prepareConnection();
+                            continue;
+                        } catch (InterruptedException ie) {
+                            Log.i(getClass().getSimpleName(),
+                                    "Thread.sleep() interrupted", ie);
                         }
                     }
-
-                    throw new ConnectException("SSL handshake problem during connect: " + e.getMessage());
-                } catch (IOException e) {
-                    throw new ConnectException("I/O problem during connect: " + e.getMessage());
                 }
-            }
 
-            try {
-                byte[] encryptedPostData = cipher.doFinal(postData);
-                os.write(encryptedPostData);
-                signature.update(encryptedPostData);
-            } catch (IllegalBlockSizeException | BadPaddingException e) {
-                throw new IOException("could not encrypt request data", e);
-            } catch (SignatureException e) {
-                throw new IOException("could not verify request data", e);
-            } finally {
-                os.close();
+                throw new ConnectException("SSL handshake problem during connect: " + e.getMessage());
+            } catch (IOException e) {
+                throw new ConnectException("I/O problem during connect: " + e.getMessage());
             }
+        }
+
+        try {
+            byte[] encryptedPostData = cipher.doFinal(postData);
+            os.write(encryptedPostData);
+            signature.update(encryptedPostData);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            throw new IOException("could not encrypt request data", e);
+        } catch (SignatureException e) {
+            throw new IOException("could not verify request data", e);
+        } finally {
+            os.close();
         }
 
         try {
@@ -338,11 +341,7 @@ public abstract class AbstractApiCallTask<INPUT, OUTPUT>
         return responseData;
     }
 
-    protected byte[] performGetRequest() throws IOException, CallFailedException {
-        return performRequest(null);
-    }
-
-    protected byte[] performPostRequest(byte[] requestData) throws IOException, CallFailedException {
+    protected byte[] performPostRequest(@NonNull byte[] requestData) throws IOException, CallFailedException {
         return performRequest(requestData);
     }
 

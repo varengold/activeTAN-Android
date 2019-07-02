@@ -27,6 +27,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
 import java.math.BigDecimal;
 import java.security.GeneralSecurityException;
 import java.text.DecimalFormat;
@@ -39,14 +41,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import androidx.appcompat.app.AlertDialog;
 import de.efdis.tangenerator.R;
-import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
-import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.activetan.DataElementType;
 import de.efdis.tangenerator.activetan.HHDuc;
 import de.efdis.tangenerator.activetan.TanGenerator;
 import de.efdis.tangenerator.activetan.VisualisationClass;
+import de.efdis.tangenerator.persistence.database.BankingToken;
+import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 
 public class VerifyTransactionDetailsActivity
         extends AppActivity
@@ -171,6 +172,14 @@ public class VerifyTransactionDetailsActivity
         } else {
             instructionTAN.setText(R.string.verify_transaction_with_details);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Don't show back icon in the toolbar.
+        setToolbarNavigationIcon(io.material.R.drawable.ic_close_black_24dp);
     }
 
     private View findViewByName(String name) {

@@ -33,6 +33,7 @@
             android:layout_marginBottom="8dp"
             android:text="@string/scan_qr_code"
             android:textAlignment="center"
+            android:textColor="?android:attr/textColorPrimary"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

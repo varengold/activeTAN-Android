@@ -56,10 +56,12 @@ public class InitializeTokenActivity
         BankingQrCodeListener {
 
     public static final String EXTRA_LETTER_KEY_MATERIAL = "LETTER_KEY_MATERIAL";
+    public static final String EXTRA_MOCK_SERIAL_NUMBER = "MOCK_SERIAL_NUMBER";
 
-    public BankingKeyComponents keyComponents;
-    public int letterNumber;
-    public String tokenId;
+    private BankingKeyComponents keyComponents;
+    private int letterNumber;
+    private String tokenId;
+    private boolean initializationCompleted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,13 @@ public class InitializeTokenActivity
     protected void onStart() {
         super.onStart();
 
+        // Pressing the navigation icon in the toolbar will finish this activity.
+        // This results in a loss of the generated serial number and possibly the generated TAN.
+        // Both information is required in online banking. If this activity gets closed while the
+        // process is incomplete in online banking, the user would have to start from scratch.
+        // Thus, use a different icon to show it's not always safe to click it.
+        setToolbarNavigationIcon(io.material.R.drawable.ic_close_black_24dp);
+
         // Automatically start the process during first start of this activity
         if (keyComponents == null) {
             doStartProcess();
@@ -88,7 +97,7 @@ public class InitializeTokenActivity
          * we cannot store the banking key in the Android key store.
          */
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-        if (!keyguardManager.isDeviceSecure()) {
+        if (keyguardManager == null || !keyguardManager.isDeviceSecure()) {
             onInitializationFailed(R.string.initialization_failed_unprotected_device,
                     false);
             return false;
@@ -193,7 +202,15 @@ public class InitializeTokenActivity
 
         letterNumber = letterKeyMaterial.getLetterNumber();
 
-        doStepUploadEncryptedDeviceKey();
+        if (!extras.containsKey(EXTRA_MOCK_SERIAL_NUMBER)) {
+            // normal operation
+            doStepUploadEncryptedDeviceKey();
+        } else {
+            // For testing purpose: Don't call API and use a mocked serial number
+            tokenId = extras.getString(EXTRA_MOCK_SERIAL_NUMBER);
+            keyComponents.generateDeviceKeyComponent();
+            doShowTokenId();
+        }
     }
 
     private void doStepUploadEncryptedDeviceKey() {
@@ -230,6 +247,39 @@ public class InitializeTokenActivity
             transaction.add(R.id.stepFragment, stepFragment);
             transaction.commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (this.tokenId != null && getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            // By accidentally pressing back, the user would leave this activity
+            // and lose the serial number or start TAN.
+            // Show a confirmation dialog instead.
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(false);
+            builder.setNegativeButton(R.string.initialization_confirm_return, null);
+            builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    InitializeTokenActivity.super.onBackPressed();
+                }
+            });
+
+            if (!initializationCompleted) {
+                builder.setTitle(R.string.initialization_confirm_cancel_title);
+                builder.setMessage(R.string.initialization_confirm_cancel_message);
+            } else {
+                builder.setTitle(R.string.initialization_confirm_quit_title);
+                builder.setMessage(R.string.initialization_confirm_quit_message);
+            }
+
+            builder.show();
+
+            // don't leave activity yet
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override
@@ -334,6 +384,7 @@ public class InitializeTokenActivity
         CreateBankingTokenTask.Input taskInput = new CreateBankingTokenTask.Input();
         taskInput.applicationContext = getApplicationContext();
         taskInput.tokenId = tokenId;
+        taskInput.tokenName = getString(R.string.default_token_name);
         taskInput.keyComponents = keyComponents;
 
         new CreateBankingTokenTask(new MyTaskListener<CreateBankingTokenTask.Output>() {
@@ -366,6 +417,7 @@ public class InitializeTokenActivity
             transaction.commit();
         }
 
+        initializationCompleted = true;
     }
 
     /** Show a spinner and text while the background task is running */

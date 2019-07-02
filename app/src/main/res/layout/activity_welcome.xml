@@ -56,7 +56,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/welcome_title"
+            tools:text="Welcome Title"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

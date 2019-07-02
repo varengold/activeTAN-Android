@@ -36,6 +36,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
+        android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelTransactionType"
@@ -58,6 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintEnd_toEndOf="@+id/labelDataElement1"
         app:layout_constraintStart_toStartOf="@+id/labelDataElement1"
         app:layout_constraintTop_toBottomOf="@+id/contentDataElement1"
@@ -79,6 +81,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintEnd_toEndOf="@+id/labelDataElement1"
         app:layout_constraintStart_toStartOf="@+id/labelDataElement1"
         app:layout_constraintTop_toBottomOf="@+id/contentDataElement2"
@@ -118,6 +121,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:textColor="?android:attr/textColorSecondary"
         android:textStyle="italic"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -152,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/enter_tan_onlinebanking"
                 android:textAlignment="center"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -173,7 +178,8 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="0dp"
                     android:paddingEnd="8dp"
-                    android:text="@string/labelATC" />
+                    android:text="@string/labelATC"
+                    android:textColor="?android:attr/textColorSecondary" />
 
                 <TextView
                     android:id="@+id/textATC"
@@ -201,7 +207,8 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="0dp"
                     android:paddingEnd="8dp"
-                    android:text="@string/labelTAN" />
+                    android:text="@string/labelTAN"
+                    android:textColor="?android:attr/textColorSecondary" />
 
                 <TextView
                     android:id="@+id/textTAN"

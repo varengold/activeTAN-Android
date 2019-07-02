@@ -24,12 +24,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -65,6 +67,9 @@ public class MainActivity
 
     public static final String EXTRA_SKIP_WELCOME_ACTIVITY = "SKIP_WELCOME_ACTIVITY";
 
+    private static final int INSTRUCTION_SIZE_LARGE = 24;
+    private static final int INSTRUCTION_SIZE_NORMAL = 16;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +96,11 @@ public class MainActivity
                 return;
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         // In case:
         //   - there was no camera permission in a previous start of this activity,
@@ -137,6 +147,7 @@ public class MainActivity
 
         TextView textInstruction = findViewById(R.id.textInstruction);
         textInstruction.setText(R.string.camera_permission_rationale);
+        textInstruction.setTextSize(TypedValue.COMPLEX_UNIT_SP, INSTRUCTION_SIZE_NORMAL);
 
         Button buttonRepeat = findViewById(R.id.buttonRepeat);
         buttonRepeat.setVisibility(View.VISIBLE);
@@ -155,8 +166,12 @@ public class MainActivity
         buttonRepeat.setVisibility(View.INVISIBLE);
 
         TextView textInstruction = findViewById(R.id.textInstruction);
-        textInstruction.setText(R.string.scan_qr_code);
-
+        textInstruction.setTextSize(TypedValue.COMPLEX_UNIT_SP, INSTRUCTION_SIZE_LARGE);
+        if (BankingTokenRepository.getAllUsable(this).isEmpty()) {
+            textInstruction.setText(R.string.scan_letter_qr_code);
+        } else {
+            textInstruction.setText(R.string.scan_qr_code);
+        }
     }
 
     public void onButtonRepeat(View buttonRepeat) {
@@ -199,19 +214,30 @@ public class MainActivity
                 return;
             }
 
+            if (hhdkmData.length >= 1 && hhdkmData[0] == KeyMaterialType.PORTAL.getHHDkmPrefix()) {
+                // The portal QR code is shown in online banking as a second step of initialization.
+                // It should only be scanned during InitializationActivity.
+                showError(R.string.cannot_resume_initialization);
+                return;
+            }
+
             onInvalidBankingQrCode(
-                    "unsupported key material or illegal state");
+                    "unsupported key material");
+        }
+
+        private void showError(@StringRes int message) {
+            TextView textInstruction = findViewById(R.id.textInstruction);
+            textInstruction.setText(message);
+            textInstruction.setTextSize(TypedValue.COMPLEX_UNIT_SP, INSTRUCTION_SIZE_NORMAL);
+
+            Button buttonRepeat = findViewById(R.id.buttonRepeat);
+            buttonRepeat.setVisibility(View.VISIBLE);
         }
 
         @Override
         public void onInvalidBankingQrCode(String detailReason) {
             Log.e(getClass().getSimpleName(), detailReason);
-
-            TextView textInstruction = findViewById(R.id.textInstruction);
-            textInstruction.setText(R.string.invalid_banking_qr);
-
-            Button buttonRepeat = findViewById(R.id.buttonRepeat);
-            buttonRepeat.setVisibility(View.VISIBLE);
+            showError(R.string.invalid_banking_qr);
         }
     }
 

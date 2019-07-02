@@ -43,19 +43,23 @@ import de.efdis.tangenerator.activetan.HHDkm;
 import de.efdis.tangenerator.activetan.KeyMaterialType;
 import de.efdis.tangenerator.gui.InitializeTokenActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 
 @RunWith(AndroidJUnit4.class)
 public class InitializeTokenActivityScreenshots extends AbstractInstrumentedScreenshots {
 
+    private static final String SERIAL_NUMBER = "XX1234567890";
+
     private static Intent getIntentWithTestData() {
         HHDkm hhdkm = new HHDkm();
         hhdkm.setType(KeyMaterialType.LETTER);
-        hhdkm.setAesKeyComponent(new byte[16]);
+        hhdkm.setAesKeyComponent(new byte[BankingKeyComponents.BANKING_KEY_LENGTH]);
         hhdkm.setLetterNumber(1);
 
         Intent intent = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(),
                 InitializeTokenActivity.class);
         intent.putExtra(InitializeTokenActivity.EXTRA_LETTER_KEY_MATERIAL, hhdkm.getBytes());
+        intent.putExtra(InitializeTokenActivity.EXTRA_MOCK_SERIAL_NUMBER, SERIAL_NUMBER);
         return intent;
     }
 
@@ -89,7 +93,6 @@ public class InitializeTokenActivityScreenshots extends AbstractInstrumentedScre
             hhdkm.setAesKeyComponent(new byte[16]);
             hhdkm.setLetterNumber(1);
 
-            InitializeTokenActivity activity;
             Espresso.onView(ViewMatchers.isRoot()).perform(new ViewAction() {
                 @Override
                 public Matcher<View> getConstraints() {
@@ -106,7 +109,7 @@ public class InitializeTokenActivityScreenshots extends AbstractInstrumentedScre
                     InitializeTokenActivity activity = (InitializeTokenActivity)
                             view.findViewById(android.R.id.content).getContext();
 
-                    hhdkm.setDeviceSerialNumber(activity.tokenId);
+                    hhdkm.setDeviceSerialNumber(SERIAL_NUMBER);
 
                     activity.onKeyMaterial(hhdkm.getBytes());
                 }

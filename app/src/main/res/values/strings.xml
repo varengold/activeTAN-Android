@@ -1,7 +1,11 @@
 <resources>
     <string name="app_description">TAN-Generator für das activeTAN-Verfahren im Online-Banking</string>
 
-    <string name="welcome_title">Willkommen zu activeTAN</string>
+    <string name="welcome_title_html">
+        <![CDATA[
+            Willkommen zu activeTAN<sup><small>&#xae;</small></sup>
+        ]]>
+    </string>
     <string name="welcome_subtitle">Das moderne TAN-Verfahren für Ihr Online-Banking</string>
     <string name="welcome_subtitle_feature1">einfach</string>
     <string name="welcome_subtitle_feature2">schnell</string>
@@ -143,12 +147,12 @@
     </string>
 
     <string name="menu_item_settings">Einstellungen</string>
+    <string name="default_token_name">Mein Online-Banking</string>
     <string name="protect_usage">Benutzung absichern</string>
-    <string name="do_protect_usage_description">Bei Verwendung PIN abfragen</string>
-    <string name="dont_protect_usage_description">Ohne PIN verwenden</string>
-    <string name="token_status">Status</string>
-    <string name="active_since_label">Aktiv seit:</string>
-    <string name="last_used_label">Letzte Verwendung:</string>
+    <string name="do_protect_usage_description">Bei Verwendung Muster, PIN oder Passwort abfragen</string>
+    <string name="dont_protect_usage_description">Ohne Muster, PIN oder Passwort verwenden</string>
+    <string name="active_since_label">Aktiv seit</string>
+    <string name="last_used_label">Letzte Verwendung</string>
     <string name="last_used_never">nie</string>
     <string name="title_change_description">Beschreibung ändern</string>
     <string name="title_delete_token_confirmation">TAN-Generator löschen</string>
@@ -160,8 +164,10 @@
     <string name="camera_permission_rationale">Die Kamera wird für das Lesen von QR-Codes benötigt.</string>
 
     <string name="invalid_banking_qr">Kein Banking QR-Code</string>
+    <string name="cannot_resume_initialization">Die Aktivierung wurde zuvor abgebrochen. Bitte scannen Sie den Aktivierungsbrief erneut und starten Sie eine neue Aktivierung im Online-Banking.</string>
 
     <string name="scan_qr_code">Bitte QR-Code scannen</string>
+    <string name="scan_letter_qr_code">Bitte Aktivierungsbrief scannen</string>
 
     <string name="device_auth_failed">Authentifizierung fehlgeschlagen</string>
 
@@ -208,6 +214,11 @@
     <string name="initial_tan">Start-TAN</string>
     <string name="enter_initial_tan">Bitte geben Sie diese Start-TAN im Online-Banking ein.</string>
     <string name="initialization_completed">Die activeTAN-Aktivierung ist damit abgeschlossen.</string>
+    <string name="initialization_confirm_cancel_title">Aktivierung abbrechen?</string>
+    <string name="initialization_confirm_cancel_message">Die Seriennummer geht verloren und die Aktivierung muss auch im Online-Banking abgebrochen werden.</string>
+    <string name="initialization_confirm_quit_title">Aktivierung beenden?</string>
+    <string name="initialization_confirm_quit_message">Haben Sie die Start-TAN bereits im Online-Banking eingegeben?</string>
+    <string name="initialization_confirm_return">Zurück</string>
 
     <string name="initialization_failed_title">Aktivierung fehlgeschlagen</string>
     <string name="initialization_failed_unprotected_device">Das Smartphone muss mit einem Muster, einer PIN oder einem Kennwort geschützt sein.</string>

@@ -29,6 +29,7 @@ import org.junit.runners.model.Statement;
 
 import java.security.KeyStoreException;
 
+import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
@@ -75,7 +76,8 @@ public class InMemoryDatabaseRule implements TestRule {
         BankingToken token = new BankingToken();
         token.id = "XX1234567890";
         token.keyAlias = tokenAlias;
-        token.name = "Mein Bankzugang";
+        token.name = InstrumentationRegistry.getInstrumentation().getTargetContext()
+                .getString(R.string.default_token_name);
 
         BankingTokenRepository.saveNewToken(null, token);
     }

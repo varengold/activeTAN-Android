@@ -43,6 +43,7 @@ public class CreateBankingTokenTask
     public static class Input {
         public Context applicationContext;
         public String tokenId;
+        public String tokenName;
         public BankingKeyComponents keyComponents;
     }
 
@@ -71,6 +72,7 @@ public class CreateBankingTokenTask
 
             BankingToken token = new BankingToken();
             token.id = args[0].tokenId;
+            token.name = args[0].tokenName;
             token.keyAlias = tokenAlias;
 
             BankingTokenRepository.saveNewToken(args[0].applicationContext, token);
