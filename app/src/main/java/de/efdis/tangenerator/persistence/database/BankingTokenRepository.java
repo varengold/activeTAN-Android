@@ -22,13 +22,19 @@ package de.efdis.tangenerator.persistence.database;
 import android.content.Context;
 import android.util.Log;
 
+import java.security.InvalidKeyException;
 import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 
+import de.efdis.tangenerator.activetan.AesCbcMac;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
 public class BankingTokenRepository {
@@ -44,16 +50,48 @@ public class BankingTokenRepository {
     }
 
     public static boolean isUsable(BankingToken bankingToken) {
+        SecretKey bankingKey;
         try {
-            SecretKey bankingKey = BankingKeyRepository.getBankingKey(bankingToken.keyAlias);
-            if (bankingKey != null) {
-                return true;
-            }
+            bankingKey = BankingKeyRepository.getBankingKey(bankingToken.keyAlias);
         } catch (KeyStoreException e) {
             Log.e(BankingTokenRepository.class.getSimpleName(),
                     "Cannot read banking key for token " + bankingToken.id);
+            return false;
         }
-        return false;
+
+        if (bankingKey == null) {
+            Log.e(BankingTokenRepository.class.getSimpleName(),
+                    "Banking key is missing for token " + bankingToken.id);
+            return false;
+        }
+
+        if (bankingKey.isDestroyed()) {
+            Log.e(BankingTokenRepository.class.getSimpleName(),
+                    "Banking key destroyed for token " + bankingToken.id);
+            return false;
+        }
+
+        /*
+         * The key gets permanently and irreversibly invalidated once the secure lock screen is
+         * disabled (i. e., reconfigured to None, Swipe or other mode which does not authenticate
+         * the user) or when the secure lock screen is forcibly reset (e. g., by Device Admin).
+         *
+         * We can detect this with the KeyPermanentlyInvalidatedException,
+         * by attempting to use the key.
+         */
+        try {
+            Cipher aes = Cipher.getInstance("AES/CBC/NoPadding");
+            aes.init(Cipher.ENCRYPT_MODE, bankingKey);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            throw new RuntimeException(
+                    "Cannot initialize AES cipher", e);
+        } catch (InvalidKeyException e) {
+            Log.e(BankingTokenRepository.class.getSimpleName(),
+                    "Banking key invalidated for token " + bankingToken.id);
+            return false;
+        }
+
+        return true;
     }
 
     /** Return all available tokens which can be used to TAN generation. */

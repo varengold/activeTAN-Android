@@ -5,8 +5,8 @@ android {
     defaultConfig {
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 9
-        versionName "2019-07-02"
+        versionCode 10
+        versionName "2019-07-12"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -32,7 +32,6 @@ android {
     productFlavors {
         prod {
             dimension "environment"
-            resValue "string", "app_name", "activeTAN"
         }
 
         qs {
@@ -40,7 +39,6 @@ android {
             // To be able to install a second app variant, we must change the applicationId.
             // Otherwise it would not be possible to use the same device for testing and production.
             applicationIdSuffix ".QS"
-            resValue "string", "app_name", "activeTAN (Test)"
         }
 
         EFD {
@@ -63,7 +61,7 @@ dependencies {
 
     implementation project(":material")
 
-    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 

@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.gui.MainActivity;
+import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -44,6 +45,11 @@ public class ExampleInstrumentedTest {
     public GrantPermissionRule cameraPermissionRule
             = GrantPermissionRule.grant(
                 Manifest.permission.CAMERA);
+
+    // Without data, the activity would redirect the user to the welcome activity.
+    @Rule
+    public InMemoryDatabaseRule mockDatabaseRule
+            = new InMemoryDatabaseRule(true);
 
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule

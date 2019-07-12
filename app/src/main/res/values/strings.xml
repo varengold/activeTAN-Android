@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">activeTAN</string>
     <string name="app_description">TAN-Generator für das activeTAN-Verfahren im Online-Banking</string>
 
     <string name="welcome_title_html">
@@ -160,6 +161,8 @@
     <string name="button_confirm_delete_token">Löschen</string>
     <string name="message_token_deleted">TAN-Generator gelöscht</string>
     <string name="no_settings_without_activation">Dieses Gerät wurde noch nicht aktiviert. Bitte aktivieren Sie diesen TAN-Generator im Online-Banking, bevor Sie Einstellungen vornehmen können.</string>
+    <string name="invalidated_key_label">Deaktiviert</string>
+    <string name="invalidated_key_description">Dieser TAN-Generator kann zu Ihrer Sicherheit nicht mehr benutzt werden, weil der Sperrbildschirm deaktiviert worden ist. Bitte sperren Sie den TAN-Generator im Online-Banking und führen Sie eine neue Aktivierung durch.</string>
 
     <string name="camera_permission_rationale">Die Kamera wird für das Lesen von QR-Codes benötigt.</string>
 
@@ -176,6 +179,9 @@
     <string name="unsupported_data_format_title">Ungültiger Banking QR-Code</string>
     <string name="unsupported_data_format_message">Das Format wird durch diese App nicht unterstützt.</string>
 
+    <string name="authorize_to_generate_tan">Bitte bestätigen Sie Ihre Gerätezugangsdaten, um die TAN zu generieren.</string>
+    <string name="authorize_to_unlock_token">Bitte bestätigen Sie Ihre Gerätezugangsdaten, um activeTAN ohne Eingabe von Muster, PIN oder Passwort zu verwenden.</string>
+
     <string name="verify_transaction_details_title">Auftrag prüfen</string>
     <string name="confirmed_transaction_details_title">Auftrag freigeben</string>
     <string name="confirm_transaction_details">OK</string>
@@ -186,11 +192,9 @@
     <string name="synchronize_tan_generator">TAN-Generator synchronisieren</string>
     <string name="labelTAN">TAN</string>
     <string name="labelATC">ATC</string>
-    <string name="choose_token_title">TAN-Generator</string>
-    <string name="choose_token_message">
-        Dieses Gerät wurde mehrfach aktiviert.
-        Bitte wählen Sie den activeTAN-Generator für Ihren Online-Banking-Zugang.
-    </string>
+    <string name="no_tokens_available_title">TAN-Generator</string>
+    <string name="choose_token_title">TAN-Generator wählen</string>
+    <string name="token_name_and_serial_number_format">%1$s\n(%2$s)</string>
     <string name="no_tokens_available_message">
         Dieses Gerät wurde noch nicht aktiviert.
         Wenn eine frühere Aktivierung verloren gegangen ist,

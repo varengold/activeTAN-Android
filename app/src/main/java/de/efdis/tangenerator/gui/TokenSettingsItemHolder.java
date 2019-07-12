@@ -115,6 +115,18 @@ public class TokenSettingsItemHolder extends RecyclerView.ViewHolder {
         s.setChecked(protectUsage);
     }
 
+    public void setIsUsable(boolean isUsable) {
+        TextView label = findViewById(R.id.statusInvalidatedLabel);
+        TextView description = findViewById(R.id.statusInvalidatedDescription);
+        if (isUsable) {
+            label.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
+        } else {
+            label.setVisibility(View.VISIBLE);
+            description.setVisibility(View.VISIBLE);
+        }
+    }
+
     public interface TokenSettingsItemListener {
         void onChangeTokenDescriptionButtonClick(int itemPosition);
         void onProtectUsageCheckedChange(int itemPosition, boolean isChecked);

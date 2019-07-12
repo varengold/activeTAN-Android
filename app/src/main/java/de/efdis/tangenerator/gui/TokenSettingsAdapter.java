@@ -34,6 +34,7 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingToken;
+import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 
 public class TokenSettingsAdapter
         extends RecyclerView.Adapter<TokenSettingsItemHolder>
@@ -72,6 +73,7 @@ public class TokenSettingsAdapter
         holder.setProtectUsage(bankingToken.confirmDeviceCredentialsToUse);
         holder.setActiveSince(bankingToken.createdOn);
         holder.setLastUsed(bankingToken.lastUsed);
+        holder.setIsUsable(BankingTokenRepository.isUsable(bankingToken));
 
         holder.setListener(this, position);
     }

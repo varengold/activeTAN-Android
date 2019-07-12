@@ -129,10 +129,11 @@
     <string name="VC80">Change Order</string>
     <string name="VC81">Payment Internet</string>
     <string name="active_since_label">Active since</string>
+    <string name="app_name">activeTAN</string>
     <string name="app_description">TAN device for activeTAN procedure in online banking</string>
     <string name="button_confirm_delete_token">Delete</string>
     <string name="camera_permission_rationale">The camera is required to read QR codes.</string>
-    <string name="choose_token_title">TAN Generator</string>
+    <string name="no_tokens_available_title">TAN Generator</string>
     <string name="confirm_transaction_details">OK</string>
     <string name="confirmed_transaction_details_title">Approve Order</string>
     <string name="device_auth_failed">Authentication failed</string>
@@ -257,10 +258,8 @@
     <string name="verify_transaction_details_title">Check Order</string>
     <string name="verify_transaction_with_details">Please check the order details for correctness</string>
     <string name="verify_transaction_without_details">Please confirm the order</string>
-    <string name="choose_token_message">
-        This device has been initialized several times.
-        Please select the activeTAN generator for your online banking account.
-    </string>
+    <string name="choose_token_title">Choose TAN generator</string>
+    <string name="token_name_and_serial_number_format">%1$s\n(%2$s)</string>
     <string name="privacy_statement">
         <![CDATA[
         <p>
@@ -344,4 +343,8 @@
     <string name="initialization_confirm_cancel_title">Cancel initialization?</string>
     <string name="initialization_confirm_quit_title">Quit initialization?</string>
     <string name="initialization_confirm_quit_message">Did you enter the initial TAN in online banking yet?</string>
+    <string name="authorize_to_generate_tan">Please enter your device credentials to generate the TAN.</string>
+    <string name="authorize_to_unlock_token">Please enter your device credentials to use activeTAN without pattern, PIN or password.</string>
+    <string name="invalidated_key_description">For your security, this TAN generator cannot be used anymore, because the lock screen has been disabled. Please lock the TAN generator in online banking and start a new initializaion process.</string>
+    <string name="invalidated_key_label">Disabled</string>
 </resources>

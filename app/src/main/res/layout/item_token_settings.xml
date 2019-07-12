@@ -130,6 +130,21 @@
             android:textColor="?android:attr/textColorPrimary"
             tools:text="@string/last_used_never" />
 
+        <TextView
+            android:id="@+id/statusInvalidatedLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/invalidated_key_label"
+            android:textColor="?android:attr/textColorSecondary" />
+
+        <TextView
+            android:id="@+id/statusInvalidatedDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/invalidated_key_description"
+            android:textColor="?android:attr/textColorPrimary" />
+
     </LinearLayout>
 
     <View

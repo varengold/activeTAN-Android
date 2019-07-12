@@ -148,7 +148,7 @@ public class SettingsActivity
             tokenForAuthentication = token;
 
             KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(null, null);
+            Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(getString(R.string.app_name), getString(R.string.authorize_to_unlock_token));
             startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS_FOR_PIN);
         }
     }
@@ -234,7 +234,7 @@ public class SettingsActivity
             KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
 
             Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
-                    getText(R.string.title_delete_token_confirmation),
+                    getText(R.string.app_name),
                     getText(R.string.message_delete_token_confirmation));
             startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS_FOR_DELETION);
         }

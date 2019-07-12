@@ -90,7 +90,7 @@ public class InitializeTokenStep1Fragment
         {
             BankingToken token = new BankingToken();
             token.id = unformattedSerialNumber;
-            formattedSerialNumber = token.getDisplayName();
+            formattedSerialNumber = token.getFormattedSerialNumber();
         }
 
         TextView serialNumber = getActivity().findViewById(R.id.serialNumber);

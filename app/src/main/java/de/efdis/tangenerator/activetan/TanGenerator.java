@@ -204,11 +204,10 @@ public class TanGenerator {
 
     public static String formatTAN(int tan) {
         DecimalFormat format = new DecimalFormat();
-        format.setGroupingUsed(true);
         format.setMinimumIntegerDigits(6);
-        DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');
-        format.setDecimalFormatSymbols(symbols);
+
+        // Don't use digit grouping, otherwise the user would be misguided to enter space characters
+        format.setGroupingUsed(false);
 
         return format.format(tan);
     }

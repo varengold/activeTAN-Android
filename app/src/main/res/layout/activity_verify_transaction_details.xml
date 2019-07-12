@@ -170,7 +170,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/instructionEnterTAN">
+                app:layout_constraintTop_toBottomOf="@+id/tanContainer">
 
                 <TextView
                     android:id="@+id/labelATC"
@@ -188,6 +188,7 @@
                     android:textColor="?android:attr/colorPrimaryDark"
                     android:textSize="24sp"
                     android:textStyle="bold"
+                    android:typeface="monospace"
                     tools:text="42" />
             </LinearLayout>
 
@@ -199,7 +200,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/atcContainer">
+                app:layout_constraintTop_toBottomOf="@+id/instructionEnterTAN">
 
                 <TextView
                     android:id="@+id/labelTAN"
@@ -218,7 +219,8 @@
                     android:textColor="?android:attr/colorPrimaryDark"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    tools:text="123 456" />
+                    android:typeface="monospace"
+                    tools:text="123456" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
