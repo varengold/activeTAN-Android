@@ -20,6 +20,7 @@
 package de.efdis.tangenerator.persistence.database;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import java.security.InvalidKeyException;
@@ -65,10 +66,17 @@ public class BankingTokenRepository {
             return false;
         }
 
-        if (bankingKey.isDestroyed()) {
-            Log.e(BankingTokenRepository.class.getSimpleName(),
-                    "Banking key destroyed for token " + bankingToken.id);
-            return false;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            /*
+             * Up to and including API 25 Destroyable#isDestroyed()
+             * did not have a default implementation and throws a NoSuchMethodError.
+             */
+        } else {
+            if (bankingKey.isDestroyed()) {
+                Log.e(BankingTokenRepository.class.getSimpleName(),
+                        "Banking key destroyed for token " + bankingToken.id);
+                return false;
+            }
         }
 
         /*
