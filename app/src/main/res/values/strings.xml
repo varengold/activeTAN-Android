@@ -73,12 +73,12 @@
             </p>
             <ul>
                 <li>
-                    ZXing Barcode-Scanner
+                    ZXing: Bibliothek für Bilderkennung und Verarbeitung von 1D/2D-Barcodes
                     <br/>
                     <a href="https://github.com/zxing/zxing/">github.com/zxing/zxing</a>
                 </li>
                 <li>
-                    Android-Bibliothek für ZXing
+                    Barcode-Scanner: Bibliothek für kamera-basiertes Lesen von Barcodes
                     <br/>
                     <a href="https://github.com/dm77/barcodescanner/">github.com/dm77/barcodescanner</a>
                 </li>

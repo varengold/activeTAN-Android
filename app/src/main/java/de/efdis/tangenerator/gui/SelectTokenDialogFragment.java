@@ -122,7 +122,7 @@ public class SelectTokenDialogFragment extends DialogFragment {
 
         // Automatically select the only available token
         if (availableTokens != null && availableTokens.size() == 1) {
-            dismiss();
+            getDialog().hide();
             selectedToken = availableTokens.get(0);
             onTokenSelected();
         }

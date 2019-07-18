@@ -30,10 +30,9 @@ import java.util.Arrays;
 import java.util.zip.Checksum;
 
 import de.efdis.tangenerator.activetan.CRC16Checksum;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 /** Filter and parse QR codes in Banking QR code format */
-public class QrCodeHandler implements ZXingScannerView.ResultHandler  {
+public class QrCodeHandler {
 
     private final BankingQrCodeListener listener;
 
@@ -47,7 +46,6 @@ public class QrCodeHandler implements ZXingScannerView.ResultHandler  {
      * @param result
      *      Detection event from ZXing.
      */
-    @Override
     public void handleResult(Result result) {
         Log.i(getClass().getSimpleName(),
                 "Barcode detected");

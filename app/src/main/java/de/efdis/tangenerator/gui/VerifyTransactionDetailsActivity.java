@@ -21,6 +21,7 @@ package de.efdis.tangenerator.gui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -111,6 +112,7 @@ public class VerifyTransactionDetailsActivity
 
             TextView instructionEnterTAN = findViewById(R.id.instructionEnterTAN);
             instructionEnterTAN.setText(R.string.enter_tan_and_atc_onlinebanking);
+            ((TextView) findViewById(R.id.textTAN)).setText("1");
         } else {
             visualizationClass.setText(getString(hhduc.getVisualisationClass()));
 
@@ -236,7 +238,7 @@ public class VerifyTransactionDetailsActivity
 
     @Override
     public void onTokenReadyToUse(BankingToken token) {
-        View generatedTanContainer = findViewById(R.id.generatedTanContainer);
+        final View generatedTanContainer = findViewById(R.id.generatedTanContainer);
         TextView textTAN = findViewById(R.id.textTAN);
         TextView textATC = findViewById(R.id.textATC);
 
@@ -260,5 +262,13 @@ public class VerifyTransactionDetailsActivity
 
         instructionTAN.setVisibility(View.INVISIBLE);
         validateButton.setVisibility(View.INVISIBLE);
+
+        // Update layout, because the size of TAN/ATC views has changed
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                generatedTanContainer.requestLayout();
+            }
+        });
     }
 }

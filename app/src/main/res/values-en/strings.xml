@@ -212,12 +212,12 @@
             </p>
             <ul>
                 <li>
-                    ZXing barcode scanner
+                    ZXing: Library for image detection and processing of 1D/2D barcodes
                     <br/>
                     <a href="https://github.com/zxing/zxing/">github.com/zxing/zxing</a>
                 </li>
                 <li>
-                    Android library for ZXing
+                    Barcode Scanner: Library for camera based scanning of barcodes
                     <br/>
                     <a href="https://github.com/dm77/barcodescanner/">github.com/dm77/barcodescanner</a>
                 </li>

@@ -32,12 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.zxing.BarcodeFormat;
-
-import java.util.Arrays;
-
 import de.efdis.tangenerator.R;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 /**
  * Start the camera, scan for QR codes and show a live camera preview
@@ -48,8 +43,8 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
  */
 public class BankingQrCodeScannerFragment extends Fragment {
 
-    private ZXingScannerView previewImage;
-    private ZXingScannerView.ResultHandler detectionHandler;
+    private QrCodeScannerView previewImage;
+    private QrCodeHandler detectionHandler;
 
     public void setBankingQrCodeListener(BankingQrCodeListener listener) {
         if (listener == null) {
@@ -64,7 +59,7 @@ public class BankingQrCodeScannerFragment extends Fragment {
         super.onInflate(context, attrs, savedInstanceState);
 
         // Forward attributes to scanner view
-        previewImage = new ZXingScannerView(context, attrs);
+        previewImage = new QrCodeScannerView(context, attrs);
 
         // The mask color should not have full opacity
         {
@@ -94,10 +89,6 @@ public class BankingQrCodeScannerFragment extends Fragment {
                              Bundle savedInstanceState) {
         previewImage.setFlash(false);
         previewImage.setAutoFocus(true);
-        previewImage.setFormats(Arrays.asList(BarcodeFormat.QR_CODE));
-        previewImage.setAspectTolerance(.5f);
-        previewImage.setLaserEnabled(false);
-        previewImage.setSquareViewFinder(true);
 
         return previewImage;
     }

@@ -140,13 +140,13 @@ public class BankingTokenRepository {
         AppDatabase database = getDatabase(context);
 
         {
-            // This should only happen during testing with mocks.
-            Log.w(BankingTokenRepository.class.getSimpleName(),
-                    "the backend has assigned an already known ID to the new token. " +
-                            "the old token will be deleted.");
-
             BankingToken existingToken = database.bankingTokenDao().findById(newToken.id);
             if (existingToken != null) {
+                // This should only happen during testing with mocks.
+                Log.w(BankingTokenRepository.class.getSimpleName(),
+                        "the backend has assigned an already known ID to the new token. " +
+                                "the old token will be deleted.");
+
                 database.bankingTokenDao().delete(existingToken);
             }
         }
