@@ -49,7 +49,7 @@ public class ExampleInstrumentedTest {
     // Without data, the activity would redirect the user to the welcome activity.
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = new InMemoryDatabaseRule(true);
+            = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
 
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule

@@ -41,7 +41,7 @@ public class MainActivityScreenshots
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = new InMemoryDatabaseRule(true);
+            = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
 
     @Rule
     public GrantPermissionRule cameraPermissionRule

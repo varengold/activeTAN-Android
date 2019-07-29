@@ -20,17 +20,21 @@
 package de.efdis.tangenerator.gui;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -39,15 +43,19 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.GeneralSecurityException;
+import java.security.InvalidKeyException;
 
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.activetan.HHDkm;
 import de.efdis.tangenerator.activetan.KeyMaterialType;
+import de.efdis.tangenerator.activetan.TanGenerator;
 import de.efdis.tangenerator.gui.initialization.AbstractBackgroundTask;
 import de.efdis.tangenerator.gui.initialization.CreateBankingTokenTask;
 import de.efdis.tangenerator.gui.initialization.UploadEncryptedDeviceKeyTask;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeListener;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment;
+import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 
 public class InitializeTokenActivity
@@ -58,10 +66,13 @@ public class InitializeTokenActivity
     public static final String EXTRA_LETTER_KEY_MATERIAL = "LETTER_KEY_MATERIAL";
     public static final String EXTRA_MOCK_SERIAL_NUMBER = "MOCK_SERIAL_NUMBER";
 
+    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
+
     private BankingKeyComponents keyComponents;
     private int letterNumber;
     private String tokenId;
     private boolean initializationCompleted;
+    private BankingToken bankingToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -396,9 +407,52 @@ public class InitializeTokenActivity
 
             @Override
             public void onSuccess(CreateBankingTokenTask.Output output) {
-                showInitialTAN(output.initialTAN);
+                bankingToken = output.bankingToken;
+                doStepComputeInitialTan();
             }
         }).execute(taskInput);
+    }
+
+    private void doStepComputeInitialTan() {
+        int tan;
+        try {
+            tan = TanGenerator.generateTanForInitialization(bankingToken);
+        } catch (GeneralSecurityException e) {
+            Log.e(getClass().getSimpleName(),
+                    "failed to compute initial TAN", e);
+
+            if (e.getCause() != null
+                    && e.getCause().getCause() instanceof UserNotAuthenticatedException) {
+                /*
+                 * If the user has recently enabled the lock screen, but has never locked and unlocked
+                 * the device, it is not possible to use the banking token.
+                 * Because of its KeyProtectionParameters, the user must have been authenticated
+                 * to be able to use the key from the key store.
+                 *
+                 * We can fix this by requesting an authentication and call this method again,
+                 * see onActivityResult.
+                 */
+                KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+                Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
+                        getString(R.string.app_name), getString(R.string.authorize_to_generate_tan));
+                startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
+                return;
+            }
+
+            onInitializationFailed(R.string.initialization_failed_tan_computation, false);
+            return;
+        }
+
+        showInitialTAN(tan);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS == requestCode) {
+            doStepComputeInitialTan();
+        }
     }
 
     private void showInitialTAN(int tan) {

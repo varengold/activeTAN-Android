@@ -19,29 +19,38 @@
 
 package de.efdis.tangenerator.gui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 import de.efdis.tangenerator.persistence.database.BankingToken;
 
+/**
+ * A dialog for the user to choose one TAN generator.
+ * <ul>
+ * <li>If exactly one TAN generator is available,
+ * no dialog is shown and the TAN generator is selected automatically.</li>
+ * <li>If no TAN generator is available,
+ * an error message is shown.</li>
+ * <li>Otherwise, a list of TAN generators is shown.
+ * The last used TAN generator is preselected.</li>
+ * </ul>
+ * <p>
+ * The calling activity must implement {@link SelectTokenListener} and
+ * will be notified if a TAN generator has been selected.
+ */
 public class SelectTokenDialogFragment extends DialogFragment {
-
-    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
 
     private SelectTokenListener tokenListener;
     private List<BankingToken> availableTokens;
@@ -107,7 +116,6 @@ public class SelectTokenDialogFragment extends DialogFragment {
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
                     onTokenSelected();
                 }
             });
@@ -129,60 +137,21 @@ public class SelectTokenDialogFragment extends DialogFragment {
     }
 
     private void onTokenSelected() {
+        dismiss();
+
         if (selectedToken == null) {
             Log.e(getClass().getSimpleName(), "illegal choice of token");
-            dismiss();
-            return;
+        } else {
+            tokenListener.onTokenSelected(selectedToken);
         }
-
-        // Can the token be used immediately?
-        if (!selectedToken.confirmDeviceCredentialsToUse) {
-            dismiss();
-            tokenListener.onTokenReadyToUse(selectedToken);
-            return;
-        }
-
-        // Confirm credentials and continue in onActivityResult...
-        KeyguardManager keyguardManager = (KeyguardManager) getActivity().getSystemService(Context.KEYGUARD_SERVICE);
-        Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(getString(R.string.app_name), getString(R.string.authorize_to_generate_tan));
-        startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS == requestCode) {
-            if (resultCode == Activity.RESULT_OK) {
-                onDeviceCredentialsVerified();
-
-            } else {
-                Toast.makeText(getContext(), R.string.device_auth_failed, Toast.LENGTH_SHORT).show();
-                dismiss();
-            }
-        }
-    }
-
-    private void onDeviceCredentialsVerified() {
-        if (selectedToken == null) {
-            Log.e(getClass().getSimpleName(), "illegal state");
-            dismiss();
-            return;
-        }
-
-        dismiss();
-        tokenListener.onTokenReadyToUse(selectedToken);
     }
 
     public interface SelectTokenListener {
 
         /**
-         * A token has been selected and may be used.
-         * <p/>
-         * If {@link BankingToken#confirmDeviceCredentialsToUse} is set,
-         * the credentials have been confirmed successfully.
+         * A token has been selected for TAN generation.
          */
-        void onTokenReadyToUse(BankingToken token);
+        void onTokenSelected(BankingToken token);
 
     }
 }

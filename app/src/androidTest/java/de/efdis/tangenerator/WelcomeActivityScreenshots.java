@@ -35,7 +35,7 @@ public class WelcomeActivityScreenshots
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = new InMemoryDatabaseRule(false);
+            = InMemoryDatabaseRule.withoutTanGenerators();
 
     @Rule
     public ActivityScenarioRule<WelcomeActivity> activityScenarioRule

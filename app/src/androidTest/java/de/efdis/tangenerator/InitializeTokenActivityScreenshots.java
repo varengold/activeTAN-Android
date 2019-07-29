@@ -69,7 +69,7 @@ public class InitializeTokenActivityScreenshots extends AbstractInstrumentedScre
                 Manifest.permission.CAMERA);
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = new InMemoryDatabaseRule(false);
+            = InMemoryDatabaseRule.withoutTanGenerators();
 
     @Rule
     public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule

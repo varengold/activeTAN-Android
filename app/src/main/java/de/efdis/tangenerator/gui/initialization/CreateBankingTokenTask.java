@@ -25,6 +25,7 @@ import android.util.Log;
 import java.security.GeneralSecurityException;
 import java.security.KeyStoreException;
 
+import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
@@ -49,7 +50,6 @@ public class CreateBankingTokenTask
 
     public static class Output {
         public BankingToken bankingToken;
-        public int initialTAN;
     }
 
     public CreateBankingTokenTask(BackgroundTaskListener<Output> listener) {
@@ -67,6 +67,7 @@ public class CreateBankingTokenTask
             } catch (KeyStoreException e) {
                 Log.e(getClass().getSimpleName(),
                         "failed to store banking key in key store", e);
+                failedReason = R.string.initialization_failed_keystore;
                 return null;
             }
 
@@ -78,14 +79,6 @@ public class CreateBankingTokenTask
             BankingTokenRepository.saveNewToken(args[0].applicationContext, token);
 
             result.bankingToken = token;
-        }
-
-        try {
-            result.initialTAN = TanGenerator.generateTanForInitialization(result.bankingToken);
-        } catch (GeneralSecurityException e) {
-            Log.e(getClass().getSimpleName(),
-                    "failed to compute initial TAN", e);
-            return null;
         }
 
         return result;

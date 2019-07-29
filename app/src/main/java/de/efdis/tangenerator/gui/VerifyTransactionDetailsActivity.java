@@ -19,7 +19,11 @@
 
 package de.efdis.tangenerator.gui;
 
+import android.app.Activity;
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -27,13 +31,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import java.math.BigDecimal;
 import java.security.GeneralSecurityException;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -62,7 +67,13 @@ public class VerifyTransactionDetailsActivity
             DataElementType.IBAN_RECIPIENT,
             DataElementType.IBAN_PAYER));
 
+    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
+
+    /** Transaction data from the QR code */
     private byte[] rawHHDuc;
+
+    /** The selected TAN generator for TAN computation */
+    private BankingToken bankingToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,7 +218,7 @@ public class VerifyTransactionDetailsActivity
     }
 
     public void onButtonValidate(View button) {
-        // Select token in dialog and continue in onTokenReadyToUse...
+        // Select token in dialog and continue in onTokenSelected...
         new SelectTokenDialogFragment().show(getSupportFragmentManager(), null);
     }
 
@@ -228,16 +239,39 @@ public class VerifyTransactionDetailsActivity
 
     private String getFormattedTransactionCounter(BankingToken token) {
         DecimalFormat format = new DecimalFormat();
-        format.setGroupingUsed(true);
-        DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');
-        format.setDecimalFormatSymbols(symbols);
-
+        format.setGroupingUsed(false);
         return format.format(token.transactionCounter);
     }
 
     @Override
-    public void onTokenReadyToUse(BankingToken token) {
+    public void onTokenSelected(BankingToken bankingToken) {
+        this.bankingToken = bankingToken;
+
+        if (!bankingToken.confirmDeviceCredentialsToUse) {
+            onTokenReadyToUse();
+        } else {
+            // Confirm credentials and continue in onActivityResult...
+            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+            Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
+                    getString(R.string.app_name), getString(R.string.authorize_to_generate_tan));
+            startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS == requestCode) {
+            if (resultCode == Activity.RESULT_OK) {
+                onTokenReadyToUse();
+            } else {
+                Toast.makeText(this, R.string.device_auth_failed, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void onTokenReadyToUse() {
         final View generatedTanContainer = findViewById(R.id.generatedTanContainer);
         TextView textTAN = findViewById(R.id.textTAN);
         TextView textATC = findViewById(R.id.textATC);
@@ -247,7 +281,7 @@ public class VerifyTransactionDetailsActivity
 
         String tan;
         try {
-            tan = computeFormattedTan(token);
+            tan = computeFormattedTan(bankingToken);
         } catch (GeneralSecurityException | HHDuc.UnsupportedDataFormatException e) {
             Log.e(getClass().getSimpleName(), "Cannot compute TAN", e);
             return;
@@ -256,7 +290,7 @@ public class VerifyTransactionDetailsActivity
         setTitle(R.string.confirmed_transaction_details_title);
 
         textTAN.setText(tan);
-        textATC.setText(getFormattedTransactionCounter(token));
+        textATC.setText(getFormattedTransactionCounter(bankingToken));
 
         generatedTanContainer.setVisibility(View.VISIBLE);
 

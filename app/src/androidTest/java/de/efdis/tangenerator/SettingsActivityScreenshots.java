@@ -37,7 +37,7 @@ public class SettingsActivityScreenshots extends AbstractInstrumentedScreenshots
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = new InMemoryDatabaseRule(true);
+            = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
 
     @Rule
     public ActivityScenarioRule<SettingsActivity> activityScenarioRule

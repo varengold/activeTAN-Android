@@ -234,6 +234,8 @@
     <string name="initialization_failed_outdated">Es ist leider erforderlich, dass Sie die activeTAN-App aktualisieren.</string>
     <string name="initialization_failed_communication">Bei der Kommunikation mit Ihrer Bank ist ein technischer Fehler aufgetreten. Bitte überprüfen Sie Ihre Internetverbindung. Möchten Sie den Vorgang wiederholen?</string>
     <string name="initialization_failed_unknown_reason">Es ist ein technischer Fehler aufgetreten. Bitte probieren Sie es später erneut.</string>
+    <string name="initialization_failed_keystore">Der TAN-Generator kann nicht sicher gespeichert werden. Bitte prüfen Sie Ihre Geräte-Sicherheitseinstellungen.</string>
+    <string name="initialization_failed_tan_computation">Es ist ein technischer Fehler bei der TAN-Berechnung aufgetreten. Bitte probieren Sie es später erneut.</string>
 
     <!--Data elements for unidirectional mode -->
     <string name="DE10">Adresse</string>
