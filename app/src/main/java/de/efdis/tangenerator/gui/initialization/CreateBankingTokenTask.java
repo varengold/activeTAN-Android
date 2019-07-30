@@ -22,7 +22,6 @@ package de.efdis.tangenerator.gui.initialization;
 import android.content.Context;
 import android.util.Log;
 
-import java.security.GeneralSecurityException;
 import java.security.KeyStoreException;
 
 import de.efdis.tangenerator.R;
@@ -30,7 +29,6 @@ import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
-import de.efdis.tangenerator.activetan.TanGenerator;
 
 /**
  * Create a new token for TAN generation. The key components are combined and stored in the key
@@ -68,6 +66,7 @@ public class CreateBankingTokenTask
                 Log.e(getClass().getSimpleName(),
                         "failed to store banking key in key store", e);
                 failedReason = R.string.initialization_failed_keystore;
+                failedCause = e;
                 return null;
             }
 

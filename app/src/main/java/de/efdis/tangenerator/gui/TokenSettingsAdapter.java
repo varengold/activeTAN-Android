@@ -119,6 +119,8 @@ public class TokenSettingsAdapter
                     @Override
                     public void accept(Integer arg) {
                         notifyItemRemoved(arg);
+                        // the index of the remaining items has changed
+                        notifyItemRangeChanged(arg, data.size() - arg);
                     }
                 }, i);
 

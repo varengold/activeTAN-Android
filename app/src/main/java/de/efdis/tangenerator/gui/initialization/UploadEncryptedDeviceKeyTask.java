@@ -64,22 +64,26 @@ public class UploadEncryptedDeviceKeyTask
                     "unable to upload device key, because server is unreachable", e);
             failedReason = R.string.initialization_failed_offline;
             failedAndProcessShouldBeRepeated = true;
+            failedCause = e;
             return null;
         } catch (IOException e) {
             Log.e(getClass().getSimpleName(),
                     "unable to upload device key, because of (temporary) I/O problem", e);
             failedReason = R.string.initialization_failed_communication;
             failedAndProcessShouldBeRepeated = true;
+            failedCause = e;
             return null;
         } catch (OutdatedClientException e) {
             Log.e(getClass().getSimpleName(),
                     "unable to upload device key, because client is old", e);
             failedReason = R.string.initialization_failed_outdated;
+            failedCause = e;
             return null;
         } catch (CallFailedException e) {
             Log.e(getClass().getSimpleName(),
                     "unable to upload device key, unknown cause", e);
             failedReason = R.string.initialization_failed_unknown_reason;
+            failedCause = e;
             return null;
         }
 

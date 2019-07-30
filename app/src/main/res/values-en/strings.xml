@@ -349,4 +349,7 @@
     <string name="invalidated_key_label">Disabled</string>
     <string name="initialization_failed_keystore">The TAN generator cannot be stored securely. Please check your device security settings.</string>
     <string name="initialization_failed_tan_computation">A technical error has occurred during TAN computation. Please try again later.</string>
+    <string name="show_details">Details...</string>
+    <string name="initialization_multiple_generators_description">You have activated this app multiple times. Different TAN generators may be managed in the “settings” menu.</string>
+    <string name="initialization_multiple_generators_title">Multiple initializations</string>
 </resources>

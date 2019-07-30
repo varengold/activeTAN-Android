@@ -41,6 +41,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
@@ -56,7 +58,9 @@ import de.efdis.tangenerator.gui.initialization.UploadEncryptedDeviceKeyTask;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeListener;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment;
 import de.efdis.tangenerator.persistence.database.BankingToken;
+import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
+import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
 public class InitializeTokenActivity
         extends AppActivity
@@ -143,6 +147,12 @@ public class InitializeTokenActivity
 
     private void onInitializationFailed(@StringRes int reason,
                                         boolean processShouldBeRepeated) {
+        onInitializationFailed(reason, processShouldBeRepeated, null);
+    }
+
+    private void onInitializationFailed(@StringRes int reason,
+                                        boolean processShouldBeRepeated,
+                                        final Throwable cause) {
         if (reason == 0) {
             if (checkRequirements()) {
                 // Requirements have been fulfilled.
@@ -157,7 +167,6 @@ public class InitializeTokenActivity
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.initialization_failed_title);
-        builder.setMessage(reason);
 
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
@@ -181,6 +190,30 @@ public class InitializeTokenActivity
                 }
             });
         }
+
+        if (cause != null) {
+            String stackTrace;
+            {
+                StringWriter stringWriter = new StringWriter();
+                PrintWriter printWriter = new PrintWriter(stringWriter);
+                cause.printStackTrace(printWriter);
+                stackTrace = stringWriter.toString();
+            }
+
+            builder.setMessage(cause.getLocalizedMessage() + "\n\n" + stackTrace);
+            final AlertDialog detailsDialog = builder.create();
+
+            builder.setNeutralButton(R.string.show_details, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+
+                    detailsDialog.show();
+                }
+            });
+        }
+
+        builder.setMessage(reason);
 
         builder.show();
     }
@@ -208,18 +241,24 @@ public class InitializeTokenActivity
             return;
         }
 
-        keyComponents = new BankingKeyComponents();
-        keyComponents.letterKeyComponent = letterKeyMaterial.getAesKeyComponent();
+        if (keyComponents == null) {
+            keyComponents = new BankingKeyComponents();
+            keyComponents.letterKeyComponent = letterKeyMaterial.getAesKeyComponent();
 
-        letterNumber = letterKeyMaterial.getLetterNumber();
+            letterNumber = letterKeyMaterial.getLetterNumber();
+        }
 
-        if (!extras.containsKey(EXTRA_MOCK_SERIAL_NUMBER)) {
-            // normal operation
-            doStepUploadEncryptedDeviceKey();
-        } else {
+        if (extras.containsKey(EXTRA_MOCK_SERIAL_NUMBER)) {
             // For testing purpose: Don't call API and use a mocked serial number
             tokenId = extras.getString(EXTRA_MOCK_SERIAL_NUMBER);
             keyComponents.generateDeviceKeyComponent();
+        }
+
+        if (tokenId == null) {
+            // normal operation
+            doStepUploadEncryptedDeviceKey();
+        } else {
+            // during testing or if the process is repeated during step 2
             doShowTokenId();
         }
     }
@@ -255,7 +294,8 @@ public class InitializeTokenActivity
 
         {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.stepFragment, stepFragment);
+            transaction.disallowAddToBackStack();
+            transaction.replace(R.id.stepFragment, stepFragment);
             transaction.commit();
         }
     }
@@ -385,6 +425,9 @@ public class InitializeTokenActivity
             // The user has entered a wrong serial number in the
             // banking frontend after step 1.
             onInitializationFailed(R.string.initialization_failed_wrong_serial, true);
+
+            // Hide the QR scanner and show the serial number again
+            getSupportFragmentManager().popBackStack();
             return;
         }
 
@@ -462,7 +505,9 @@ public class InitializeTokenActivity
         // Instead, go back to the previous activity.
         manager.popBackStack();
 
-        InitializeTokenStep3Fragment stepFragment = InitializeTokenStep3Fragment.newInstance(tan);
+        boolean hasMultipleGenerators = BankingTokenRepository.getAll(this).size() > 1;
+
+        InitializeTokenStep3Fragment stepFragment = InitializeTokenStep3Fragment.newInstance(tan, hasMultipleGenerators);
 
         {
             FragmentTransaction transaction = manager.beginTransaction();
@@ -493,8 +538,8 @@ public class InitializeTokenActivity
         }
 
         @Override
-        public void onFailure(@StringRes int reason, boolean processShouldBeRepeated) {
-            onInitializationFailed(reason, processShouldBeRepeated);
+        public void onFailure(@StringRes int reason, boolean processShouldBeRepeated, Throwable cause) {
+            onInitializationFailed(reason, processShouldBeRepeated, cause);
         }
 
         @Override

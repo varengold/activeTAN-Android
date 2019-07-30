@@ -211,6 +211,7 @@
     <string name="go_to_scan_qr_code">Betätigen Sie „Weiter“, um den QR-Code im Online-Banking zu scannen.</string>
     <string name="initialization_serial_number_entered">Sie haben die Seriennummer im Online-Banking eingegeben.</string>
     <string name="next_step">Weiter</string>
+    <string name="show_details">Details...</string>
     <string name="scan_screen_qr_code">Bitte den QR-Code im Online-Banking scannen (nicht den Aktivierungsbrief).</string>
     <string name="step_store_banking_key">Speichere Schlüssel</string>
     <string name="label_serial_number">Seriennummer</string>
@@ -223,6 +224,8 @@
     <string name="initialization_confirm_quit_title">Aktivierung beenden?</string>
     <string name="initialization_confirm_quit_message">Haben Sie die Start-TAN bereits im Online-Banking eingegeben?</string>
     <string name="initialization_confirm_return">Zurück</string>
+    <string name="initialization_multiple_generators_title">Mehrfache Aktivierung</string>
+    <string name="initialization_multiple_generators_description">Sie haben diese App mehrfach aktiviert. Verschiedene TAN-Generatoren können im Menü „Einstellungen“ verwaltet werden.</string>
 
     <string name="initialization_failed_title">Aktivierung fehlgeschlagen</string>
     <string name="initialization_failed_unprotected_device">Das Smartphone muss mit einem Muster, einer PIN oder einem Kennwort geschützt sein.</string>

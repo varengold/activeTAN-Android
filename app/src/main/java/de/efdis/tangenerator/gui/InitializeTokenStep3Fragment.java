@@ -34,11 +34,13 @@ public class InitializeTokenStep3Fragment
         extends AbstractInitializeTokenStepFragment {
 
     private static final String ARG_TAN = "TAN";
+    private static final String ARG_MULTIPLE_GENERATORS = "MULTIPLE_GENERATORS";
 
-    public static InitializeTokenStep3Fragment newInstance(int tan) {
+    public static InitializeTokenStep3Fragment newInstance(int tan, boolean hasMultipleGenerators) {
         InitializeTokenStep3Fragment fragment = new InitializeTokenStep3Fragment();
         Bundle args = new Bundle();
         args.putInt(ARG_TAN, tan);
+        args.putBoolean(ARG_MULTIPLE_GENERATORS, hasMultipleGenerators);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,13 +58,18 @@ public class InitializeTokenStep3Fragment
         Bundle args = getArguments();
         if (args != null) {
             setInitialTan(args.getInt(ARG_TAN));
+            setMultipleGenerators(args.getBoolean(ARG_MULTIPLE_GENERATORS));
         }
     }
 
     private void setInitialTan(int tan) {
         TextView initialTAN = getView().findViewById(R.id.initialTAN);
         initialTAN.setText(TanGenerator.formatTAN(tan));
+    }
 
+    private void setMultipleGenerators(boolean hasMultipleGenerators) {
+        View multiGeneratorsHintContainer = getView().findViewById(R.id.multiGeneratorsHintContainer);
+        multiGeneratorsHintContainer.setVisibility(hasMultipleGenerators ? View.VISIBLE : View.GONE);
     }
 
 }

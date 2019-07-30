@@ -30,6 +30,7 @@ public abstract class AbstractBackgroundTask<INPUT, OUTPUT>
     @StringRes
     protected int failedReason;
     protected boolean failedAndProcessShouldBeRepeated;
+    protected Throwable failedCause;
 
     protected AbstractBackgroundTask(BackgroundTaskListener<OUTPUT> listener) {
         this.listener = listener;
@@ -46,7 +47,7 @@ public abstract class AbstractBackgroundTask<INPUT, OUTPUT>
         if (output != null) {
             listener.onSuccess(output);
         } else {
-            listener.onFailure(failedReason, failedAndProcessShouldBeRepeated);
+            listener.onFailure(failedReason, failedAndProcessShouldBeRepeated, failedCause);
         }
         listener.onEnd();
 
@@ -62,7 +63,7 @@ public abstract class AbstractBackgroundTask<INPUT, OUTPUT>
     public interface BackgroundTaskListener<OUTPUT> {
         void onStart();
         void onSuccess(OUTPUT output);
-        void onFailure(@StringRes int reason, boolean processShouldBeRepeated);
+        void onFailure(@StringRes int reason, boolean processShouldBeRepeated, Throwable cause);
         void onEnd();
     }
 }
