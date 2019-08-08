@@ -19,36 +19,46 @@
 
 package de.efdis.tangenerator;
 
+import android.Manifest;
+
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.SettingsActivity;
+import de.efdis.tangenerator.gui.InitializeTokenActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
-@RunWith(AndroidJUnit4.class)
-public class SettingsActivityScreenshots extends AbstractInstrumentedScreenshots {
+public class InitializeTokenActivityTestMultipleTokens {
+
+    @Rule
+    public GrantPermissionRule cameraPermissionRule
+            = GrantPermissionRule.grant(
+            Manifest.permission.CAMERA);
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
+            = InMemoryDatabaseRule.withMultipleUnprotectedTanGenerators();
 
     @Rule
-    public ActivityScenarioRule<SettingsActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(SettingsActivity.class);
+    public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(InitializeTokenActivityTest.getIntentWithTestData());
 
     @Test
-    public void takeScreenshots() {
-        Espresso.onView(ViewMatchers.withId(R.id.bankingTokenRecyclerView))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    public void checkMultipleTokenHint() {
+        Espresso.onView(ViewMatchers.withId(R.id.buttonContinue))
+                .perform(ViewActions.click());
 
-        captureScreen("settings");
+        InitializeTokenActivityTest.simulatePortalQrCodeInput(activityScenarioRule.getScenario());
+
+        Espresso.onView(ViewMatchers.withText(R.string.initialization_multiple_generators_title))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
+
 
 }

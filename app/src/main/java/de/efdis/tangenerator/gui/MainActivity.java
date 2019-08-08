@@ -96,6 +96,13 @@ public class MainActivity
                 return;
             }
         }
+
+        // Check Camera permission and request permission if needed
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                requestCameraPermission();
+            }
+        }
     }
 
     @Override
@@ -103,20 +110,14 @@ public class MainActivity
         super.onResume();
 
         // In case:
-        //   - there was no camera permission in a previous start of this activity,
-        //   - the user has enable camera permission via system settings,
+        //   - there was (no) camera permission in a previous start of this activity,
+        //   - the user has enable/disabled camera permission via system settings,
         //   - the user has switched back to this activity,
-        // ... the camera can be started immediately.
-        // Thus, we must hide the previously shown camera permission rationale.
-        resetInstructionMessage();
-
-        // Check Camera permission
+        // ... we must re-check our permission to use the camera.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                showCameraPermissionRationale();
-            } else {
-                requestCameraPermission();
-            }
+            showCameraPermissionRationale();
+        } else {
+            resetInstructionMessage();
         }
     }
 

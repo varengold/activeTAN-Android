@@ -21,7 +21,6 @@ package de.efdis.tangenerator.persistence.database;
 
 import android.app.Activity;
 import android.app.Instrumentation;
-import android.app.KeyguardManager;
 import android.content.IntentFilter;
 
 import androidx.room.Room;
@@ -32,7 +31,6 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-import java.security.Key;
 import java.security.KeyStoreException;
 
 import de.efdis.tangenerator.R;
@@ -71,28 +69,7 @@ public class InMemoryDatabaseRule implements TestRule {
 
     @Override
     public Statement apply(Statement base, Description description) {
-        AppDatabase mockDatabase = Room.inMemoryDatabaseBuilder(
-                InstrumentationRegistry.getInstrumentation().getTargetContext(),
-                AppDatabase.class)
-                .allowMainThreadQueries().build();
-
-        mockDatabase.bankingTokenDao();
-
-        AppDatabase.setInstance(mockDatabase);
-
-        for (int i = 0; i < tanGenerators; i++) {
-            addTestData(i, protection);
-        }
-
-        if (protection) {
-            // To test protected tokens, we have to mock the confirmation of device credentials
-            InstrumentationRegistry.getInstrumentation().addMonitor(
-                    new IntentFilter("android.app.action.CONFIRM_DEVICE_CREDENTIAL"),
-                    new Instrumentation.ActivityResult(Activity.RESULT_OK, null),
-                    true);
-        }
-
-        return base;
+        return new MockDatabaseStatement(base);
     }
 
     private void addTestData(int tanGeneratorIdx, boolean protection) {
@@ -121,6 +98,40 @@ public class InMemoryDatabaseRule implements TestRule {
         token.confirmDeviceCredentialsToUse = protection;
 
         BankingTokenRepository.saveNewToken(null, token);
+    }
+
+    private class MockDatabaseStatement extends Statement {
+        private final Statement base;
+
+        MockDatabaseStatement(Statement base) {
+            this.base = base;
+        }
+
+        @Override
+        public void evaluate() throws Throwable {
+            AppDatabase mockDatabase = Room.inMemoryDatabaseBuilder(
+                    InstrumentationRegistry.getInstrumentation().getTargetContext(),
+                    AppDatabase.class)
+                    .allowMainThreadQueries().build();
+
+            mockDatabase.bankingTokenDao();
+
+            AppDatabase.setInstance(mockDatabase);
+
+            for (int i = 0; i < tanGenerators; i++) {
+                addTestData(i, protection);
+            }
+
+            if (protection) {
+                // To test protected tokens, we have to mock the confirmation of device credentials
+                InstrumentationRegistry.getInstrumentation().addMonitor(
+                        new IntentFilter("android.app.action.CONFIRM_DEVICE_CREDENTIAL"),
+                        new Instrumentation.ActivityResult(Activity.RESULT_OK, null),
+                        true);
+            }
+
+            base.evaluate();
+        }
     }
 
 }

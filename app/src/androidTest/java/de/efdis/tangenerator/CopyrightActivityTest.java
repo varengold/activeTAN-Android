@@ -26,18 +26,22 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.PrivacyStatementActivity;
+import de.efdis.tangenerator.gui.CopyrightActivity;
+import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
-public class PrivacyStatementActivityScreenshots extends AbstractInstrumentedScreenshots {
+public class CopyrightActivityTest {
 
     @Rule
-    public ActivityScenarioRule<PrivacyStatementActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(PrivacyStatementActivity.class);
+    public ActivityScenarioRule<CopyrightActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(CopyrightActivity.class);
+
+    @Rule
+    public ScreenshotRule screenshotRule = new ScreenshotRule();
 
     @Test
     public void takeScreenshots() {
-        captureScreen("privacyStatement");
+        screenshotRule.captureScreen("copyright");
     }
 
 }

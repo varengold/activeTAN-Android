@@ -19,6 +19,9 @@
 
 package de.efdis.tangenerator;
 
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -26,18 +29,30 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.CopyrightActivity;
+import de.efdis.tangenerator.gui.SettingsActivity;
+import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
-public class CopyrightActivityScreenshots extends AbstractInstrumentedScreenshots {
+public class SettingsActivityTest {
 
     @Rule
-    public ActivityScenarioRule<CopyrightActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(CopyrightActivity.class);
+    public InMemoryDatabaseRule mockDatabaseRule
+            = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
+
+    @Rule
+    public ScreenshotRule screenshotRule = new ScreenshotRule();
+
+    @Rule
+    public ActivityScenarioRule<SettingsActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(SettingsActivity.class);
 
     @Test
     public void takeScreenshots() {
-        captureScreen("copyright");
+        Espresso.onView(ViewMatchers.withId(R.id.bankingTokenRecyclerView))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        screenshotRule.captureScreen("settings");
     }
 
 }

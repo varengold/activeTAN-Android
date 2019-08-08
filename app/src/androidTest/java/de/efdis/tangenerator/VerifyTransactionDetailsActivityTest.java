@@ -40,9 +40,10 @@ import de.efdis.tangenerator.activetan.HHDuc;
 import de.efdis.tangenerator.activetan.VisualisationClass;
 import de.efdis.tangenerator.gui.VerifyTransactionDetailsActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
-public class VerifyTransactionDetailsActivityScreenshots extends AbstractInstrumentedScreenshots {
+public class VerifyTransactionDetailsActivityTest {
 
     protected static Intent getIntentWithTestData() {
         HHDuc hhduc = new HHDuc(VisualisationClass.CREDIT_TRANSFER_SEPA);
@@ -58,6 +59,9 @@ public class VerifyTransactionDetailsActivityScreenshots extends AbstractInstrum
     }
 
     @Rule
+    public ScreenshotRule screenshotRule = new ScreenshotRule();
+
+    @Rule
     public InMemoryDatabaseRule mockDatabaseRule
             = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
 
@@ -67,7 +71,7 @@ public class VerifyTransactionDetailsActivityScreenshots extends AbstractInstrum
 
     @Test
     public void takeScreenshots() {
-        captureScreen("verifyTransaction");
+        screenshotRule.captureScreen("verifyTransaction");
 
         Espresso.onView(ViewMatchers.withId(R.id.button))
                 .perform(ViewActions.click());
@@ -75,7 +79,7 @@ public class VerifyTransactionDetailsActivityScreenshots extends AbstractInstrum
         Espresso.onView(ViewMatchers.withId(R.id.generatedTanContainer))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
-        captureScreen("verifyTransactionWithTAN");
+        screenshotRule.captureScreen("verifyTransactionWithTAN");
     }
 
 }

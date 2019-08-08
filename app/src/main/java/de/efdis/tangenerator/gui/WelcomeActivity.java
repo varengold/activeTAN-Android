@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import de.efdis.tangenerator.R;
+import de.efdis.tangenerator.common.TextUtils;
 
 public class WelcomeActivity
         extends AppActivity {
@@ -35,7 +36,7 @@ public class WelcomeActivity
         setContentView(R.layout.activity_welcome);
 
         TextView welcomeTitle = findViewById(R.id.welcomeTitle);
-        setHtmlText(welcomeTitle, R.string.welcome_title_html);
+        TextUtils.setHtmlText(welcomeTitle, R.string.welcome_title_html);
     }
 
     public void onButtonStart(View button) {

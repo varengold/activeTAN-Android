@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import de.efdis.tangenerator.R;
+import de.efdis.tangenerator.common.TextUtils;
 
 public class ImprintActivity extends AppActivity {
 
@@ -32,6 +33,6 @@ public class ImprintActivity extends AppActivity {
         setContentView(R.layout.activity_imprint);
 
         TextView imprint = findViewById(R.id.imprint);
-        setHtmlText(imprint, R.string.imprint);
+        TextUtils.setHtmlText(imprint, R.string.imprint);
     }
 }

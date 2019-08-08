@@ -17,7 +17,7 @@
  * along with the activeTAN app.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.efdis.tangenerator;
+package de.efdis.tangenerator.screenshot;
 
 import android.Manifest;
 import android.view.View;
@@ -34,39 +34,37 @@ import androidx.test.runner.screenshot.Screenshot;
 
 import org.hamcrest.Matcher;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Locale;
 
-public abstract class AbstractInstrumentedScreenshots {
+import de.efdis.tangenerator.BuildConfig;
 
-    @Rule
+/**
+ * This {@link TestRule} simplifies taking screenshots during {@link org.junit.Test}s.
+ */
+public class ScreenshotRule implements TestRule {
+
     // We need permission to write screenshots to the device storage
     // Note: This test can only be run with build type 'debug',
     // which permits storage access with an extended manifest.
-    public GrantPermissionRule storagePermissionRule
+    private GrantPermissionRule storagePermissionRule
             = GrantPermissionRule.grant(
                     Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE);
 
-    @Before
-    public void setUpScreenshotProcessor() {
-        ScreenCaptureProcessor processor = new BasicScreenCaptureProcessor() {
-            @Override
-            protected String getFilename(String captureName) {
-                return BuildConfig.FLAVOR_client
-                        + mFileNameDelimiter + Locale.getDefault().getLanguage()
-                        + mFileNameDelimiter + captureName;
-            }
-        };
-        Screenshot.setScreenshotProcessors(Collections.singleton(processor));
+    @Override
+    public Statement apply(Statement base, Description description) {
+        return storagePermissionRule.apply(
+                new SetUpScreenshotProcessorStatement(base), description);
     }
 
-    protected void captureScreen(final String captureName) {
+    public void captureScreen(final String captureName) {
         Espresso.onView(ViewMatchers.isRoot()).perform(new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {
@@ -91,6 +89,32 @@ public abstract class AbstractInstrumentedScreenshots {
                 }
             }
         });
+    }
+
+    /**
+     * Customize the Screenshot processor before the test is evaluated.
+     */
+    private static class SetUpScreenshotProcessorStatement extends Statement {
+        private final Statement base;
+
+        SetUpScreenshotProcessorStatement(Statement base) {
+            this.base = base;
+        }
+
+        @Override
+        public void evaluate() throws Throwable {
+            ScreenCaptureProcessor processor = new BasicScreenCaptureProcessor() {
+                @Override
+                protected String getFilename(String captureName) {
+                    return BuildConfig.FLAVOR_client
+                            + mFileNameDelimiter + Locale.getDefault().getLanguage()
+                            + mFileNameDelimiter + captureName;
+                }
+            };
+            Screenshot.setScreenshotProcessors(Collections.singleton(processor));
+
+            base.evaluate();
+        }
     }
 
 }

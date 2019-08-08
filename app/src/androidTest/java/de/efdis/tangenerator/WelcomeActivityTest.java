@@ -26,18 +26,26 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.ImprintActivity;
+import de.efdis.tangenerator.gui.WelcomeActivity;
+import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
-public class ImprintActivityScreenshots extends AbstractInstrumentedScreenshots {
+public class WelcomeActivityTest {
 
     @Rule
-    public ActivityScenarioRule<ImprintActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(ImprintActivity.class);
+    public InMemoryDatabaseRule mockDatabaseRule
+            = InMemoryDatabaseRule.withoutTanGenerators();
+
+    @Rule
+    public ScreenshotRule screenshotRule = new ScreenshotRule();
+
+    @Rule
+    public ActivityScenarioRule<WelcomeActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(WelcomeActivity.class);
 
     @Test
     public void takeScreenshots() {
-        captureScreen("imprint");
+        screenshotRule.captureScreen("welcome");
     }
-
 }

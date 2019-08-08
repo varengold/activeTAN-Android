@@ -26,23 +26,22 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.WelcomeActivity;
-import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.gui.PrivacyStatementActivity;
+import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
-public class WelcomeActivityScreenshots
-        extends AbstractInstrumentedScreenshots {
+public class PrivacyStatementActivityTest {
 
     @Rule
-    public InMemoryDatabaseRule mockDatabaseRule
-            = InMemoryDatabaseRule.withoutTanGenerators();
+    public ActivityScenarioRule<PrivacyStatementActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(PrivacyStatementActivity.class);
 
     @Rule
-    public ActivityScenarioRule<WelcomeActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(WelcomeActivity.class);
+    public ScreenshotRule screenshotRule = new ScreenshotRule();
 
     @Test
     public void takeScreenshots() {
-        captureScreen("welcome");
+        screenshotRule.captureScreen("privacyStatement");
     }
+
 }

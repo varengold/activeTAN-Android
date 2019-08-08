@@ -22,6 +22,7 @@ package de.efdis.tangenerator;
 import android.Manifest;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -34,11 +35,15 @@ import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.gui.MainActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityScreenshots
-        extends AbstractInstrumentedScreenshots {
+public class MainActivityTest {
 
+    @Rule
+    public ScreenshotRule screenshotRule = new ScreenshotRule();
+
+    // Without data, the activity would redirect the user to the welcome activity.
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
             = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
@@ -54,11 +59,17 @@ public class MainActivityScreenshots
 
     @Test
     public void takeScreenshots() {
-        captureScreen("main");
+        screenshotRule.captureScreen("main");
 
         Espresso.onView(ViewMatchers.withId(R.id.drawerLayout))
                 .perform(DrawerActions.open());
-        captureScreen("mainWithMenu");
+        screenshotRule.captureScreen("mainWithMenu");
+    }
+
+    @Test
+    public void checkMainActivityIsRunningWithCameraPermission() {
+        Espresso.onView(ViewMatchers.withId(R.id.textInstruction))
+                .check(ViewAssertions.matches(ViewMatchers.withText(R.string.scan_qr_code)));
     }
 
 }

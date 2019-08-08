@@ -27,9 +27,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.gui.InstructionActivity;
+import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
-public class InstructionActivityScreenshots extends AbstractInstrumentedScreenshots {
+public class InstructionActivityTest {
+
+    @Rule
+    public ScreenshotRule screenshotRule = new ScreenshotRule();
 
     @Rule
     public ActivityScenarioRule<InstructionActivity> activityScenarioRule
@@ -37,7 +41,7 @@ public class InstructionActivityScreenshots extends AbstractInstrumentedScreensh
 
     @Test
     public void takeScreenshots() {
-        captureScreen("instruction");
+        screenshotRule.captureScreen("instruction");
     }
 
 }

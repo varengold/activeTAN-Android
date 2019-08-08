@@ -17,24 +17,31 @@
  * along with the activeTAN app.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.efdis.tangenerator.gui;
+package de.efdis.tangenerator;
 
-import android.os.Bundle;
-import android.widget.TextView;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import de.efdis.tangenerator.R;
-import de.efdis.tangenerator.common.TextUtils;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class PrivacyStatementActivity extends AppActivity {
+import de.efdis.tangenerator.gui.ImprintActivity;
+import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_privacy_statement);
+@RunWith(AndroidJUnit4.class)
+public class ImprintActivityTest {
 
-        TextView privacyStatement = findViewById(R.id.privacy_statement);
-        TextUtils.setHtmlText(privacyStatement,
-                getString(R.string.privacy_statement,
-                        getString(R.string.bank_name)));
+    @Rule
+    public ActivityScenarioRule<ImprintActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(ImprintActivity.class);
+
+    @Rule
+    public ScreenshotRule screenshotRule = new ScreenshotRule();
+
+    @Test
+    public void takeScreenshots() {
+        screenshotRule.captureScreen("imprint");
     }
+
 }

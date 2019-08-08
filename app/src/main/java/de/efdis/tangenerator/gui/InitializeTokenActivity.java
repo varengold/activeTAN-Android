@@ -20,7 +20,6 @@
 package de.efdis.tangenerator.gui;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,7 +45,6 @@ import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
-import java.security.InvalidKeyException;
 
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.activetan.HHDkm;
@@ -60,7 +58,6 @@ import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment;
 import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
-import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
 public class InitializeTokenActivity
         extends AppActivity
@@ -482,7 +479,7 @@ public class InitializeTokenActivity
                 return;
             }
 
-            onInitializationFailed(R.string.initialization_failed_tan_computation, false);
+            onInitializationFailed(R.string.initialization_failed_tan_computation, false, e);
             return;
         }
 

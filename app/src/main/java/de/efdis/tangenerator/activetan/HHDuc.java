@@ -398,14 +398,19 @@ public class HHDuc {
                         throw new UnsupportedDataFormatException(
                                 "Only numeric data can be BCD coded");
                     }
-                    long longValue;
-                    try {
-                        longValue = FieldEncoding.bcdDecode(rawDataElements.get(i));
-                    } catch (NumberFormatException e) {
-                        throw new UnsupportedDataFormatException(
-                                "Illegal numeric data");
+
+                    if (rawDataElements.get(i).length == 0) {
+                        hhduc.setDataElement(type, "");
+                    } else {
+                        long longValue;
+                        try {
+                            longValue = FieldEncoding.bcdDecode(rawDataElements.get(i));
+                        } catch (NumberFormatException e) {
+                            throw new UnsupportedDataFormatException(
+                                    "Illegal numeric data");
+                        }
+                        hhduc.setDataElement(type, longValue);
                     }
-                    hhduc.setDataElement(type, longValue);
                     break;
 
                 default:

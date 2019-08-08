@@ -23,10 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.text.Html;
-import android.text.Spanned;
-import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -37,13 +33,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.text.HtmlCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
 import de.efdis.tangenerator.R;
+import de.efdis.tangenerator.common.TextUtils;
 
 /**
  * This is the base class for all activities used in this app.
@@ -56,27 +52,6 @@ import de.efdis.tangenerator.R;
  */
 public abstract class AppActivity
         extends AppCompatActivity {
-
-    /** Utility method to apply HTML formatting to text. */
-    private static Spanned fromHtml(String html) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            // Android 6.0 does not support lists.
-            html = html
-                    .replace("<li>", "<p>&#x2022; ")
-                    .replace("</li>", "</p>");
-        }
-        return HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY);
-    }
-
-    public void setHtmlText(TextView textView, @StringRes int html) {
-        setHtmlText(textView, getText(html).toString());
-    }
-
-    public static void setHtmlText(TextView textView, String html) {
-        Spanned formatted = fromHtml(html);
-        textView.setText(formatted);
-        textView.setMovementMethod(LinkMovementMethod.getInstance());
-    }
 
     protected Toolbar getToolbar() {
         return findViewById(R.id.actionBar);

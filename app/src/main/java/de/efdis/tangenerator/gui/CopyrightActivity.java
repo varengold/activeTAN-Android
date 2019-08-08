@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import de.efdis.tangenerator.R;
+import de.efdis.tangenerator.common.TextUtils;
 
 public class CopyrightActivity
         extends AppActivity {
@@ -38,7 +39,7 @@ public class CopyrightActivity
         setContentView(R.layout.activity_copyright);
 
         TextView licenseIntroduction = findViewById(R.id.license_introduction);
-        setHtmlText(licenseIntroduction, R.string.license_introduction);
+        TextUtils.setHtmlText(licenseIntroduction, R.string.license_introduction);
 
         loadLicenseText();
     }
@@ -65,6 +66,6 @@ public class CopyrightActivity
             return;
         }
 
-        setHtmlText(gpl3, gpl3_html);
+        TextUtils.setHtmlText(gpl3, gpl3_html);
     }
 }

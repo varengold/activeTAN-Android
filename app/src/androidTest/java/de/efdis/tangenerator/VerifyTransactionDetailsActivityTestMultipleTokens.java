@@ -49,7 +49,7 @@ public class VerifyTransactionDetailsActivityTestMultipleTokens {
 
     @Rule
     public ActivityScenarioRule<VerifyTransactionDetailsActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(VerifyTransactionDetailsActivityScreenshots.getIntentWithTestData());
+            = new ActivityScenarioRule<>(VerifyTransactionDetailsActivityTest.getIntentWithTestData());
 
     @Test
     public void selectTokenAndComputeTan() {
