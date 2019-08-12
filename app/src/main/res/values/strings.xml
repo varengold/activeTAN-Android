@@ -96,14 +96,19 @@
     <string name="privacy_statement">
         <![CDATA[
         <p>
-            In dieser activeTAN-App werden personenbezogene Daten zum Zweck der Absicherung Ihres
-            Online-Banking-Zugangs gegen unbefugte Nutzung verarbeitet und/oder gespeichert.
+            In dieser activeTAN-App werden Ihre personenbezogene Daten ausschließlich zum Zwecke der
+            Absicherung Ihres Online-Banking-Zugangs gegen unbefugte Nutzung erfasst und
+            verarbeitet.
         </p>
         <p>
-            Grundsätzliche Informationen zur Datenverarbeitung durch %1$s entnehmen Sie bitte den
-            Hinweisen zum Datenschutz, die auf unserer Homepage veröffentlicht sind.
-            Ergänzend hierzu informieren wir Sie im Nachfolgenden über die Besonderheiten der
-            Datenverarbeitung, die mit der Nutzung der activeTAN-App verbunden sind.
+            Die Datenverarbeitung innerhalb dieser App erfolgt auf Grundlage Artikel&nbsp;6,
+            Abs.&nbsp;1&nbsp;lit&nbsp;b Datenschutzgrundverordnung (DSGVO)
+            zur Erfüllung eines Vertrags oder vorvertraglicher Maßnahmen
+            mit Ihnen als Nutzer dieser App.
+        </p>
+        <p>
+            Im Nachfolgenden wird nur auf die Besonderheiten der Daten eingegangen, die mit
+            dieser App auf Ihrem Smartphone erfasst und verarbeitet werden.
         </p>
         <h3>Datenerfassung in dieser App</h3>
         <p>
@@ -130,19 +135,32 @@
             technischen Protokollen, die bei der Übertragung anfallen. Das sind: App-Version,
             Betriebssystem-Version, Zeitpunkt der Übertragung und öffentliche IP-Adresse des
             Smartphones.
-        </ul>
+        </p>
         <p>
             Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen.
         </p>
         <p>
-            Nach Abschluss der Aktivierung ist keine Internetverbindung durch diese App
-            erforderlich. Transaktionsdaten für die Freigabe von Aufträgen im Online-Banking werden
-            über einen QR-Code und die Smartphone-Kamera erfasst, zur Kontrolle angezeigt und nach
-            der TAN-Berechnung <i>nicht</i> im Smartphone gespeichert.
+            Nach Abschluss der Aktivierung ist keine Internetverbindung mehr durch diese App
+            erforderlich. Transaktionsdaten für die TAN-Berechnung und die Freigabe von Aufträgen
+            im Online-Banking werden über einen QR-Code und die Smartphone-Kamera erfasst und
+            angezeigt. Innerhalb der App werden diese Daten weder dauerhaft gespeichert,
+            noch an Dritte weitergegeben.
+        </p>
+        ]]>
+    </string>
+    <string name="privacy_statement_closing">
+        <![CDATA[
+        <p>
+            Verantwortliche Stelle im Sinne der Datenschutzgesetze für die Datenverarbeitung
+            mittels dieser App: %1$s.
+            Grundsätzliche Informationen zum Thema Datenschutz sowie den Umgang mit Ihren
+            personenbezogenen Daten entnehmen Sie bitte den Hinweisen zum Datenschutz,
+            die auf unserer Homepage veröffentlicht sind.
         </p>
         <p>
-            Die Datenverarbeitung erfolgt auf Grundlage von DSGVO, Art.&nbsp;6, Abs.&nbsp;1b
-            zur Erfüllung eines Vertrags oder vorvertraglicher Maßnahmen.
+            Sie haben als Nutzer dieser App jederzeit das Recht, Auskunft über die zu Ihrer Person
+            gespeicherten Daten, deren Empfänger sowie den Zweck der Datenverarbeitung zu verlangen.
+            Weitere Rechte gemäß DSGVO bleiben hiervon unberührt.
         </p>
         ]]>
     </string>

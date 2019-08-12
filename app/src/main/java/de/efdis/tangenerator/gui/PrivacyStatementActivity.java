@@ -34,7 +34,8 @@ public class PrivacyStatementActivity extends AppActivity {
 
         TextView privacyStatement = findViewById(R.id.privacy_statement);
         TextUtils.setHtmlText(privacyStatement,
-                getString(R.string.privacy_statement,
+                getString(R.string.privacy_statement)
+                + getString(R.string.privacy_statement_closing,
                         getString(R.string.bank_name)));
     }
 }

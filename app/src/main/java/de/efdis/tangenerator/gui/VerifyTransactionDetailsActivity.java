@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -38,6 +39,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import java.math.BigDecimal;
 import java.security.GeneralSecurityException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -247,15 +250,20 @@ public class VerifyTransactionDetailsActivity
     public void onTokenSelected(BankingToken bankingToken) {
         this.bankingToken = bankingToken;
 
-        if (!bankingToken.confirmDeviceCredentialsToUse) {
-            onTokenReadyToUse();
-        } else {
-            // Confirm credentials and continue in onActivityResult...
-            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
-                    getString(R.string.app_name), getString(R.string.authorize_to_generate_tan));
-            startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
+        try {
+            if (!BankingTokenRepository.userMustAuthenticateToUse(bankingToken)) {
+                onTokenReadyToUse();
+                return;
+            }
+        } catch (KeyStoreException | InvalidKeyException e) {
+            Log.e(getClass().getSimpleName(), "Invalid token selected", e);
         }
+
+        // Confirm credentials and continue in onActivityResult...
+        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
+                getString(R.string.app_name), getString(R.string.authorize_to_generate_tan));
+        startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
     }
 
     @Override

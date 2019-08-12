@@ -69,7 +69,7 @@
         android:pathData="m180.183,1.558h10" android:strokeAlpha="1"
         android:strokeColor="#747474" android:strokeLineCap="round"
         android:strokeLineJoin="miter" android:strokeWidth="1"/>
-    <path android:fillAlpha="1" android:fillColor="#ff0000"
+    <path android:fillAlpha="1" android:fillColor="?attr/qrScannerBorderColor"
         android:fillType="nonZero"
         android:pathData="m167.183,35.501v0.5,4.999h1v-4.499h4.501v-1zM197.684,35.501v1h4.499v4.499h1v-5.499zM167.183,66v5.501h5.501v-1h-4.501v-4.501zM202.183,66v4.501h-4.499v1h5.499v-5.501z"
         android:strokeAlpha="1" android:strokeColor="#00000000"

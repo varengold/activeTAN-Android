@@ -117,13 +117,14 @@ public abstract class AbstractApiCallTask<INPUT, OUTPUT>
         }
     }
 
-    public AbstractApiCallTask(BackgroundTaskListener<OUTPUT> listener, URL apiUrl, Context context) {
+    public AbstractApiCallTask(BackgroundTaskListener<OUTPUT> listener, URL apiUrl, Context context)
+            throws CallFailedException {
         super(listener);
         this.apiUrl = apiUrl;
         try {
             this.apiKey = loadApiKey(context);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            throw new RuntimeException("cannot load api key");
+            throw new CallFailedException("Cannot load api key", e);
         }
     }
 

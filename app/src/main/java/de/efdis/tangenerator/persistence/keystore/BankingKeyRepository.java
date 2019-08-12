@@ -103,8 +103,19 @@ public class BankingKeyRepository {
         // The key will automatically be deleted once device protection is removed.
         builder.setUserAuthenticationRequired(true);
 
-        // Don't ask for user authentication during key usage.
-        builder.setUserAuthenticationValidityDurationSeconds(Integer.MAX_VALUE);
+        // Don't ask for user authentication during key usage,
+        // if the device has been unlocked within the last 24h.
+        //
+        // Usually, a device has been unlocked within this time frame.
+        // However, using smart lock features, the device might stay unlocked for a longer period.
+        // In this case, the user has to confirm device credentials to use the key again after 24h.
+        //
+        // Note: This value cannot be set to Integer.MAX_VALUE.
+        // On certain devices (e. g. from Sony, HTC or LG) it is impossible
+        // to store a key with a duration greater than approx. 3 months.
+        // Otherwise, the key store produced an exception in setKeyEntry:
+        // Failed to import secret key. Keystore error code: -29
+        builder.setUserAuthenticationValidityDurationSeconds(24 * 60 * 60);
 
         return builder.build();
     }

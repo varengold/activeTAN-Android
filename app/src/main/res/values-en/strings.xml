@@ -263,14 +263,18 @@
     <string name="privacy_statement">
         <![CDATA[
         <p>
-            This activeTAN app processes personal data for the purpose of
-            protecting the user&apos;s online banking account against unauthorized access.
+            This activeTAN app processes your personal data for the purpose of
+            protecting your online banking account against unauthorized access exclusively.
         </p>
         <p>
-            Principle information regarding data processing by %1$s can be found in the
-            data privacy statement, which we have published on our website.
-            In addition, we inform you about the characteristics of data processing,
-            which comes along with usage of this activeTAN app.
+            The processing of data during your use of this app
+            is based on a contract or in order to take steps prior to
+            entering into a contract in accordance with Article&nbsp;6 (1) (b)
+            of the General Data Protection Regulation (GDPR).
+        </p>
+        <p>
+            Below, we inform you about the characteristics of data processing,
+            which comes along with usage of this activeTAN app on your device.
         </p>
         <h3>Data processing by this app</h3>
         <p>
@@ -293,7 +297,7 @@
         </ul>
         <p>
             During the initialization process, the serial number is exchanged with the bank via
-            internet connection. Thus, the bank may assign the user&apos;s personal to the
+            internet connection. Thus, the bank may assign the user&apos;s personal device to the
             user&apos;s online banking account.
             Any communication uses a secure TLS connection.
             The online banking website&apos;s service provider automatically records information
@@ -301,19 +305,32 @@
             The following data is collected this way:
             the app version, the operating system version, the public IP address of the device,
             and the date and time of access.
-        </ul>
+        </p>
         <p>
             This data is not stored together with the user&apos;s other personal data.
         </p>
         <p>
             After completion of the initialization process no internet connection is required by
-            this app. Order details for approval in online banking are recorded via QR code and the
-            device&apos;s camera. The order details are displayed for checking purposes and are
-            <i>not</i> stored permanently on the device.
+            this app anymore. Order details for TAN computation and approval in online banking are
+            recorded and displayed via QR code and the device&apos;s camera. Within the app, such
+            data is neither stored permanently nor forwarded to third parties.
+        </p>
+        ]]>
+    </string>
+    <string name="privacy_statement_closing">
+        <![CDATA[
+        <p>
+            The responsible institution within the meaning of data protection regulations is: %1$s.
+            Principle information regarding data protection and data processing can be found in the
+            data privacy statement, which we have published on our website.
         </p>
         <p>
-            The processing of data is based on a contract or in order to take steps prior to
-            entering into a contract in accordance with Article&nbsp;6 (1) (b) GDPR.
+            As a user of this app, you have always the right to request insight from the person
+            responsible about the processing of any personal information concerning you:
+            the recipients to whom the personal data relating to you have been disclosed
+            or are still being disclosed and
+            the purposes for which the personal data is processed.
+            Further rights regarding GDPR remain unaffected by this.
         </p>
         ]]>
     </string>

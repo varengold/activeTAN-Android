@@ -43,7 +43,8 @@ public class UploadEncryptedDeviceKeyTask
         public byte[] deviceKeyComponent;
     }
 
-    public UploadEncryptedDeviceKeyTask(BackgroundTaskListener<Output> listener, URL url, Context context) {
+    public UploadEncryptedDeviceKeyTask(BackgroundTaskListener<Output> listener, URL url, Context context)
+            throws CallFailedException {
         super(listener, url, context);
     }
 

@@ -50,6 +50,7 @@ import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.activetan.HHDkm;
 import de.efdis.tangenerator.activetan.KeyMaterialType;
 import de.efdis.tangenerator.activetan.TanGenerator;
+import de.efdis.tangenerator.gui.initialization.AbstractApiCallTask;
 import de.efdis.tangenerator.gui.initialization.AbstractBackgroundTask;
 import de.efdis.tangenerator.gui.initialization.CreateBankingTokenTask;
 import de.efdis.tangenerator.gui.initialization.UploadEncryptedDeviceKeyTask;
@@ -271,19 +272,36 @@ public class InitializeTokenActivity
             return;
         }
 
-        new UploadEncryptedDeviceKeyTask(new MyTaskListener<UploadEncryptedDeviceKeyTask.Output>() {
+        MyTaskListener<UploadEncryptedDeviceKeyTask.Output> onUploadComplete
+                = new MyTaskListener<UploadEncryptedDeviceKeyTask.Output>() {
             @Override
             @StringRes
             protected int getDescription() {
                 return R.string.step_generate_banking_key;
             }
+
             @Override
             public void onSuccess(UploadEncryptedDeviceKeyTask.Output output) {
                 InitializeTokenActivity.this.keyComponents.deviceKeyComponent = output.deviceKeyComponent;
                 InitializeTokenActivity.this.tokenId = output.tokenId;
                 doShowTokenId();
             }
-        }, backendApiUrl, getApplicationContext()).execute();
+        };
+
+        UploadEncryptedDeviceKeyTask uploadTask;
+        try {
+            uploadTask = new UploadEncryptedDeviceKeyTask(onUploadComplete, backendApiUrl, getApplicationContext());
+        } catch (AbstractApiCallTask.CallFailedException e) {
+            // Failed to initialize API call
+            Log.e(getClass().getSimpleName(),
+                    e.getMessage(), e.getCause());
+
+            onInitializationFailed(R.string.initialization_failed_unknown_reason,
+                    false, e.getCause());
+            return;
+        }
+
+        uploadTask.execute();
     }
 
     private void doShowTokenId() {

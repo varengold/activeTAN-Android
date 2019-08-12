@@ -21,6 +21,7 @@ package de.efdis.tangenerator.persistence.database;
 
 import android.content.Context;
 import android.os.Build;
+import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 
 import java.security.InvalidKeyException;
@@ -93,6 +94,9 @@ public class BankingTokenRepository {
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             throw new RuntimeException(
                     "Cannot initialize AES cipher", e);
+        } catch (UserNotAuthenticatedException e) {
+            // the key can probably be used, but the user must repeat authentication
+            return true;
         } catch (InvalidKeyException e) {
             Log.e(BankingTokenRepository.class.getSimpleName(),
                     "Banking key invalidated for token " + bankingToken.id);
@@ -100,6 +104,31 @@ public class BankingTokenRepository {
         }
 
         return true;
+    }
+
+    public static boolean userMustAuthenticateToUse(BankingToken bankingToken)
+            throws KeyStoreException, InvalidKeyException {
+        if (bankingToken.confirmDeviceCredentialsToUse) {
+            return true;
+        }
+
+        SecretKey bankingKey = BankingKeyRepository.getBankingKey(bankingToken.keyAlias);
+
+        if (bankingKey == null) {
+            throw new KeyStoreException("Banking key is missing for token " + bankingToken.id);
+        }
+
+        try {
+            Cipher aes = Cipher.getInstance("AES/CBC/NoPadding");
+            aes.init(Cipher.ENCRYPT_MODE, bankingKey);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            throw new RuntimeException(
+                    "Cannot initialize AES cipher", e);
+        } catch (UserNotAuthenticatedException e) {
+            return true;
+        }
+
+        return false;
     }
 
     /** Return all available tokens which can be used to TAN generation. */
@@ -129,10 +158,18 @@ public class BankingTokenRepository {
     public static void incTransactionCounter(Context context, BankingToken token) {
         AppDatabase database = getDatabase(context);
 
-        token.transactionCounter = (token.transactionCounter + 1) & 0xffff;
-        token.lastUsed = new Date();
+        // Reload the token from the database to avoid concurrency problems
+        BankingToken persistentToken = database.bankingTokenDao().findById(token.id);
 
-        database.bankingTokenDao().update(token);
+        // Only update certain settings to avoid security problems
+        persistentToken.transactionCounter = (persistentToken.transactionCounter + 1) & 0xffff;
+        persistentToken.lastUsed = new Date();
+
+        database.bankingTokenDao().update(persistentToken);
+
+        // Return the modifications to the caller
+        token.transactionCounter = persistentToken.transactionCounter;
+        token.lastUsed = persistentToken.lastUsed;
     }
 
     /** Store a new banking token persistently. */
