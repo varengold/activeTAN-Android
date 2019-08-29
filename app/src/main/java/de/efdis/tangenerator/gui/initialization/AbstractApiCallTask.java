@@ -27,18 +27,15 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -48,8 +45,7 @@ import java.security.SignatureException;
 import java.security.cert.CertPathValidatorException;
 import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.security.spec.X509EncodedKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -123,37 +119,21 @@ public abstract class AbstractApiCallTask<INPUT, OUTPUT>
         this.apiUrl = apiUrl;
         try {
             this.apiKey = loadApiKey(context);
-        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new CallFailedException("Cannot load api key", e);
         }
     }
 
     private static PublicKey loadApiKey(Context context)
-            throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+            throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance(API_UPLOAD_ALGORITHM);
 
-        InputStream in = context.getResources().openRawResource(R.raw.api_key);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.US_ASCII));
-        ByteBuffer encodedKey = ByteBuffer.allocate(in.available());
-        try {
-            while (reader.ready()) {
-                String line = reader.readLine();
-                if ("-----BEGIN PUBLIC KEY-----".equals(line)) {
-                    continue;
-                }
-                if ("-----END PUBLIC KEY-----".equals(line)) {
-                    break;
-                }
-                encodedKey.put(Base64.decode(line, Base64.DEFAULT));
-            }
-        } finally {
-            reader.close();
-        }
+        RSAPublicKeySpec keySpec = new RSAPublicKeySpec(
+                new BigInteger(context.getResources().getString(
+                        R.string.backend_api_key_modulus)),
+                new BigInteger(context.getResources().getString(
+                        R.string.backend_api_key_exponent)));
 
-        encodedKey.flip();
-        encodedKey = encodedKey.slice();
-
-        KeySpec keySpec = new X509EncodedKeySpec(encodedKey.array());
         PublicKey publicKey = keyFactory.generatePublic(keySpec);
         return publicKey;
     }
