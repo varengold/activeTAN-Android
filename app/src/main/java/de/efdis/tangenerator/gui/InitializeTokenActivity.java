@@ -20,6 +20,7 @@
 package de.efdis.tangenerator.gui;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -76,6 +77,8 @@ public class InitializeTokenActivity
     private boolean initializationCompleted;
     private BankingToken bankingToken;
 
+    private Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +101,16 @@ public class InitializeTokenActivity
         // Thus, use a different icon to show it's not always safe to click it.
         setToolbarNavigationIcon(io.material.R.drawable.ic_close_black_24dp);
 
-        // Automatically start the process during first start of this activity
+        // Automatically (re)start the process, if no serial number has been obtained yet
         if (keyComponents == null) {
+            // Dismiss an open dialog from a previous start of this activity.
+            // For example, error messages from checkRequirements(),
+            // since the device might now fulfill the requirements after switching back.
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+                dialog = null;
+            }
+
             doStartProcess();
         }
     }
@@ -213,7 +224,7 @@ public class InitializeTokenActivity
 
         builder.setMessage(reason);
 
-        builder.show();
+        dialog = builder.show();
     }
 
     private void doStartProcess() {
@@ -340,7 +351,7 @@ public class InitializeTokenActivity
                 builder.setMessage(R.string.initialization_confirm_quit_message);
             }
 
-            builder.show();
+            dialog = builder.show();
 
             // don't leave activity yet
             return;
@@ -402,7 +413,7 @@ public class InitializeTokenActivity
             }
         });
 
-        builder.show();
+        dialog = builder.show();
     }
 
     @Override
