@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *

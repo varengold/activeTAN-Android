@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -41,30 +41,44 @@ public class InMemoryDatabaseRule implements TestRule {
 
     private final int tanGenerators;
     private final boolean protection;
+    private final int transactionCounter;
 
-    private InMemoryDatabaseRule(int tanGenerators, boolean protection) {
+    private InMemoryDatabaseRule(int tanGenerators, boolean protection, int transactionCounter) {
         this.tanGenerators = tanGenerators;
         this.protection = protection;
+        this.transactionCounter = transactionCounter;
     }
 
     public static InMemoryDatabaseRule withoutTanGenerators() {
-        return new InMemoryDatabaseRule(0, false);
+        return new InMemoryDatabaseRule(0, false, 0);
     }
 
     public static InMemoryDatabaseRule withSingleUnprotectedTanGenerator() {
-        return new InMemoryDatabaseRule(1, false);
+        return new InMemoryDatabaseRule(1, false, 0);
     }
 
     public static InMemoryDatabaseRule withSingleProtectedTanGenerator() {
-        return new InMemoryDatabaseRule(1, true);
+        return new InMemoryDatabaseRule(1, true, 0);
     }
 
     public static InMemoryDatabaseRule withMultipleUnprotectedTanGenerators() {
-        return new InMemoryDatabaseRule(2, false);
+        return new InMemoryDatabaseRule(2, false, 0);
     }
 
     public static InMemoryDatabaseRule withMultipleProtectedTanGenerators() {
-        return new InMemoryDatabaseRule(2, true);
+        return new InMemoryDatabaseRule(2, true, 0);
+    }
+
+    public static InMemoryDatabaseRule withExhaustedTanGenerator() {
+        return new InMemoryDatabaseRule(1, false, 0xffff);
+    }
+
+    public static InMemoryDatabaseRule withAlmostExhaustedTanGenerator() {
+        return new InMemoryDatabaseRule(1, false, 0xffff - 1);
+    }
+
+    public static InMemoryDatabaseRule withSoonExhaustedTanGenerator() {
+        return new InMemoryDatabaseRule(1, false, 0xffff - 2);
     }
 
     @Override
@@ -72,7 +86,7 @@ public class InMemoryDatabaseRule implements TestRule {
         return new MockDatabaseStatement(base);
     }
 
-    private void addTestData(int tanGeneratorIdx, boolean protection) {
+    private void addTestData(AppDatabase database, int tanGeneratorIdx, boolean protection) {
         BankingKeyComponents keyComponents = new BankingKeyComponents();
         keyComponents.deviceKeyComponent = new byte[16];
         keyComponents.letterKeyComponent = new byte[16];
@@ -98,6 +112,13 @@ public class InMemoryDatabaseRule implements TestRule {
         token.confirmDeviceCredentialsToUse = protection;
 
         BankingTokenRepository.saveNewToken(null, token);
+
+        if (transactionCounter != 0) {
+            // saveNewToken() resets the transaction counter,
+            // so we need an extra update
+            token.transactionCounter = transactionCounter;
+            database.bankingTokenDao().update(token);
+        }
     }
 
     private class MockDatabaseStatement extends Statement {
@@ -119,7 +140,7 @@ public class InMemoryDatabaseRule implements TestRule {
             AppDatabase.setInstance(mockDatabase);
 
             for (int i = 0; i < tanGenerators; i++) {
-                addTestData(i, protection);
+                addTestData(mockDatabase, i, protection);
             }
 
             if (protection) {

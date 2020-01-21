@@ -37,45 +37,28 @@ import org.junit.runner.RunWith;
 import de.efdis.tangenerator.gui.VerifyTransactionDetailsActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
-/**
- * Test TAN generation with multiple tokens, i. e., the user has to select a token.
- */
 @RunWith(AndroidJUnit4.class)
-public class VerifyTransactionDetailsActivityTestMultipleTokens {
+public class VerifyTransactionDetailsActivityTestExhaustedToken {
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = InMemoryDatabaseRule.withMultipleProtectedTanGenerators();
+            = InMemoryDatabaseRule.withExhaustedTanGenerator();
 
     @Rule
     public ActivityScenarioRule<VerifyTransactionDetailsActivity> activityScenarioRule
             = new ActivityScenarioRule<>(VerifyTransactionDetailsActivityTest.getIntentWithTestData());
 
     @Test
-    public void selectTokenAndComputeTan() {
+    public void attemptComputeTan() {
         Espresso.onView(ViewMatchers.withId(R.id.button))
                 .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withText(R.string.choose_token_title))
+        Espresso.onView(ViewMatchers.withText(R.string.no_tokens_available_title))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        Espresso.onView(ViewMatchers.withText(R.string.no_tokens_available_message))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
-        Espresso.onView(ViewMatchers.withText(android.R.string.ok))
-                .perform(ViewActions.click());
-
-        Espresso.onView(ViewMatchers.withId(R.id.generatedTanContainer))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-    @Test
-    public void cancelTokenSelection() {
-        Espresso.onView(ViewMatchers.withId(R.id.button))
-                .perform(ViewActions.click());
-
-        Espresso.onView(ViewMatchers.withText(R.string.choose_token_title))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
-        Espresso.onView(ViewMatchers.withText(android.R.string.cancel))
-                .perform(ViewActions.click());
+        Espresso.pressBack();
 
         Espresso.onView(ViewMatchers.withId(R.id.generatedTanContainer))
                 .check(new ViewAssertion() {

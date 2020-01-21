@@ -145,6 +145,21 @@
             android:text="@string/invalidated_key_description"
             android:textColor="?android:attr/textColorPrimary" />
 
+        <TextView
+            android:id="@+id/statusExhaustedLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/exhausted_generator_label"
+            android:textColor="?android:attr/textColorSecondary" />
+
+        <TextView
+            android:id="@+id/statusExhaustedDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/exhausted_generator_description"
+            android:textColor="?android:attr/textColorPrimary" />
+
     </LinearLayout>
 
     <View

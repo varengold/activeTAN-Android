@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -19,7 +19,11 @@
 
 package de.efdis.tangenerator;
 
+import android.view.View;
+
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -51,6 +55,16 @@ public class SettingsActivityTest {
     public void takeScreenshots() {
         Espresso.onView(ViewMatchers.withId(R.id.bankingTokenRecyclerView))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        Espresso.onView(ViewMatchers.withText(R.string.exhausted_generator_description))
+                .check(new ViewAssertion() {
+                    @Override
+                    public void check(View view, NoMatchingViewException noViewFoundException) {
+                        if (view.isShown()) {
+                            throw new AssertionError("no exhaust hint must be displayed");
+                        }
+                    }
+                });
 
         screenshotRule.captureScreen("settings");
     }

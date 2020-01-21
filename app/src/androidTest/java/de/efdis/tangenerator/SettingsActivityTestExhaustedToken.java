@@ -19,46 +19,41 @@
 
 package de.efdis.tangenerator;
 
-import android.Manifest;
-
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
-import androidx.test.rule.GrantPermissionRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.InitializeTokenActivity;
+import de.efdis.tangenerator.gui.SettingsActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
-public class InitializeTokenActivityTestMultipleTokens {
-
-    @Rule
-    public GrantPermissionRule cameraPermissionRule
-            = GrantPermissionRule.grant(
-            Manifest.permission.CAMERA);
+@RunWith(AndroidJUnit4.class)
+public class SettingsActivityTestExhaustedToken {
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = InMemoryDatabaseRule.withMultipleUnprotectedTanGenerators();
+            = InMemoryDatabaseRule.withExhaustedTanGenerator();
 
     @Rule
-    public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule
-            = new ActivityScenarioRule<>(InitializeTokenActivityTest.getIntentWithTestData());
+    public ScreenshotRule screenshotRule = new ScreenshotRule();
+
+    @Rule
+    public ActivityScenarioRule<SettingsActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(SettingsActivity.class);
 
     @Test
-    public void checkMultipleTokenHint() {
-        Espresso.onView(ViewMatchers.withId(R.id.buttonContinue))
-                .perform(ViewActions.click());
+    public void checkExhaustedStatus() {
+        Espresso.onView(ViewMatchers.withId(R.id.bankingTokenRecyclerView))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
-        InitializeTokenActivityTest.simulatePortalQrCodeInput(activityScenarioRule.getScenario());
-
-        Espresso.onView(ViewMatchers.withText(R.string.initialization_multiple_generators_title))
+        Espresso.onView(ViewMatchers.withText(R.string.exhausted_generator_description))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
-
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -25,12 +25,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -287,6 +286,10 @@ public class VerifyTransactionDetailsActivity
         TextView instructionTAN = findViewById(R.id.instructionVerifyData);
         Button validateButton = findViewById(R.id.button);
 
+        final View exhaustedGeneratorHintContainer = findViewById(R.id.exhaustedGeneratorHintContainer);
+        TextView exhaustedLabel = findViewById(R.id.exhaustedLabel);
+        TextView exhaustedDescription = findViewById(R.id.exhaustedDescription);
+
         String tan;
         try {
             tan = computeFormattedTan(bankingToken);
@@ -302,14 +305,28 @@ public class VerifyTransactionDetailsActivity
 
         generatedTanContainer.setVisibility(View.VISIBLE);
 
-        instructionTAN.setVisibility(View.INVISIBLE);
-        validateButton.setVisibility(View.INVISIBLE);
+        instructionTAN.setVisibility(View.GONE);
+        validateButton.setVisibility(View.GONE);
 
-        // Update layout, because the size of TAN/ATC views has changed
-        new Handler().post(new Runnable() {
+        if (BankingTokenRepository.isSoonExhausted(bankingToken)) {
+            exhaustedGeneratorHintContainer.setVisibility(View.VISIBLE);
+        } else if (BankingTokenRepository.isExhausted(bankingToken)) {
+            exhaustedLabel.setText(R.string.exhausted_generator_label);
+            exhaustedDescription.setText(R.string.exhausted_generator_description);
+            exhaustedGeneratorHintContainer.setVisibility(View.VISIBLE);
+        }
+
+        final ScrollView scrollView = findViewById(R.id.scrollView);
+        scrollView.post(new Runnable() {
             @Override
             public void run() {
+                // Update layout, because the size of TAN/ATC views has changed
                 generatedTanContainer.requestLayout();
+                exhaustedGeneratorHintContainer.requestLayout();
+
+                // Scroll to end of instructions on small screens.
+                // At the bottom is the TAN, which is to be entered in online banking.
+                scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
     }

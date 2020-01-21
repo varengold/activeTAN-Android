@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -20,18 +20,18 @@
 package de.efdis.tangenerator.gui;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import androidx.annotation.IdRes;
-import androidx.recyclerview.widget.RecyclerView;
 import de.efdis.tangenerator.R;
 
 public class TokenSettingsItemHolder extends RecyclerView.ViewHolder {
@@ -115,10 +115,10 @@ public class TokenSettingsItemHolder extends RecyclerView.ViewHolder {
         s.setChecked(protectUsage);
     }
 
-    public void setIsUsable(boolean isUsable) {
+    public void setHasValidKey(boolean hasValidKey) {
         TextView label = findViewById(R.id.statusInvalidatedLabel);
         TextView description = findViewById(R.id.statusInvalidatedDescription);
-        if (isUsable) {
+        if (hasValidKey) {
             label.setVisibility(View.GONE);
             description.setVisibility(View.GONE);
         } else {
@@ -126,6 +126,19 @@ public class TokenSettingsItemHolder extends RecyclerView.ViewHolder {
             description.setVisibility(View.VISIBLE);
         }
     }
+
+    public void setIsExhausted(boolean isExhausted) {
+        TextView label = findViewById(R.id.statusExhaustedLabel);
+        TextView description = findViewById(R.id.statusExhaustedDescription);
+        if (isExhausted) {
+            label.setVisibility(View.VISIBLE);
+            description.setVisibility(View.VISIBLE);
+        } else {
+            label.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
+        }
+    }
+
 
     public interface TokenSettingsItemListener {
         void onChangeTokenDescriptionButtonClick(int itemPosition);

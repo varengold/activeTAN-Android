@@ -83,6 +83,12 @@
                     <a href="https://github.com/dm77/barcodescanner/">github.com/dm77/barcodescanner</a>
                 </li>
                 <li>
+                    Folgende Jetpack-Bibliotheken aus dem Android Open Source Project (AOSP) von Google:
+                    Appcompat, ConstraintLayout, RecyclerView, Room
+                    <br/>
+                    <a href="https://developer.android.com/jetpack">developer.android.com/jetpack</a>
+                </li>
+                <li>
                     Material Design Icons von Google
                     <br/>
                     <a href="https://github.com/google/material-design-icons/">github.com/google/material-design-icons</a>
@@ -181,6 +187,10 @@
     <string name="no_settings_without_activation">Dieses Gerät wurde noch nicht aktiviert. Bitte aktivieren Sie diesen TAN-Generator im Online-Banking, bevor Sie Einstellungen vornehmen können.</string>
     <string name="invalidated_key_label">Deaktiviert</string>
     <string name="invalidated_key_description">Dieser TAN-Generator kann zu Ihrer Sicherheit nicht mehr benutzt werden, weil der Sperrbildschirm deaktiviert worden ist. Bitte sperren Sie den TAN-Generator im Online-Banking und führen Sie eine neue Aktivierung durch.</string>
+    <string name="exhausted_generator_label">Aufgebraucht</string>
+    <string name="exhausted_generator_description">Dieser TAN-Generator hat die maximale Anzahl an TANs erzeugt und kann nicht mehr benutzt werden. Bitte führen Sie eine neue Aktivierung durch.</string>
+    <string name="soon_exhausted_generator_label">Bald aufgebraucht</string>
+    <string name="soon_exhausted_generator_description">Dieser TAN-Generator hat bald die maximale Anzahl an TANs erzeugt und kann dann nicht mehr benutzt werden. Bitte führen Sie bei Gelegenheit eine neue Aktivierung durch.</string>
 
     <string name="camera_permission_rationale">Die Kamera wird für das Lesen von QR-Codes benötigt.</string>
 

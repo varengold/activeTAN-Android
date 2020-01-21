@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -34,12 +34,13 @@ import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 
-import de.efdis.tangenerator.activetan.AesCbcMac;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
 public class BankingTokenRepository {
+
+    private static final int MAX_TRANSACTION_COUNTER = 0xffff;
+    private static final int TRANSACTION_COUNTER_WARN_AFTER = MAX_TRANSACTION_COUNTER - 100;
 
     private static AppDatabase getDatabase(Context context) {
         return AppDatabase.getInstance(context);
@@ -51,7 +52,7 @@ public class BankingTokenRepository {
         return database.bankingTokenDao().getAll();
     }
 
-    public static boolean isUsable(BankingToken bankingToken) {
+    public static boolean hasValidKey(BankingToken bankingToken) {
         SecretKey bankingKey;
         try {
             bankingKey = BankingKeyRepository.getBankingKey(bankingToken.keyAlias);
@@ -104,6 +105,19 @@ public class BankingTokenRepository {
         }
 
         return true;
+    }
+
+    public static boolean isExhausted(BankingToken bankingToken) {
+        return bankingToken.transactionCounter >= MAX_TRANSACTION_COUNTER;
+    }
+
+    public static boolean isSoonExhausted(BankingToken bankingToken) {
+        return bankingToken.transactionCounter > TRANSACTION_COUNTER_WARN_AFTER
+                && bankingToken.transactionCounter < MAX_TRANSACTION_COUNTER;
+    }
+
+    public static boolean isUsable(BankingToken bankingToken) {
+        return hasValidKey(bankingToken) && !isExhausted(bankingToken);
     }
 
     public static boolean userMustAuthenticateToUse(BankingToken bankingToken)
@@ -162,7 +176,7 @@ public class BankingTokenRepository {
         BankingToken persistentToken = database.bankingTokenDao().findById(token.id);
 
         // Only update certain settings to avoid security problems
-        persistentToken.transactionCounter = (persistentToken.transactionCounter + 1) & 0xffff;
+        persistentToken.transactionCounter = persistentToken.transactionCounter + 1;
         persistentToken.lastUsed = new Date();
 
         database.bankingTokenDao().update(persistentToken);

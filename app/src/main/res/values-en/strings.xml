@@ -222,6 +222,12 @@
                     <a href="https://github.com/dm77/barcodescanner/">github.com/dm77/barcodescanner</a>
                 </li>
                 <li>
+                    The following Jetpack libraries from the Android Open Source Project (AOSP) by Google:
+                    Appcompat, ConstraintLayout, RecyclerView, Room
+                    <br/>
+                    <a href="https://developer.android.com/jetpack">developer.android.com/jetpack</a>
+                </li>
+                <li>
                     Material design icons by Google
                     <br/>
                     <a href="https://github.com/google/material-design-icons/">github.com/google/material-design-icons</a>
@@ -364,6 +370,10 @@
     <string name="authorize_to_unlock_token">Please enter your device credentials to use activeTAN without pattern, PIN or password.</string>
     <string name="invalidated_key_description">For your security, this TAN generator cannot be used anymore, because the lock screen has been disabled. Please lock the TAN generator in online banking and start a new initializaion process.</string>
     <string name="invalidated_key_label">Disabled</string>
+    <string name="exhausted_generator_description">This TAN generator has produced the maximum number of TANs and cannot be used anymore. Please start a new initializaion process.</string>
+    <string name="exhausted_generator_label">Exhausted</string>
+    <string name="soon_exhausted_generator_description">This TAN generator has almost produced the maximum number of TANs. Then it will no longer be possible to use it. Please start a new initializaion process soon.</string>
+    <string name="soon_exhausted_generator_label">Soon exhausted</string>
     <string name="initialization_failed_keystore">The TAN generator cannot be stored securely. Please check your device security settings.</string>
     <string name="initialization_failed_tan_computation">A technical error has occurred during TAN computation. Please try again later.</string>
     <string name="show_details">Details...</string>

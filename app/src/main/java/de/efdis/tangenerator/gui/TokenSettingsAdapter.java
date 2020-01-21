@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -25,13 +25,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.core.util.Consumer;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 import java.util.ListIterator;
 
-import androidx.annotation.NonNull;
-import androidx.core.util.Consumer;
-import androidx.core.util.Pair;
-import androidx.recyclerview.widget.RecyclerView;
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
@@ -73,7 +73,8 @@ public class TokenSettingsAdapter
         holder.setProtectUsage(bankingToken.confirmDeviceCredentialsToUse);
         holder.setActiveSince(bankingToken.createdOn);
         holder.setLastUsed(bankingToken.lastUsed);
-        holder.setIsUsable(BankingTokenRepository.isUsable(bankingToken));
+        holder.setHasValidKey(BankingTokenRepository.hasValidKey(bankingToken));
+        holder.setIsExhausted(BankingTokenRepository.isExhausted(bankingToken));
 
         holder.setListener(this, position);
     }
