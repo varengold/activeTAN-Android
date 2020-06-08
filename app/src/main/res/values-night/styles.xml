@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        Customization of the application theme for dark mode.
+    -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <!-- Normal text and background -->
+        <item name="android:colorBackground">@color/solarizedBase03</item>
+        <item name="colorOnBackground">@color/solarizedBase0</item>
+        <item name="android:textColorSecondary">@color/solarizedBase01</item>
+
+        <!-- Elevated text and background, e. g. CardView -->
+        <item name="colorSurface">@color/solarizedBase02</item>
+        <item name="colorOnSurface">@color/solarizedBase1</item>
+
+        <!-- Primary color is used by the tool bar and status bar -->
+        <item name="colorPrimary">@color/solarizedBase02</item>
+        <item name="colorPrimaryDark">@color/solarizedBase03</item>
+        <item name="colorOnPrimary">@color/solarizedBase0</item>
+
+        <!-- Secondary color is used by buttons and links -->
+        <item name="colorSecondary">@color/solarizedBlue</item>
+        <item name="colorSecondaryVariant">@color/solarizedGreen</item>
+        <item name="colorOnSecondary">@color/solarizedBase03</item>
+
+        <!-- Errors and QR code scanner (red) -->
+        <item name="colorError">@color/solarizedRed</item>
+        <item name="colorOnError">@color/solarizedBase03</item>
+    </style>
+
+</resources>

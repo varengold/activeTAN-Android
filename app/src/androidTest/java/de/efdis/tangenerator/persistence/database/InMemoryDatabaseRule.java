@@ -40,45 +40,37 @@ import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 public class InMemoryDatabaseRule implements TestRule {
 
     private final int tanGenerators;
-    private final boolean protection;
+    private final BankingTokenUsage usage;
     private final int transactionCounter;
 
-    private InMemoryDatabaseRule(int tanGenerators, boolean protection, int transactionCounter) {
+    private InMemoryDatabaseRule(int tanGenerators, BankingTokenUsage usage, int transactionCounter) {
         this.tanGenerators = tanGenerators;
-        this.protection = protection;
+        this.usage = usage;
         this.transactionCounter = transactionCounter;
     }
 
     public static InMemoryDatabaseRule withoutTanGenerators() {
-        return new InMemoryDatabaseRule(0, false, 0);
+        return new InMemoryDatabaseRule(0, null, 0);
     }
 
-    public static InMemoryDatabaseRule withSingleUnprotectedTanGenerator() {
-        return new InMemoryDatabaseRule(1, false, 0);
+    public static InMemoryDatabaseRule withSingleTanGenerator(BankingTokenUsage usage) {
+        return new InMemoryDatabaseRule(1, usage, 0);
     }
 
-    public static InMemoryDatabaseRule withSingleProtectedTanGenerator() {
-        return new InMemoryDatabaseRule(1, true, 0);
-    }
-
-    public static InMemoryDatabaseRule withMultipleUnprotectedTanGenerators() {
-        return new InMemoryDatabaseRule(2, false, 0);
-    }
-
-    public static InMemoryDatabaseRule withMultipleProtectedTanGenerators() {
-        return new InMemoryDatabaseRule(2, true, 0);
+    public static InMemoryDatabaseRule withMultipleTanGenerators(BankingTokenUsage usage) {
+        return new InMemoryDatabaseRule(2, usage, 0);
     }
 
     public static InMemoryDatabaseRule withExhaustedTanGenerator() {
-        return new InMemoryDatabaseRule(1, false, 0xffff);
+        return new InMemoryDatabaseRule(1, BankingTokenUsage.DISABLED_AUTH_PROMPT, 0xffff);
     }
 
     public static InMemoryDatabaseRule withAlmostExhaustedTanGenerator() {
-        return new InMemoryDatabaseRule(1, false, 0xffff - 1);
+        return new InMemoryDatabaseRule(1, BankingTokenUsage.DISABLED_AUTH_PROMPT, 0xffff - 1);
     }
 
     public static InMemoryDatabaseRule withSoonExhaustedTanGenerator() {
-        return new InMemoryDatabaseRule(1, false, 0xffff - 2);
+        return new InMemoryDatabaseRule(1, BankingTokenUsage.DISABLED_AUTH_PROMPT, 0xffff - 2);
     }
 
     @Override
@@ -86,7 +78,7 @@ public class InMemoryDatabaseRule implements TestRule {
         return new MockDatabaseStatement(base);
     }
 
-    private void addTestData(AppDatabase database, int tanGeneratorIdx, boolean protection) {
+    private void addTestData(AppDatabase database, int tanGeneratorIdx, BankingTokenUsage usage) {
         BankingKeyComponents keyComponents = new BankingKeyComponents();
         keyComponents.deviceKeyComponent = new byte[16];
         keyComponents.letterKeyComponent = new byte[16];
@@ -104,12 +96,12 @@ public class InMemoryDatabaseRule implements TestRule {
         token.id = "1234567890";
         token.id = "XX" + token.id.substring(tanGeneratorIdx) + token.id.substring(0, tanGeneratorIdx);
         token.keyAlias = tokenAlias;
+        token.usage = usage;
         token.name = InstrumentationRegistry.getInstrumentation().getTargetContext()
                 .getString(R.string.default_token_name);
         if (tanGeneratorIdx > 0) {
             token.name += " " + (tanGeneratorIdx + 1);
         }
-        token.confirmDeviceCredentialsToUse = protection;
 
         BankingTokenRepository.saveNewToken(null, token);
 
@@ -140,16 +132,14 @@ public class InMemoryDatabaseRule implements TestRule {
             AppDatabase.setInstance(mockDatabase);
 
             for (int i = 0; i < tanGenerators; i++) {
-                addTestData(mockDatabase, i, protection);
+                addTestData(mockDatabase, i, usage);
             }
 
-            if (protection) {
-                // To test protected tokens, we have to mock the confirmation of device credentials
-                InstrumentationRegistry.getInstrumentation().addMonitor(
-                        new IntentFilter("android.app.action.CONFIRM_DEVICE_CREDENTIAL"),
-                        new Instrumentation.ActivityResult(Activity.RESULT_OK, null),
-                        true);
-            }
+            // To test protected tokens, we have to mock the confirmation of device credentials
+            InstrumentationRegistry.getInstrumentation().addMonitor(
+                    new IntentFilter("android.app.action.CONFIRM_DEVICE_CREDENTIAL"),
+                    new Instrumentation.ActivityResult(Activity.RESULT_OK, null),
+                    true);
 
             base.evaluate();
         }

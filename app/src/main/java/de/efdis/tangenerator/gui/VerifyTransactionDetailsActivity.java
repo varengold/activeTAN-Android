@@ -19,23 +19,23 @@
 
 package de.efdis.tangenerator.gui;
 
-import android.app.Activity;
-import android.app.KeyguardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.biometric.BiometricPrompt;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
@@ -68,8 +68,6 @@ public class VerifyTransactionDetailsActivity
             DataElementType.IBAN_SENDER,
             DataElementType.IBAN_RECIPIENT,
             DataElementType.IBAN_PAYER));
-
-    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
 
     /** Transaction data from the QR code */
     private byte[] rawHHDuc;
@@ -194,7 +192,7 @@ public class VerifyTransactionDetailsActivity
         super.onStart();
 
         // Don't show back icon in the toolbar.
-        setToolbarNavigationIcon(io.material.R.drawable.ic_close_black_24dp);
+        setToolbarNavigationIcon(R.drawable.ic_material_navigation_close);
     }
 
     private View findViewByName(String name) {
@@ -258,24 +256,13 @@ public class VerifyTransactionDetailsActivity
             Log.e(getClass().getSimpleName(), "Invalid token selected", e);
         }
 
-        // Confirm credentials and continue in onActivityResult...
-        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-        Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
-                getString(R.string.app_name), getString(R.string.authorize_to_generate_tan));
-        startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS == requestCode) {
-            if (resultCode == Activity.RESULT_OK) {
-                onTokenReadyToUse();
-            } else {
-                Toast.makeText(this, R.string.device_auth_failed, Toast.LENGTH_SHORT).show();
-            }
-        }
+        // Confirm credentials
+        authenticateUser(R.string.authorize_to_generate_tan,
+                new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                onTokenReadyToUse();            }
+        });
     }
 
     private void onTokenReadyToUse() {
@@ -293,8 +280,12 @@ public class VerifyTransactionDetailsActivity
         String tan;
         try {
             tan = computeFormattedTan(bankingToken);
-        } catch (GeneralSecurityException | HHDuc.UnsupportedDataFormatException e) {
-            Log.e(getClass().getSimpleName(), "Cannot compute TAN", e);
+        } catch (HHDuc.UnsupportedDataFormatException e) {
+            Log.e(getClass().getSimpleName(), "Illegal QR code data, cannot compute TAN", e);
+            return;
+        } catch (GeneralSecurityException e) {
+            Log.e(getClass().getSimpleName(), "Key store error, cannot compute TAN", e);
+            onTokenError(e);
             return;
         }
 
@@ -329,5 +320,21 @@ public class VerifyTransactionDetailsActivity
                 scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
+    }
+
+    private void onTokenError(Exception cause) {
+        ErrorDialogBuilder builder = new ErrorDialogBuilder(this);
+        builder.setTitle(R.string.token_failed_title);
+        builder.setMessage(R.string.token_failed_details);
+        builder.setError(cause);
+
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }

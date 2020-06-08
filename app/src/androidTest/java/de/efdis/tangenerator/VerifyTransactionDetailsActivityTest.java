@@ -22,6 +22,7 @@ package de.efdis.tangenerator;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewAssertion;
@@ -42,7 +43,9 @@ import de.efdis.tangenerator.activetan.DataElementType;
 import de.efdis.tangenerator.activetan.HHDuc;
 import de.efdis.tangenerator.activetan.VisualisationClass;
 import de.efdis.tangenerator.gui.VerifyTransactionDetailsActivity;
+import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.screenshot.DayNightRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
@@ -65,14 +68,18 @@ public class VerifyTransactionDetailsActivityTest {
     public ScreenshotRule screenshotRule = new ScreenshotRule();
 
     @Rule
+    public DayNightRule dayNightRule = new DayNightRule();
+
+    @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
+            = InMemoryDatabaseRule.withSingleTanGenerator(BankingTokenUsage.DISABLED_AUTH_PROMPT);
 
     @Rule
     public ActivityScenarioRule<VerifyTransactionDetailsActivity> activityScenarioRule
             = new ActivityScenarioRule<>(getIntentWithTestData());
 
     @Test
+    @DayNightRule.UiModes({AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO})
     public void takeScreenshots() {
         screenshotRule.captureScreen("verifyTransaction");
 

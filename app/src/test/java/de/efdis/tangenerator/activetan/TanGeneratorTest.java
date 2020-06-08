@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -32,8 +32,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class TanGeneratorTest {
-
-    private static final Charset ASCII = Charset.forName("US-ASCII");
 
     @Test
     public void testDecimalizationExample() {
@@ -53,7 +51,7 @@ public class TanGeneratorTest {
     @Test
     public void testDecimalization() throws NoSuchAlgorithmException, InvalidKeyException {
         // Test vectors taken from Appendix D in RFC 4226
-        byte[] secret = "12345678901234567890".getBytes(ASCII);
+        byte[] secret = "12345678901234567890".getBytes(StandardCharsets.US_ASCII);
 
         int[] expectedHOTP = new int[] {
                 755224,

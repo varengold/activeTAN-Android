@@ -18,8 +18,6 @@
             android:id="@+id/actionBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:elevation="2dp"
-            android:theme="?android:attr/actionBarStyle"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/app_name" />
 
@@ -33,8 +31,7 @@
             android:layout_marginBottom="8dp"
             android:text="@string/scan_qr_code"
             android:textAlignment="center"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="24sp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,10 +98,12 @@
             android:orientation="vertical"
             android:padding="16dp"
             >
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/bank_name" />
+                android:text="@string/bank_name"
+                android:textColor="?android:attr/textColorSecondary" />
 
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>

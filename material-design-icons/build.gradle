@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        // We use the vector icons from Material Design, which require version 21
+        minSdkVersion 21
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "3.0.1"
+
+        sourceSets {
+            main.res.srcDirs = files(file("src/main").listFiles(new FileFilter() {
+                @Override
+                boolean accept(File resPath) {
+                    return new File(resPath, "drawable-anydpi-v21").isDirectory()
+                }
+            }))
+        }
+    }
+
+}
+
+dependencies {
+
+}

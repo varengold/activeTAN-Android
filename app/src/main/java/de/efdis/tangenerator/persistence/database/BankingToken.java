@@ -55,11 +55,10 @@ public class BankingToken implements Serializable {
     public String name;
 
     /**
-     * Whether the user has to explicitly authenticate with the device credentials
-     * (pattern, pin, password, or fingerprint) for each usage of the token.
+     * Indicate, how the key may be used (with or without user authentication).
      */
-    @ColumnInfo(name = "confirm_device_credentials_to_use")
-    public boolean confirmDeviceCredentialsToUse;
+    @NonNull
+    public BankingTokenUsage usage;
 
     /**
      * Alias of the secret banking key in the Android key store.

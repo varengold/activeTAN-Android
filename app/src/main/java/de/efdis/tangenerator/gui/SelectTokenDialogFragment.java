@@ -24,7 +24,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +79,8 @@ public class SelectTokenDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                new ContextThemeWrapper(getContext(), R.style.AppTheme_AlertDialogTheme));
 
         if (availableTokens == null || availableTokens.size() == 0) {
             builder.setTitle(R.string.no_tokens_available_title);
@@ -131,8 +134,13 @@ public class SelectTokenDialogFragment extends DialogFragment {
         // Automatically select the only available token
         if (availableTokens != null && availableTokens.size() == 1) {
             getDialog().hide();
-            selectedToken = availableTokens.get(0);
-            onTokenSelected();
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    selectedToken = availableTokens.get(0);
+                    onTokenSelected();
+                }
+            });
         }
     }
 

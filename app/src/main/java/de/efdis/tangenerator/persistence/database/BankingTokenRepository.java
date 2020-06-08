@@ -64,43 +64,7 @@ public class BankingTokenRepository {
 
         if (bankingKey == null) {
             Log.e(BankingTokenRepository.class.getSimpleName(),
-                    "Banking key is missing for token " + bankingToken.id);
-            return false;
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            /*
-             * Up to and including API 25 Destroyable#isDestroyed()
-             * did not have a default implementation and throws a NoSuchMethodError.
-             */
-        } else {
-            if (bankingKey.isDestroyed()) {
-                Log.e(BankingTokenRepository.class.getSimpleName(),
-                        "Banking key destroyed for token " + bankingToken.id);
-                return false;
-            }
-        }
-
-        /*
-         * The key gets permanently and irreversibly invalidated once the secure lock screen is
-         * disabled (i. e., reconfigured to None, Swipe or other mode which does not authenticate
-         * the user) or when the secure lock screen is forcibly reset (e. g., by Device Admin).
-         *
-         * We can detect this with the KeyPermanentlyInvalidatedException,
-         * by attempting to use the key.
-         */
-        try {
-            Cipher aes = Cipher.getInstance("AES/CBC/NoPadding");
-            aes.init(Cipher.ENCRYPT_MODE, bankingKey);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            throw new RuntimeException(
-                    "Cannot initialize AES cipher", e);
-        } catch (UserNotAuthenticatedException e) {
-            // the key can probably be used, but the user must repeat authentication
-            return true;
-        } catch (InvalidKeyException e) {
-            Log.e(BankingTokenRepository.class.getSimpleName(),
-                    "Banking key invalidated for token " + bankingToken.id);
+                    "Banking key is missing or invalid for token " + bankingToken.id);
             return false;
         }
 
@@ -122,7 +86,7 @@ public class BankingTokenRepository {
 
     public static boolean userMustAuthenticateToUse(BankingToken bankingToken)
             throws KeyStoreException, InvalidKeyException {
-        if (bankingToken.confirmDeviceCredentialsToUse) {
+        if (bankingToken.usage != BankingTokenUsage.DISABLED_AUTH_PROMPT) {
             return true;
         }
 
@@ -136,7 +100,7 @@ public class BankingTokenRepository {
             Cipher aes = Cipher.getInstance("AES/CBC/NoPadding");
             aes.init(Cipher.ENCRYPT_MODE, bankingKey);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            throw new RuntimeException(
+            throw new KeyStoreException(
                     "Cannot initialize AES cipher", e);
         } catch (UserNotAuthenticatedException e) {
             return true;
@@ -217,7 +181,7 @@ public class BankingTokenRepository {
 
         // Only update certain settings to avoid security problems
         persistentToken.name = updatedToken.name;
-        persistentToken.confirmDeviceCredentialsToUse = updatedToken.confirmDeviceCredentialsToUse;
+        persistentToken.usage = updatedToken.usage;
         database.bankingTokenDao().update(persistentToken);
 
         return persistentToken;

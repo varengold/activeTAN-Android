@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.gui.VerifyTransactionDetailsActivity;
+import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
 /**
@@ -38,11 +39,11 @@ import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
  * to unlock the token.
  */
 @RunWith(AndroidJUnit4.class)
-public class VerifyTransactionDetailsActivityTestWithProtection {
+public class VerifyTransactionDetailsActivityTestWithUserAuth {
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = InMemoryDatabaseRule.withSingleProtectedTanGenerator();
+            = InMemoryDatabaseRule.withSingleTanGenerator(BankingTokenUsage.ENABLED_AUTH_PROMPT);
 
     @Rule
     public ActivityScenarioRule<VerifyTransactionDetailsActivity> activityScenarioRule

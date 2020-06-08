@@ -19,8 +19,7 @@
 
 package de.efdis.tangenerator.activetan;
 
-import junit.framework.TestCase;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.security.GeneralSecurityException;
@@ -69,7 +68,7 @@ public class AesCbcMacTest {
         };
         byte[] actualMac = computeMac(0);
 
-        TestCase.assertTrue(Arrays.equals(expectedMac, actualMac));
+        Assert.assertArrayEquals(expectedMac, actualMac);
     }
 
     @Test
@@ -82,7 +81,7 @@ public class AesCbcMacTest {
         };
         byte[] actualMac = computeMac(16);
 
-        TestCase.assertTrue(Arrays.equals(expectedMac, actualMac));
+        Assert.assertArrayEquals(expectedMac, actualMac);
     }
 
     @Test
@@ -95,7 +94,7 @@ public class AesCbcMacTest {
         };
         byte[] actualMac = computeMac(40);
 
-        TestCase.assertTrue(Arrays.equals(expectedMac, actualMac));
+        Assert.assertArrayEquals(expectedMac, actualMac);
     }
 
     @Test
@@ -108,7 +107,7 @@ public class AesCbcMacTest {
         };
         byte[] actualMac = computeMac(64);
 
-        TestCase.assertTrue(Arrays.equals(expectedMac, actualMac));
+        Assert.assertArrayEquals(expectedMac, actualMac);
     }
 
 }

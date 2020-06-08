@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import de.efdis.tangenerator.R;
+import me.dm7.barcodescanner.zxing.QrCodeScannerView;
 
 /**
  * Start the camera, scan for QR codes and show a live camera preview

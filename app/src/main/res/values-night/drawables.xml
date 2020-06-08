@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- In night mode substitute filled icon variants with respective outlined icon variants -->
+    <drawable name="ic_material_action_account_balance">@drawable/ic_account_balance_outline_black_24dp</drawable>
+    <drawable name="ic_material_action_delete_forever">@drawable/ic_delete_forever_outline_black_24dp</drawable>
+    <drawable name="ic_material_action_info">@drawable/ic_info_outline_black_24dp</drawable>
+    <drawable name="ic_material_action_perm_device_information">@drawable/ic_perm_device_information_outline_black_24dp</drawable>
+    <drawable name="ic_material_action_settings">@drawable/ic_settings_outline_black_24dp</drawable>
+
+    <drawable name="ic_material_image_edit">@drawable/ic_edit_outline_black_24dp</drawable>
+
+</resources>

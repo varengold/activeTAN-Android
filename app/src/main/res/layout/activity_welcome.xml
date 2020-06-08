@@ -44,24 +44,23 @@
             android:id="@+id/actionBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:elevation="2dp"
-            android:theme="?android:attr/actionBarStyle"
             app:layout_constraintTop_toTopOf="parent"
             app:title="@string/app_name" />
 
         <TextView
             android:id="@+id/welcomeTitle"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="34sp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            tools:text="Welcome Title"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="24sp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            app:autoSizeMaxTextSize="24sp"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/actionBar" />
+            app:layout_constraintTop_toBottomOf="@id/actionBar"
+            tools:text="Welcome Title" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
@@ -70,7 +69,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            app:cardBackgroundColor="?android:attr/colorForeground"
             app:cardUseCompatPadding="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +84,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/welcome_start_activation_label"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="?attr/colorOnSurface"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -96,20 +96,20 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/welcome_start_activation_instruction"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="?attr/colorOnSurface"
                     app:layout_constraintEnd_toEndOf="@+id/textView6"
                     app:layout_constraintStart_toStartOf="@+id/textView6"
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
                 <Button
                     android:id="@+id/startScanningButton"
+                    style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:backgroundTint="?attr/colorAccent"
                     android:onClick="onButtonStart"
                     android:text="@string/welcome_start_activation_start"
-                    android:textColor="?android:attr/colorBackground"
-                    android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -126,6 +126,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/welcome_subtitle"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintBottom_toTopOf="@+id/featureTable"
             app:layout_constraintEnd_toEndOf="parent"
@@ -163,13 +164,14 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="0dp"
                         android:tint="?android:attr/textColorSecondary"
-                        app:srcCompat="@drawable/ic_check_black_24dp" />
+                        app:srcCompat="@drawable/ic_material_navigation_check" />
 
                     <TextView
                         android:id="@+id/textView19"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/welcome_subtitle_feature1"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:textColor="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
@@ -189,13 +191,14 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="0dp"
                         android:tint="?android:attr/textColorSecondary"
-                        app:srcCompat="@drawable/ic_check_black_24dp" />
+                        app:srcCompat="@drawable/ic_material_navigation_check" />
 
                     <TextView
                         android:id="@+id/textView21"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/welcome_subtitle_feature2"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:textColor="?android:attr/textColorSecondary" />
                 </LinearLayout>
 
@@ -220,13 +223,14 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="0dp"
                         android:tint="?android:attr/textColorSecondary"
-                        app:srcCompat="@drawable/ic_check_black_24dp" />
+                        app:srcCompat="@drawable/ic_material_navigation_check" />
 
                     <TextView
                         android:id="@+id/textView23"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/welcome_subtitle_feature3"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:textColor="?android:attr/textColorSecondary" />
                 </LinearLayout>
 
@@ -245,13 +249,14 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="0dp"
                         android:tint="?android:attr/textColorSecondary"
-                        app:srcCompat="@drawable/ic_check_black_24dp" />
+                        app:srcCompat="@drawable/ic_material_navigation_check" />
 
                     <TextView
                         android:id="@+id/textView25"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/welcome_subtitle_feature4"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:textColor="?android:attr/textColorSecondary" />
 
                 </LinearLayout>
@@ -263,8 +268,6 @@
             android:id="@+id/view2"
             android:layout_width="16dp"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/textView29"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -288,10 +291,12 @@
             android:orientation="vertical"
             android:padding="16dp"
             >
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/bank_name" />
+                android:text="@string/bank_name"
+                android:textColor="?android:attr/textColorSecondary" />
 
         </LinearLayout>
     </com.google.android.material.navigation.NavigationView>

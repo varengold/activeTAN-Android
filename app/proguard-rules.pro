@@ -5,13 +5,6 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable
@@ -20,6 +13,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# Remove logging statements
 -assumenosideeffects class android.util.Log {
     public static int v(...);
     public static int d(...);
@@ -29,6 +23,7 @@
     public static int wtf(...);
 }
 
+# Remove logging statements
 -assumenosideeffects class timber.log.Timber {
     public static void v(...);
     public static void d(...);

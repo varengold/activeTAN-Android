@@ -19,27 +19,36 @@
 
 package de.efdis.tangenerator.gui;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.List;
+
 import de.efdis.tangenerator.R;
-import de.efdis.tangenerator.common.TextUtils;
 
 /**
  * This is the base class for all activities used in this app.
@@ -52,6 +61,8 @@ import de.efdis.tangenerator.common.TextUtils;
  */
 public abstract class AppActivity
         extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 10853;
 
     protected Toolbar getToolbar() {
         return findViewById(R.id.actionBar);
@@ -96,7 +107,7 @@ public abstract class AppActivity
         Drawable drawable = getDrawable(id);
 
         TypedArray ta = context.obtainStyledAttributes(
-                new int[]{android.R.attr.textColorPrimary});
+                new int[]{R.attr.colorOnPrimary});
         int textColorPrimary = ta.getColor(0, -1);
         ta.recycle();
 
@@ -117,7 +128,7 @@ public abstract class AppActivity
     }
 
     private void prepareNavigationDrawer(Toolbar actionBar, final DrawerLayout drawerLayout, final NavigationView navigationDrawer) {
-        setToolbarNavigationIcon(io.material.R.drawable.ic_menu_black_24dp);
+        setToolbarNavigationIcon(R.drawable.ic_material_navigation_menu);
 
         actionBar.setNavigationOnClickListener(
                 new View.OnClickListener() {
@@ -139,7 +150,7 @@ public abstract class AppActivity
     }
 
     private void prepareBackArrow(Toolbar actionBar, final Intent parent) {
-        setToolbarNavigationIcon(io.material.R.drawable.ic_arrow_back_black_24dp);
+        setToolbarNavigationIcon(R.drawable.ic_material_navigation_arrow_back);
 
         actionBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,5 +203,75 @@ public abstract class AppActivity
         startActivityForResult(intent, 0);
     }
 
+    /**
+     * Perform user authentication with device credentials and optional biometrics
+     */
+    protected void authenticateUser(
+            @StringRes int description,
+            BiometricPrompt.AuthenticationCallback callback) {
+        if (BiometricManager.from(this).canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+            /*
+             * Use biometric prompt, if available. On Android older than P we use a fingerprint
+             * prompt. On devices with Android P or newer this is a system-provided authentication
+             * prompt using any of the device's supported biometric (fingerprint, iris, face, ...).
+             *
+             * The user may chose to fall back to device credentials (password, pin, pattern) if
+             * biometric sensors are not working.
+             */
+            BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                    .setDeviceCredentialAllowed(true)
+                    .setTitle(getString(R.string.app_name))
+                    .setDescription(getString(description))
+                    // confirmation happens in this activity, not in the auth prompt
+                    .setConfirmationRequired(false)
+                    .build();
+
+            BiometricPrompt biometricPrompt = new BiometricPrompt(this,
+                    ContextCompat.getMainExecutor(this),
+                    callback);
+
+            biometricPrompt.authenticate(promptInfo);
+        } else {
+            /*
+             * If no fingerprint / biometric is available, the classic KEYGUARD dialog will be used.
+             *
+             * We do not use AndroidX Biometric and store the callback in a local field temporarily,
+             * until we receive the activity result. This simplifies instrumentation tests, because
+             * the authentication request's intent can easily be mocked.
+             */
+            keyguardAuthenticationCallback = callback;
+
+            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+            Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
+                    getString(R.string.app_name), getString(description));
+            startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
+        }
+    }
+
+    private BiometricPrompt.AuthenticationCallback keyguardAuthenticationCallback;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS) {
+            if (keyguardAuthenticationCallback != null) {
+                try {
+                    switch (resultCode) {
+                        case Activity.RESULT_OK:
+                            keyguardAuthenticationCallback.onAuthenticationSucceeded(null);
+                            break;
+                        case Activity.RESULT_CANCELED:
+                            keyguardAuthenticationCallback.onAuthenticationError(
+                                    BiometricPrompt.ERROR_USER_CANCELED, "");
+                            break;
+                    }
+                } finally {
+                    keyguardAuthenticationCallback = null;
+                }
+            }
+            return;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 }

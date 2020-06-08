@@ -19,42 +19,39 @@
 
 package de.efdis.tangenerator.activetan;
 
-import junit.framework.TestCase;
-
+import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 public class DKCharsetTest {
 
     @Test
     public void encodeNumbers() {
-        TestCase.assertTrue(Arrays.equals(new byte[] {0x31, 0x30, 0x30, 0x2c, 0x30, 0x30},
-                "100,00".getBytes(DKCharset.INSTANCE)));
+        Assert.assertArrayEquals(new byte[]{0x31, 0x30, 0x30, 0x2c, 0x30, 0x30},
+                "100,00".getBytes(DKCharset.INSTANCE));
     }
 
     @Test
     public void decodeNumbers() {
-        TestCase.assertEquals("100,00",
+        Assert.assertEquals("100,00",
                 new String(new byte[] {0x31, 0x30, 0x30, 0x2c, 0x30, 0x30}, DKCharset.INSTANCE));
     }
 
     @Test
     public void encodeDecodeAllValidCharacters() {
         String validCharacters = " !\"#€%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ£_`abcdefghijklmnopqrstuvwxyzäöüß";
-        TestCase.assertEquals(validCharacters,
+        Assert.assertEquals(validCharacters,
                 new String(validCharacters.getBytes(DKCharset.INSTANCE), DKCharset.INSTANCE));
     }
 
     @Test
     public void invalidCharacters() {
-        TestCase.assertEquals("?",
+        Assert.assertEquals("?",
                 new String("´".getBytes(DKCharset.INSTANCE), DKCharset.INSTANCE));
     }
 
     @Test
     public void invalidEncoding() {
-        TestCase.assertEquals("?",
+        Assert.assertEquals("?",
                 new String(new byte[]{0x00}, DKCharset.INSTANCE));
     }
 

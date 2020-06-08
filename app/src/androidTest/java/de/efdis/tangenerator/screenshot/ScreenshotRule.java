@@ -20,12 +20,15 @@
 package de.efdis.tangenerator.screenshot;
 
 import android.Manifest;
+import android.content.res.Configuration;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.screenshot.BasicScreenCaptureProcessor;
 import androidx.test.runner.screenshot.ScreenCapture;
@@ -104,10 +107,25 @@ public class ScreenshotRule implements TestRule {
         @Override
         public void evaluate() throws Throwable {
             ScreenCaptureProcessor processor = new BasicScreenCaptureProcessor() {
+                private String getUiMode() {
+                    if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+                        return "dark";
+                    } else {
+                        return "light";
+                    }
+                }
+
+                private String getLanguage() {
+                    Configuration configuration = InstrumentationRegistry.getInstrumentation()
+                            .getTargetContext().getResources().getConfiguration();
+                    return configuration.getLocales().get(0).getLanguage();
+                }
+
                 @Override
                 protected String getFilename(String captureName) {
                     return BuildConfig.FLAVOR_client
-                            + mFileNameDelimiter + Locale.getDefault().getLanguage()
+                            + mFileNameDelimiter + getUiMode()
+                            + mFileNameDelimiter + getLanguage()
                             + mFileNameDelimiter + captureName;
                 }
             };

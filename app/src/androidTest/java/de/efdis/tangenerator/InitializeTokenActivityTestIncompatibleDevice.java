@@ -1,0 +1,68 @@
+package de.efdis.tangenerator;
+
+import android.Manifest;
+import android.content.Intent;
+
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import de.efdis.tangenerator.gui.InitializeTokenActivity;
+import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+
+@RunWith(AndroidJUnit4.class)
+public class InitializeTokenActivityTestIncompatibleDevice {
+
+    static Intent getIntentWithTestData() {
+        Intent intent = InitializeTokenActivityTest.getIntentWithTestData();
+
+        intent.putExtra(InitializeTokenActivity.EXTRA_ENFORCE_COMPATIBILITY_MODE, true);
+        return intent;
+    }
+
+    @Rule
+    public GrantPermissionRule cameraPermissionRule
+            = GrantPermissionRule.grant(
+            Manifest.permission.CAMERA);
+
+    @Rule
+    public InMemoryDatabaseRule mockDatabaseRule
+            = InMemoryDatabaseRule.withoutTanGenerators();
+
+    @Rule
+    public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule
+            = new ActivityScenarioRule<>(getIntentWithTestData());
+
+    @Test
+    public void checkCompatibilityMode() {
+        Espresso.onView(ViewMatchers.withText(R.string.initialization_mandatory_user_auth_description))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        Espresso.onView(ViewMatchers.withText(android.R.string.ok))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.buttonContinue))
+                .perform(ViewActions.click());
+
+        InitializeTokenActivityTest.simulatePortalQrCodeInput(activityScenarioRule.getScenario());
+
+        // To compute the initial TAN, an authorization request is performed automatically.
+
+        Espresso.onView(ViewMatchers.withId(R.id.initialTAN))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        Espresso.pressBack();
+
+        Espresso.onView(ViewMatchers.withText(R.string.initialization_confirm_quit_message))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+}

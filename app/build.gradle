@@ -1,20 +1,26 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion versions.compileSdk
     defaultConfig {
+        // Requires API level 23 (Android 6.0) to use Android keystore system for cryptography.
         minSdkVersion 23
-        targetSdkVersion 29
-        versionCode 23
-        versionName "2020-01-21"
+        targetSdkVersion versions.targetSdk
+        versionCode 24
+        versionName "2020-06-08"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         vectorDrawables.useSupportLibrary = true
 
         javaCompileOptions {
             annotationProcessorOptions {
+                // Export database schema history as JSON files.
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
+        }
+        sourceSets {
+            // Include database schema history for migration testing.
+            androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
         }
     }
     buildTypes {
@@ -61,19 +67,22 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(":material")
+    implementation project(':material-design-icons')
+    implementation project(":barcodescanner")
+
+    implementation 'com.google.android.material:material:1.1.0'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    implementation 'androidx.biometric:biometric:1.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    implementation 'com.google.zxing:core:3.3.3'
-    implementation 'me.dm7.barcodescanner:core:1.9.13'
+    implementation 'com.google.zxing:core:' + versions.zxing
 
-    def room_version = '2.2.3'
+    def room_version = '2.2.5'
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
-    testImplementation "androidx.room:room-testing:$room_version"
+    androidTestImplementation "androidx.room:room-testing:$room_version"
 
     testImplementation 'junit:junit:4.12'
 
@@ -82,6 +91,4 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0'
-
-    implementation 'com.google.android.material:material:1.0.0'
 }

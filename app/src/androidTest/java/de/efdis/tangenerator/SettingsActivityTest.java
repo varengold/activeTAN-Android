@@ -21,6 +21,7 @@ package de.efdis.tangenerator;
 
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewAssertion;
@@ -34,7 +35,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.gui.SettingsActivity;
+import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.screenshot.DayNightRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
@@ -42,16 +45,20 @@ public class SettingsActivityTest {
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
+            = InMemoryDatabaseRule.withSingleTanGenerator(BankingTokenUsage.DISABLED_AUTH_PROMPT);
 
     @Rule
     public ScreenshotRule screenshotRule = new ScreenshotRule();
+
+    @Rule
+    public DayNightRule dayNightRule = new DayNightRule();
 
     @Rule
     public ActivityScenarioRule<SettingsActivity> activityScenarioRule
             = new ActivityScenarioRule<>(SettingsActivity.class);
 
     @Test
+    @DayNightRule.UiModes({AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO})
     public void takeScreenshots() {
         Espresso.onView(ViewMatchers.withId(R.id.bankingTokenRecyclerView))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));

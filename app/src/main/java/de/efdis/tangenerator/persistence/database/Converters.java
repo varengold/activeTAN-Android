@@ -43,4 +43,41 @@ public class Converters {
         }
     }
 
+    @TypeConverter
+    public static Integer fromBankingTokenUsage(BankingTokenUsage bankingTokenUsage) {
+        if (bankingTokenUsage == null) {
+            return null;
+        } else {
+            switch (bankingTokenUsage) {
+                case DISABLED_AUTH_PROMPT:
+                    return 0;
+                case ENABLED_AUTH_PROMPT:
+                    return 1;
+                case MANDATORY_AUTH_PROMPT:
+                    return 2;
+                default:
+                    throw new AssertionError("unknown value");
+            }
+        }
+    }
+
+    @TypeConverter
+    public static BankingTokenUsage toBankingTokenUsage(Integer bankingTokenUsage) {
+        if (bankingTokenUsage == null) {
+            return null;
+        } else {
+            switch (bankingTokenUsage) {
+                case 0:
+                    return BankingTokenUsage.DISABLED_AUTH_PROMPT;
+                case 1:
+                    return BankingTokenUsage.ENABLED_AUTH_PROMPT;
+                case 2:
+                    return BankingTokenUsage.MANDATORY_AUTH_PROMPT;
+                default:
+                    throw new IllegalArgumentException(
+                            "value " + bankingTokenUsage + " not supported");
+            }
+        }
+    }
+
 }

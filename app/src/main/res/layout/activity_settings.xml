@@ -10,8 +10,6 @@
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:elevation="2dp"
-        android:theme="?android:attr/actionBarStyle"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/menu_item_settings" />
 
@@ -24,6 +22,7 @@
         android:layout_marginEnd="8dp"
         android:text="@string/no_settings_without_activation"
         android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="?android:attr/textColorSecondary"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"

@@ -22,6 +22,7 @@ package de.efdis.tangenerator.activetan;
 public enum KeyMaterialType {
 
     LETTER(0x42), // 'B'
+    DEMO(0x44), // 'D'
     PORTAL(0x50), // 'P'
     ;
 

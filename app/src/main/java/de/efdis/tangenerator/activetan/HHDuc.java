@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.zip.Checksum;
@@ -141,7 +142,7 @@ public class HHDuc {
     }
 
     public byte[] getStartCode() {
-        StringBuffer startCode = new StringBuffer();
+        StringBuilder startCode = new StringBuilder();
         int maxStartCodeDigits;
 
         if (getVisualisationClass() == null) {
@@ -157,13 +158,16 @@ public class HHDuc {
             if (getVisualisationClass().getDataElements().equals(
                     new LinkedList<>(dataElements.keySet()))) {
                 startCode.append("1");
-                startCode.append(String.format("%02d", visualisationClass.getId()));
+                startCode.append(String.format(Locale.US,
+                        "%02d", visualisationClass.getId()));
             } else {
                 startCode.append("2");
-                startCode.append(String.format("%02d", visualisationClass.getId()));
+                startCode.append(String.format(Locale.US,
+                        "%02d", visualisationClass.getId()));
 
                 for (DataElementType dataElementType : dataElements.keySet()) {
-                    startCode.append(String.format("%02d", dataElementType.getId()));
+                    startCode.append(String.format(Locale.US,
+                            "%02d", dataElementType.getId()));
                 }
                 if (dataElements.size() < 3) {
                     startCode.append("0");
@@ -171,7 +175,8 @@ public class HHDuc {
             }
         }
 
-        String randomNumber = String.format("%0" + maxStartCodeDigits + "d", unpredictableNumber);
+        String randomNumber = String.format(Locale.US,
+                "%0" + maxStartCodeDigits + "d", unpredictableNumber);
         startCode.append(randomNumber.substring(
                 randomNumber.length() + startCode.length() - maxStartCodeDigits));
 
@@ -304,7 +309,7 @@ public class HHDuc {
         switch (startCodeEncoding) {
             case ASCII:
                 try {
-                    startCode = Integer.valueOf(new String(rawStartCode, DKCharset.INSTANCE));
+                    startCode = Integer.parseInt(new String(rawStartCode, DKCharset.INSTANCE));
                 } catch (NumberFormatException e) {
                     throw new UnsupportedDataFormatException("Start code is not numeric");
                 }

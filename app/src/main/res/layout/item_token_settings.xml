@@ -12,8 +12,8 @@
         android:layout_marginStart="72dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:textColor="?android:attr/colorPrimaryDark"
-        android:textStyle="bold"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1"
+        android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,8 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/tokenDescriptionButton"
         app:layout_constraintStart_toStartOf="@+id/serialNumber"
         app:layout_constraintTop_toBottomOf="@+id/serialNumber"
@@ -39,7 +39,7 @@
         android:layout_marginEnd="24dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_edit_black_24dp"
+        app:srcCompat="@drawable/ic_material_image_edit"
         android:tint="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/tokenDescription"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,8 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/protect_usage"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:textColor="?android:attr/textColorPrimary"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="@+id/tokenDescription"
         app:layout_constraintStart_toStartOf="@+id/tokenDescription"
         app:layout_constraintTop_toBottomOf="@+id/tokenDescription" />
@@ -71,12 +71,12 @@
         android:id="@+id/protectUsageDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:textColor="?android:attr/textColorSecondary"
         app:layout_constraintEnd_toEndOf="@+id/protectUsage"
         app:layout_constraintStart_toStartOf="@+id/protectUsage"
         app:layout_constraintTop_toBottomOf="@+id/protectUsage"
-        tools:text="@string/do_protect_usage_description"
-        />
+        tools:text="@string/do_protect_usage_description" />
 
     <ImageButton
         android:id="@+id/deleteTokenButton"
@@ -88,7 +88,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/statusDescription"
         app:layout_constraintEnd_toEndOf="@+id/tokenDescriptionButton"
         app:layout_constraintTop_toTopOf="@+id/statusDescription"
-        app:srcCompat="@drawable/ic_delete_forever_black_24dp" />
+        app:srcCompat="@drawable/ic_material_action_delete_forever" />
 
     <LinearLayout
         android:id="@+id/statusDescription"
@@ -105,6 +105,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/active_since_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?android:attr/textColorSecondary" />
 
 
@@ -112,6 +113,7 @@
             android:id="@+id/statusActiveSinceDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?android:attr/textColorPrimary"
             tools:text="2019-01-01" />
 
@@ -121,12 +123,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/last_used_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?android:attr/textColorSecondary" />
 
         <TextView
             android:id="@+id/statusLastUsedDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?android:attr/textColorPrimary"
             tools:text="@string/last_used_never" />
 
@@ -136,6 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/invalidated_key_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?android:attr/textColorSecondary" />
 
         <TextView
@@ -143,6 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/invalidated_key_description"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?android:attr/textColorPrimary" />
 
         <TextView
@@ -151,6 +157,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/exhausted_generator_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?android:attr/textColorSecondary" />
 
         <TextView
@@ -158,6 +165,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/exhausted_generator_description"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?android:attr/textColorPrimary" />
 
     </LinearLayout>

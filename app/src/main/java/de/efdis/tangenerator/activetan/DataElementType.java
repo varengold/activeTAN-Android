@@ -159,10 +159,6 @@ public enum DataElementType {
             }
             this.integerDigits = 0;
         }
-
-        if (Format.ALPHANUMERIC.equals(format) && fractionDigits != 0) {
-            throw new RuntimeException("alphanumeric format cannot use fraction digits");
-        }
     }
 
     public int getId() {

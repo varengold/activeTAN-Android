@@ -1,29 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/darkBlueBackground</item>
-        <item name="colorPrimaryDark">@color/darkBlueBackground</item>
-        <item name="colorAccent">@color/blueAccent</item>
+    <!-- Customization of the application theme for light mode. -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <!-- Normal text and background -->
         <item name="android:colorBackground">@color/whiteBackground</item>
-        <item name="android:colorForeground">@color/lightGreyBackground</item>
-        <item name="android:textColorPrimary">@color/normalFont</item>
-        <item name="android:textColorPrimaryInverse">@color/darkFont</item>
+        <item name="colorOnBackground">@color/normalFont</item>
         <item name="android:textColorSecondary">@color/lightFont</item>
-        <item name="android:textColorSecondaryInverse">@color/darkFont</item>
 
-        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
-        <item name="android:toolbarStyle">?android:attr/actionBarStyle</item>
+        <!-- Elevated text and background, e. g. CardView -->
+        <item name="colorSurface">@color/lightGreyBackground</item>
+        <item name="colorOnSurface">@color/normalFont</item>
 
-        <item name="qrScannerBorderColor">@color/red</item>
+        <!-- Primary color is used by the tool bar and status bar -->
+        <item name="colorPrimary">@color/lightGreyBackground</item>
+        <item name="colorPrimaryDark">@color/darkBlueBackground</item>
+        <item name="colorOnPrimary">@color/normalFont</item>
 
-        <item name="bankLogoBackgroundColor">@android:color/transparent</item>
-    </style>
+        <!-- Secondary color is used by buttons and links, variant is used for TAN / ATC -->
+        <item name="colorSecondary">@color/blueAccent</item>
+        <item name="colorSecondaryVariant">@color/darkFont</item>
+        <item name="colorOnSecondary">@color/whiteBackground</item>
 
-    <style name="AppTheme.ActionBarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:background">@color/lightGreyBackground</item>
-        <item name="android:textColorPrimary">@color/normalFont</item>
+        <!-- Errors and QR code scanner (red) -->
+        <item name="colorError">@color/red</item>
+        <item name="colorOnError">@color/whiteBackground</item>
     </style>
 
 </resources>

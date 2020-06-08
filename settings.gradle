@@ -1,1 +1,1 @@
-include ':material', ':app'
+include ':material-design-icons', ':barcodescanner', ':app'

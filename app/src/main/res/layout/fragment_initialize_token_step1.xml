@@ -27,6 +27,7 @@
                 android:layout_marginTop="32dp"
                 android:paddingTop="2dp"
                 android:text="@string/enter_serial_number"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textColor="?android:attr/textColorPrimary"
                 app:layout_constraintEnd_toEndOf="@+id/textView5"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -39,7 +40,7 @@
                 android:layout_height="16dp"
                 android:layout_marginStart="16dp"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_check_black_24dp"
+                app:srcCompat="@drawable/ic_material_navigation_check"
                 android:tint="?android:attr/textColorSecondary"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/textView5" />
@@ -51,7 +52,6 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="32dp"
-                app:cardBackgroundColor="?android:attr/colorForeground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5">
@@ -66,6 +66,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/label_serial_number"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:textColor="?attr/colorOnSurface"
                         app:layout_constraintStart_toStartOf="@+id/serialNumber"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,9 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="viewStart"
-                        android:textColor="?android:attr/textColorPrimary"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
+                        android:textAppearance="@style/AppTheme.TextAppearance.TAN"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/labelSerialNumber"
@@ -101,7 +101,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"
+                app:srcCompat="@drawable/ic_material_hardware_keyboard_arrow_right"
                 android:tint="?attr/colorAccent"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/textView9" />
@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"
+                app:srcCompat="@drawable/ic_material_hardware_keyboard_arrow_right"
                 android:tint="?attr/colorAccent"
                 app:layout_constraintStart_toStartOf="@id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/textView4" />
@@ -123,6 +123,7 @@
                 android:layout_marginTop="8dp"
                 android:paddingTop="2dp"
                 android:text="@string/go_to_scan_qr_code"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textColor="?android:attr/textColorPrimary"
                 app:layout_constraintEnd_toEndOf="@+id/textView4"
                 app:layout_constraintStart_toStartOf="@+id/textView4"
@@ -133,15 +134,13 @@
 
     <Button
         android:id="@+id/buttonContinue"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="?android:attr/colorAccent"
         android:text="@string/next_step"
-        android:textColor="?android:attr/colorBackground"
-        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

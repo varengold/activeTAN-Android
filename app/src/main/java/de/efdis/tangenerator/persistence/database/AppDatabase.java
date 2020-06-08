@@ -28,7 +28,7 @@ import androidx.room.TypeConverters;
 
 @Database(
         entities = {BankingToken.class},
-        version = 1
+        version = 2
 )
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -47,6 +47,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static synchronized AppDatabase getInstance(Context context) {
         if (instance == null) {
             Builder<AppDatabase> builder = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME);
+            builder.addMigrations(Migrations.MIGRATION_1_2);
             builder.allowMainThreadQueries();
             instance = builder.build();
         }

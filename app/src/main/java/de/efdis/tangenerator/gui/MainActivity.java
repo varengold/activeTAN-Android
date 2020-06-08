@@ -203,7 +203,9 @@ public class MainActivity
 
         @Override
         public void onKeyMaterial(byte[] hhdkmData) {
-            if (hhdkmData.length >= 1 && hhdkmData[0] == KeyMaterialType.LETTER.getHHDkmPrefix()) {
+            if (hhdkmData.length >= 1
+                    && (hhdkmData[0] == KeyMaterialType.LETTER.getHHDkmPrefix()
+                    || hhdkmData[0] == KeyMaterialType.DEMO.getHHDkmPrefix())) {
                 // Start initialization
                 Intent intent = new Intent(MainActivity.this,
                         InitializeTokenActivity.class);

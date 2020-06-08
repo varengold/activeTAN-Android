@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="ic_material_action_account_balance">@drawable/ic_account_balance_black_24dp</drawable>
+    <drawable name="ic_material_action_copyright">@drawable/ic_copyright_black_24dp</drawable>
+    <drawable name="ic_material_action_delete_forever">@drawable/ic_delete_forever_black_24dp</drawable>
+    <drawable name="ic_material_action_info">@drawable/ic_info_black_24dp</drawable>
+    <drawable name="ic_material_action_perm_device_information">@drawable/ic_perm_device_information_black_24dp</drawable>
+    <drawable name="ic_material_action_settings">@drawable/ic_settings_black_24dp</drawable>
+
+    <drawable name="ic_material_hardware_keyboard_arrow_down">@drawable/ic_keyboard_arrow_down_black_24dp</drawable>
+    <drawable name="ic_material_hardware_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_black_24dp</drawable>
+    <drawable name="ic_material_hardware_keyboard_arrow_up">@drawable/ic_keyboard_arrow_up_black_24dp</drawable>
+    <drawable name="ic_material_hardware_security">@drawable/ic_security_black_24dp</drawable>
+
+    <drawable name="ic_material_image_edit">@drawable/ic_edit_black_24dp</drawable>
+
+    <drawable name="ic_material_navigation_arrow_back">@drawable/ic_arrow_back_black_24dp</drawable>
+    <drawable name="ic_material_navigation_check">@drawable/ic_check_black_24dp</drawable>
+    <drawable name="ic_material_navigation_close">@drawable/ic_close_black_24dp</drawable>
+    <drawable name="ic_material_navigation_menu">@drawable/ic_menu_black_24dp</drawable>
+
+</resources>

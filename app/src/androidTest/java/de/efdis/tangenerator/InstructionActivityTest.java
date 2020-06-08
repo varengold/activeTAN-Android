@@ -19,6 +19,7 @@
 
 package de.efdis.tangenerator;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -27,6 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.gui.InstructionActivity;
+import de.efdis.tangenerator.screenshot.DayNightRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
@@ -36,10 +38,14 @@ public class InstructionActivityTest {
     public ScreenshotRule screenshotRule = new ScreenshotRule();
 
     @Rule
+    public DayNightRule dayNightRule = new DayNightRule();
+
+    @Rule
     public ActivityScenarioRule<InstructionActivity> activityScenarioRule
             = new ActivityScenarioRule<>(InstructionActivity.class);
 
     @Test
+    @DayNightRule.UiModes({AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO})
     public void takeScreenshots() {
         screenshotRule.captureScreen("instruction");
     }

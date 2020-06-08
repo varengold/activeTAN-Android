@@ -19,6 +19,7 @@
 
 package de.efdis.tangenerator;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -27,6 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.gui.ImprintActivity;
+import de.efdis.tangenerator.screenshot.DayNightRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
@@ -39,7 +41,11 @@ public class ImprintActivityTest {
     @Rule
     public ScreenshotRule screenshotRule = new ScreenshotRule();
 
+    @Rule
+    public DayNightRule dayNightRule = new DayNightRule();
+
     @Test
+    @DayNightRule.UiModes({AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO})
     public void takeScreenshots() {
         screenshotRule.captureScreen("imprint");
     }

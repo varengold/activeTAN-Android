@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Customization of the application theme for dark mode. -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <!-- Normal text and background -->
+        <item name="android:colorBackground">@color/material_dark_background</item>
+        <item name="colorOnBackground">@color/material_dark_text_high_emphasis</item>
+        <item name="android:textColorSecondary">@color/material_dark_text_medium_emphasis</item>
+
+        <!-- Elevated text and background, e. g. CardView -->
+        <item name="colorSurface">@color/material_dark_elevated_background_4dp</item>
+        <item name="colorOnSurface">@color/material_dark_text_medium_emphasis</item>
+
+        <!-- Primary color is used by the tool bar and status bar -->
+        <item name="colorPrimary">@color/material_dark_elevated_background_4dp</item>
+        <item name="colorPrimaryDark">@color/material_dark_true_black</item>
+        <item name="colorOnPrimary">@color/material_dark_text_high_emphasis</item>
+
+        <!-- Secondary color is used by buttons and links, variant is used for TAN / ATC -->
+        <item name="colorSecondary">@color/darkTheme_accent</item>
+        <item name="colorSecondaryVariant">@color/material_dark_text_high_emphasis</item>
+        <item name="colorOnSecondary">@color/material_dark_true_black</item>
+
+        <!-- Errors and QR code scanner (red) -->
+        <item name="colorError">@color/material_dark_error</item>
+        <item name="colorOnError">@color/material_dark_true_black</item>
+    </style>
+
+</resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="accent">#b09e70</color>
+    <color name="darkTheme_accent">#f8edb8</color>
     <color name="normalFont">#333d4a</color>
     <color name="darkBackground">#323945</color>
     <color name="mediumBackground">#465261</color>

@@ -19,11 +19,7 @@
 
 package de.efdis.tangenerator.gui;
 
-import android.app.Activity;
-import android.app.KeyguardManager;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -33,22 +29,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.biometric.BiometricPrompt;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
+import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 
 public class SettingsActivity
         extends AppActivity
         implements TokenSettingsAdapter.TokenSettingsListener {
-
-    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS_FOR_PIN = 1;
-    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS_FOR_DELETION = 2;
 
     private TokenSettingsAdapter tokenSettings;
 
@@ -136,61 +132,59 @@ public class SettingsActivity
         tokenSettings.updateItem(token);
     }
 
-    private BankingToken tokenForAuthentication;
-
     @Override
-    public void onChangeProtectUsage(BankingToken token, boolean isEnabled) {
+    public void onChangeProtectUsage(final BankingToken token, boolean isEnabled) {
+        if (token.usage == BankingTokenUsage.MANDATORY_AUTH_PROMPT) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.protect_usage);
+            builder.setMessage(R.string.message_cannot_unprotect_usage);
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
+
+            tokenSettings.updateItem(token);
+            return;
+        }
+
         if (isEnabled) {
             // no confirmation required to enable protection
-            onChangeProtectUsageConfirmed(token, isEnabled);
+            onChangeProtectUsageConfirmed(token, true);
         } else {
             // if protection shall be disabled, confirm this with an authentication
-            tokenForAuthentication = token;
+            authenticateUser(R.string.authorize_to_unlock_token,
+                    new BiometricPrompt.AuthenticationCallback() {
+                        @Override
+                        public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                            // credentials verified, may disable protection for token
+                            onChangeProtectUsageConfirmed(token, false);
+                        }
 
-            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-            Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(getString(R.string.app_name), getString(R.string.authorize_to_unlock_token));
-            startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS_FOR_PIN);
+                        @Override
+                        public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                            // credentials not verified, keep protection for token
+                            onChangeProtectUsageConfirmed(token, true);
+                        }
+                    });
         }
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        /* While we wait for the authorization intent to return a result,
-         * the corresponding token for the current action is temporarily stored in this member.
-         */
-        BankingToken token = tokenForAuthentication;
-        tokenForAuthentication = null;
-
-        if (token != null) {
-            switch (requestCode) {
-                case REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS_FOR_PIN:
-                    if (resultCode == Activity.RESULT_OK) {
-                        // credentials verified, may disable protection for token
-                        onChangeProtectUsageConfirmed(token, false);
-                    } else {
-                        Toast.makeText(this, R.string.device_auth_failed, Toast.LENGTH_SHORT).show();
-                        // credentials not verified, keep protection for token
-                        onChangeProtectUsageConfirmed(token, true);
-                    }
-                    break;
-                case REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS_FOR_DELETION:
-                    if (resultCode == Activity.RESULT_OK) {
-                        // credentials verified, may delete token
-                        onDeleteTokenConfirmed(token);
-                    } else {
-                        Toast.makeText(this, R.string.device_auth_failed, Toast.LENGTH_SHORT).show();
-                    }
-            }
-        }
-    }
-
 
     private void onChangeProtectUsageConfirmed(BankingToken token, boolean isEnabled) {
-        if (token.confirmDeviceCredentialsToUse != isEnabled) {
-            token.confirmDeviceCredentialsToUse = isEnabled;
-            token = BankingTokenRepository.updateTokenSettings(getApplicationContext(), token);
+        if (token.usage == BankingTokenUsage.DISABLED_AUTH_PROMPT
+                || token.usage == BankingTokenUsage.ENABLED_AUTH_PROMPT) {
+
+            BankingTokenUsage newUsage = isEnabled
+                    ? BankingTokenUsage.ENABLED_AUTH_PROMPT
+                    : BankingTokenUsage.DISABLED_AUTH_PROMPT;
+
+            if (token.usage != newUsage) {
+                token.usage = newUsage;
+                token = BankingTokenRepository.updateTokenSettings(getApplicationContext(), token);
+            }
         }
 
         // Always update the recycler item. If the switch has changed, the description must be
@@ -206,7 +200,7 @@ public class SettingsActivity
             return;
         }
 
-        if (!token.confirmDeviceCredentialsToUse) {
+        if (token.usage == BankingTokenUsage.DISABLED_AUTH_PROMPT) {
             // Use simple alert dialog to confirm deletion
             // of unprotected tokens
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -227,16 +221,15 @@ public class SettingsActivity
 
             builder.show();
         } else {
-            // Use device authorization to confirm deletion
-            // of protected tokens
-            tokenForAuthentication = token;
-
-            KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-
-            Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
-                    getText(R.string.app_name),
-                    getText(R.string.message_delete_token_confirmation));
-            startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS_FOR_DELETION);
+            // Use device authorization to confirm deletion of protected tokens
+            authenticateUser(R.string.message_delete_token_confirmation,
+                    new BiometricPrompt.AuthenticationCallback() {
+                        @Override
+                        public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                            // credentials verified, may delete token
+                            onDeleteTokenConfirmed(token);
+                        }
+                    });
         }
     }
 

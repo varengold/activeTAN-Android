@@ -23,6 +23,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.NoMatchingViewException;
@@ -44,6 +45,7 @@ import de.efdis.tangenerator.activetan.KeyMaterialType;
 import de.efdis.tangenerator.gui.InitializeTokenActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
+import de.efdis.tangenerator.screenshot.DayNightRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
@@ -56,7 +58,7 @@ public class InitializeTokenActivityTest {
 
     static Intent getIntentWithTestData() {
         HHDkm hhdkm = new HHDkm();
-        hhdkm.setType(KeyMaterialType.LETTER);
+        hhdkm.setType(KeyMaterialType.DEMO);
         hhdkm.setAesKeyComponent(new byte[BankingKeyComponents.BANKING_KEY_LENGTH]);
         hhdkm.setLetterNumber(LETTER_NUMBER);
 
@@ -78,6 +80,9 @@ public class InitializeTokenActivityTest {
 
     @Rule
     public ScreenshotRule screenshotRule = new ScreenshotRule();
+
+    @Rule
+    public DayNightRule dayNightRule = new DayNightRule();
 
     @Rule
     public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule
@@ -126,6 +131,7 @@ public class InitializeTokenActivityTest {
     }
 
     @Test
+    @DayNightRule.UiModes({AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO})
     public void takeScreenshots() {
         screenshotRule.captureScreen("initializeTokenStep1");
 

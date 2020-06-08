@@ -6,6 +6,7 @@
     <color name="darkBlueBackground">#000F23</color>
 
     <color name="blueAccent">#3295D2</color>
+    <color name="darkTheme_blueAccent">#86d0f0</color>
 
     <color name="normalFont">#414B56</color>
     <color name="lightFont">#7A868C</color>

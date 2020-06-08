@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 import android.view.View;
@@ -34,18 +35,18 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.biometric.BiometricPrompt;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.GeneralSecurityException;
+import java.security.KeyStoreException;
 
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.activetan.HHDkm;
@@ -60,6 +61,7 @@ import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment;
 import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
+import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
 public class InitializeTokenActivity
         extends AppActivity
@@ -68,8 +70,11 @@ public class InitializeTokenActivity
 
     public static final String EXTRA_LETTER_KEY_MATERIAL = "LETTER_KEY_MATERIAL";
     public static final String EXTRA_MOCK_SERIAL_NUMBER = "MOCK_SERIAL_NUMBER";
+    public static final String EXTRA_ENFORCE_COMPATIBILITY_MODE = "ENFORCE_COMPATIBILITY_MODE";
 
-    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 1;
+    private enum SuggestedActionAfterFailure {
+        NONE, REPEAT, USER_AUTHENTICATION, SYSTEM_SETTINGS
+    }
 
     private BankingKeyComponents keyComponents;
     private int letterNumber;
@@ -77,7 +82,7 @@ public class InitializeTokenActivity
     private boolean initializationCompleted;
     private BankingToken bankingToken;
 
-    private Dialog dialog;
+    private DialogInterface dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +104,14 @@ public class InitializeTokenActivity
         // Both information is required in online banking. If this activity gets closed while the
         // process is incomplete in online banking, the user would have to start from scratch.
         // Thus, use a different icon to show it's not always safe to click it.
-        setToolbarNavigationIcon(io.material.R.drawable.ic_close_black_24dp);
+        setToolbarNavigationIcon(R.drawable.ic_material_navigation_close);
 
         // Automatically (re)start the process, if no serial number has been obtained yet
-        if (keyComponents == null) {
+        if (keyComponents == null || tokenId == null) {
             // Dismiss an open dialog from a previous start of this activity.
             // For example, error messages from checkRequirements(),
             // since the device might now fulfill the requirements after switching back.
-            if (dialog != null && dialog.isShowing()) {
+            if (dialog != null) {
                 dialog.dismiss();
                 dialog = null;
             }
@@ -123,7 +128,42 @@ public class InitializeTokenActivity
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         if (keyguardManager == null || !keyguardManager.isDeviceSecure()) {
             onInitializationFailed(R.string.initialization_failed_unprotected_device,
-                    false);
+                    SuggestedActionAfterFailure.SYSTEM_SETTINGS);
+            return false;
+        }
+
+        /*
+         * Check key store and key parameter compatibility.
+         */
+        try {
+            if (!BankingKeyRepository.isNonBiometricKeySupportedByDevice()) {
+                onInitializationFailed(R.string.initialization_failed_incompatible_device,
+                        SuggestedActionAfterFailure.NONE);
+                return false;
+            }
+        } catch (KeyStoreException e) {
+            onInitializationFailed(R.string.initialization_failed_keystore,
+                    SuggestedActionAfterFailure.NONE, e);
+            return false;
+        }
+
+        /*
+         * Although the device is secured, it might never have been unlocked.
+         *
+         * If the user has recently enabled the lock screen, but has never locked and unlocked the
+         * device, it is not possible to use the cryptographic key, which is created during
+         * initialization. Because of its KeyProtectionParameters, the user must have been
+         * authenticated to be able to use the key from the key store.
+         */
+        try {
+            if (BankingKeyRepository.isDeviceMissingUnlock()) {
+                onInitializationFailed(R.string.initialization_failed_missing_user_auth,
+                        SuggestedActionAfterFailure.USER_AUTHENTICATION);
+                return false;
+            }
+        } catch (KeyStoreException e) {
+            onInitializationFailed(R.string.initialization_failed_keystore,
+                    SuggestedActionAfterFailure.NONE, e);
             return false;
         }
 
@@ -136,7 +176,7 @@ public class InitializeTokenActivity
              * QR code. Thus, the camera permission should already have been granted.
              */
             onInitializationFailed(R.string.initialization_failed_no_camera_permission,
-                    false);
+                    SuggestedActionAfterFailure.NONE);
             return false;
         }
 
@@ -155,12 +195,12 @@ public class InitializeTokenActivity
     }
 
     private void onInitializationFailed(@StringRes int reason,
-                                        boolean processShouldBeRepeated) {
-        onInitializationFailed(reason, processShouldBeRepeated, null);
+                                        @NonNull SuggestedActionAfterFailure suggestedAction) {
+        onInitializationFailed(reason, suggestedAction, null);
     }
 
     private void onInitializationFailed(@StringRes int reason,
-                                        boolean processShouldBeRepeated,
+                                        @NonNull SuggestedActionAfterFailure suggestedAction,
                                         final Throwable cause) {
         if (reason == 0) {
             if (checkRequirements()) {
@@ -174,8 +214,10 @@ public class InitializeTokenActivity
             }
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        ErrorDialogBuilder builder = new ErrorDialogBuilder(this);
         builder.setTitle(R.string.initialization_failed_title);
+        builder.setMessage(reason);
+        builder.setError(cause);
 
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
@@ -191,40 +233,57 @@ public class InitializeTokenActivity
             }
         });
 
-        if (processShouldBeRepeated) {
-            builder.setPositiveButton(R.string.repeat, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    doStartProcess();
-                }
-            });
+        switch (suggestedAction) {
+            case NONE:
+                break;
+            case REPEAT:
+                builder.setPositiveButton(R.string.repeat, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        doStartProcess();
+                       }
+                });
+                break;
+            case USER_AUTHENTICATION:
+                builder.setPositiveButton(R.string.unlock_device, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        InitializeTokenActivity.this.authenticateUser(
+                                R.string.authorize_to_unlock_device,
+                                new BiometricPrompt.AuthenticationCallback() {
+                                    @Override
+                                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                                        doStartProcess();
+                                    }
+                                    @Override
+                                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                                        doStartProcess();
+                                    }
+                                }
+
+                        );
+                    }
+                });
+                break;
+            case SYSTEM_SETTINGS:
+                builder.setPositiveButton(R.string.menu_item_settings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                        startActivity(intent);
+                    }
+                });
+                break;
         }
 
-        if (cause != null) {
-            String stackTrace;
-            {
-                StringWriter stringWriter = new StringWriter();
-                PrintWriter printWriter = new PrintWriter(stringWriter);
-                cause.printStackTrace(printWriter);
-                stackTrace = stringWriter.toString();
+        builder.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                InitializeTokenActivity.this.dialog = dialog;
             }
+        });
 
-            builder.setMessage(cause.getLocalizedMessage() + "\n\n" + stackTrace);
-            final AlertDialog detailsDialog = builder.create();
-
-            builder.setNeutralButton(R.string.show_details, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-
-                    detailsDialog.show();
-                }
-            });
-        }
-
-        builder.setMessage(reason);
-
-        dialog = builder.show();
+        builder.show();
     }
 
     private void doStartProcess() {
@@ -257,9 +316,34 @@ public class InitializeTokenActivity
             letterNumber = letterKeyMaterial.getLetterNumber();
         }
 
-        if (extras.containsKey(EXTRA_MOCK_SERIAL_NUMBER)) {
+        if (keyComponents.userAuthMandatoryForUsage == null) {
+            try {
+                if (BankingKeyRepository.isNoAuthKeySupportedByDevice()
+                        && !extras.getBoolean(EXTRA_ENFORCE_COMPATIBILITY_MODE, false)) {
+                    /*
+                     * Let the user decide about authentication during key use, if supported by the
+                     * device. This can be configured in the settings activity later. Do not disturb
+                     * the initialization process.
+                     */
+                    keyComponents.userAuthMandatoryForUsage = Boolean.FALSE;
+                } else {
+                    /*
+                     * Inform the user that the app is not 100% compatible and it is mandatory to
+                     * authenticate for each usage.
+                     */
+                    doStepAskForCompatibilityMode();
+                    return;
+                }
+            } catch (KeyStoreException e) {
+                onInitializationFailed(R.string.initialization_failed_keystore,
+                        SuggestedActionAfterFailure.NONE, e);
+                return;
+            }
+        }
+
+        if (KeyMaterialType.DEMO == letterKeyMaterial.getType()) {
             // For testing purpose: Don't call API and use a mocked serial number
-            tokenId = extras.getString(EXTRA_MOCK_SERIAL_NUMBER);
+            tokenId = extras.getString(EXTRA_MOCK_SERIAL_NUMBER, "XX0123456789");
             keyComponents.generateDeviceKeyComponent();
         }
 
@@ -270,6 +354,36 @@ public class InitializeTokenActivity
             // during testing or if the process is repeated during step 2
             doShowTokenId();
         }
+    }
+
+    private void doStepAskForCompatibilityMode() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.initialization_mandatory_user_auth_title);
+        builder.setMessage(R.string.initialization_mandatory_user_auth_description);
+
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                InitializeTokenActivity.this.finish();
+            }
+        });
+
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                keyComponents.userAuthMandatoryForUsage = Boolean.TRUE;
+                doStartProcess();
+            }
+        });
+
+        builder.show();
     }
 
     private void doStepUploadEncryptedDeviceKey() {
@@ -308,7 +422,7 @@ public class InitializeTokenActivity
                     e.getMessage(), e.getCause());
 
             onInitializationFailed(R.string.initialization_failed_unknown_reason,
-                    false, e.getCause());
+                    SuggestedActionAfterFailure.NONE, e.getCause());
             return;
         }
 
@@ -351,7 +465,7 @@ public class InitializeTokenActivity
                 builder.setMessage(R.string.initialization_confirm_quit_message);
             }
 
-            dialog = builder.show();
+            builder.show();
 
             // don't leave activity yet
             return;
@@ -413,7 +527,7 @@ public class InitializeTokenActivity
             }
         });
 
-        dialog = builder.show();
+        builder.show();
     }
 
     @Override
@@ -443,14 +557,16 @@ public class InitializeTokenActivity
 
         if (portalKeyMaterial.getLetterNumber() != letterNumber) {
             // A wrong letter has been scanned in the first step
-            onInitializationFailed(R.string.initialization_failed_wrong_letter, false);
+            onInitializationFailed(R.string.initialization_failed_wrong_letter,
+                    SuggestedActionAfterFailure.NONE);
             return;
         }
 
         if (!tokenId.equals(portalKeyMaterial.getDeviceSerialNumber())) {
             // The user has entered a wrong serial number in the
             // banking frontend after step 1.
-            onInitializationFailed(R.string.initialization_failed_wrong_serial, true);
+            onInitializationFailed(R.string.initialization_failed_wrong_serial,
+                    SuggestedActionAfterFailure.REPEAT);
 
             // Hide the QR scanner and show the serial number again
             getSupportFragmentManager().popBackStack();
@@ -493,35 +609,31 @@ public class InitializeTokenActivity
             if (e.getCause() != null
                     && e.getCause().getCause() instanceof UserNotAuthenticatedException) {
                 /*
-                 * If the user has recently enabled the lock screen, but has never locked and unlocked
-                 * the device, it is not possible to use the banking token.
-                 * Because of its KeyProtectionParameters, the user must have been authenticated
-                 * to be able to use the key from the key store.
-                 *
-                 * We can fix this by requesting an authentication and call this method again,
-                 * see onActivityResult.
+                 * If the device hasn't been unlocked within the banking key's user authentication
+                 * validity duration, we must perform a fresh user authentication before we may use
+                 * the key.
                  */
-                KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-                Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
-                        getString(R.string.app_name), getString(R.string.authorize_to_generate_tan));
-                startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
+                authenticateUser(R.string.authorize_to_generate_tan,
+                        new BiometricPrompt.AuthenticationCallback() {
+                            @Override
+                            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                                doStepComputeInitialTan();
+                            }
+
+                            @Override
+                            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                                doStepComputeInitialTan();
+                            }
+                        });
                 return;
             }
 
-            onInitializationFailed(R.string.initialization_failed_tan_computation, false, e);
+            onInitializationFailed(R.string.initialization_failed_tan_computation,
+                    SuggestedActionAfterFailure.NONE, e);
             return;
         }
 
         showInitialTAN(tan);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS == requestCode) {
-            doStepComputeInitialTan();
-        }
     }
 
     private void showInitialTAN(int tan) {
@@ -565,7 +677,11 @@ public class InitializeTokenActivity
 
         @Override
         public void onFailure(@StringRes int reason, boolean processShouldBeRepeated, Throwable cause) {
-            onInitializationFailed(reason, processShouldBeRepeated, cause);
+            onInitializationFailed(reason,
+                    processShouldBeRepeated
+                            ? SuggestedActionAfterFailure.REPEAT
+                            : SuggestedActionAfterFailure.NONE,
+                    cause);
         }
 
         @Override

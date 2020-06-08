@@ -17,4 +17,13 @@
     <color name="solarizedBlue">#268bd2</color>
     <color name="solarizedCyan">#2aa198</color>
     <color name="solarizedGreen">#859900</color>
+
+    <!-- https://material.io/design/color/dark-theme.html#ui-application -->
+    <color name="material_dark_true_black">#000000</color>
+    <color name="material_dark_background">#121212</color>
+    <color name="material_dark_elevated_background_4dp">#252525</color>
+    <color name="material_dark_error">#cf6679</color>
+    <color name="material_dark_text_high_emphasis">#f0f0f0</color>
+    <color name="material_dark_text_medium_emphasis">#cdcdcd</color>
+
 </resources>

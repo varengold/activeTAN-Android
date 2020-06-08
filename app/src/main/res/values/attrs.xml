@@ -7,5 +7,4 @@
     </declare-styleable>
 
     <attr name="qrScannerBorderColor" format="reference|color" />
-    <attr name="bankLogoBackgroundColor" format="reference" />
 </resources>

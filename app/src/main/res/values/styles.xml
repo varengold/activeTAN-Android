@@ -1,27 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <!-- Customization of the application theme for light mode. -->
+    <style name="AppTheme" parent="AppTheme.Base">
+        <!-- Normal text and background -->
+        <item name="android:colorBackground">@color/solarizedBase3</item>
+        <item name="colorOnBackground">@color/solarizedBase00</item>
+        <item name="android:textColorSecondary">@color/solarizedBase1</item>
+
+        <!-- Elevated text and background, e. g. CardView -->
+        <item name="colorSurface">@color/solarizedBase2</item>
+        <item name="colorOnSurface">@color/solarizedBase00</item>
+
+        <!-- Primary color is used by the tool bar and status bar -->
         <item name="colorPrimary">@color/solarizedBase02</item>
         <item name="colorPrimaryDark">@color/solarizedBase03</item>
-        <item name="colorAccent">@color/solarizedBlue</item>
-        <item name="android:colorBackground">@color/solarizedBase3</item>
-        <item name="android:colorForeground">@color/solarizedBase2</item>
-        <item name="android:textColorPrimary">@color/solarizedBase00</item>
-        <item name="android:textColorPrimaryInverse">@color/solarizedGreen</item>
-        <item name="android:textColorSecondary">@color/solarizedBase01</item>
-        <item name="android:textColorSecondaryInverse">@color/solarizedBase1</item>
+        <item name="colorOnPrimary">@color/solarizedBase0</item>
 
-        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
-        <item name="android:toolbarStyle">?android:attr/actionBarStyle</item>
-        <item name="qrScannerBorderColor">@color/solarizedRed</item>
-        <item name="bankLogoBackgroundColor">@android:color/transparent</item>
+        <!-- Secondary color is used by buttons and links, variant is used for TAN / ATC -->
+        <item name="colorSecondary">@color/solarizedBlue</item>
+        <item name="colorSecondaryVariant">@color/solarizedGreen</item>
+        <item name="colorOnSecondary">@color/solarizedBase3</item>
+
+        <!-- Errors and QR code scanner (red) -->
+        <item name="colorError">@color/solarizedRed</item>
+        <item name="colorOnError">@color/solarizedBase3</item>
     </style>
 
-    <style name="AppTheme.ActionBarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:background">?android:attr/colorPrimary</item>
-        <item name="android:textColorPrimary">@color/solarizedBase2</item>
+    <!-- Customization of the bank logo's background inside the navigation drawer -->
+    <style name="AppTheme.BankLogo">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!--
+        Common theme properties for light and dark mode
+    -->
+    <style name="AppTheme.Base" parent="AppTheme.Base.DayNight">
+        <item name="android:textColorPrimary">?attr/colorOnBackground</item>
+        <item name="colorPrimaryVariant">?attr/colorPrimaryDark</item>
+        <item name="android:textViewStyle">@style/Widget.MaterialComponents.TextView</item>
+        <item name="cardViewStyle">@style/Widget.MaterialComponents.CardView</item>
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
+        <item name="materialButtonStyle">@style/AppTheme.ButtonStyle</item>
+        <item name="qrScannerBorderColor">?attr/colorError</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialogTheme</item>
+        <item name="navigationViewStyle">@style/AppTheme.NavigationViewStyle</item>
+    </style>
+
+    <!--
+        Base theme, depending on various device settings.
+
+        In Android 8.0 or lower we use the default navigation bar style (= black).
+        In Android 8.1 or greater we add styling to the navigation bar, see values-(not)night-v27.
+
+        Instead of an ActionBar (from Android 4.0), we use the Toolbar widget (introduced in
+        Android 5.0) and set it as the activity's action bar. Thus, our activities are not derived
+        from ActionBarActivity and this style is derived from a NoActionBar style.
+    -->
+    <style name="AppTheme.Base.DayNight" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    </style>
+
+    <!-- By default, buttons use the primary color. We change this to the secondary color. -->
+    <style name="AppTheme.ButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
+    </style>
+
+    <!-- By default, the NavigationView uses the surface colors. We want more color contrast. -->
+    <style name="AppTheme.NavigationViewStyle" parent="Widget.Design.NavigationView">
+        <item name="itemBackground">?android:attr/colorBackground</item>
+        <item name="itemTextColor">?android:attr/textColorPrimary</item>
+        <item name="itemIconTint">?android:attr/textColorSecondary</item>
+    </style>
+
+    <!-- Define colors for buttons in alert dialogs -->
+    <style name="AppTheme.AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/AppTheme.AlertDialogNeutralButtonStyle</item>
+        <item name="buttonBarNeutralButtonStyle">@style/AppTheme.AlertDialogNeutralButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AppTheme.AlertDialogPositiveButtonStyle</item>
+        <item name="materialButtonStyle">@style/AppTheme.AlertDialogNeutralButtonStyle</item>
+    </style>
+    <style name="AppTheme.AlertDialogNeutralButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
+    <style name="AppTheme.AlertDialogPositiveButtonStyle" parent="AppTheme.AlertDialogNeutralButtonStyle">
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
+    <!-- Styling of TAN / ATC for input in online banking -->
+    <style name="AppTheme.TextAppearance.TAN" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">monospace</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorSecondaryVariant</item>
     </style>
 
 </resources>

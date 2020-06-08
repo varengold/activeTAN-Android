@@ -79,11 +79,11 @@ public abstract class AbstractInstructionCardFragment extends Fragment {
         if (body.getVisibility() == View.GONE) {
             image.setVisibility(View.GONE);
             body.setVisibility(View.VISIBLE);
-            toggleButton.setBackgroundResource(R.drawable.ic_keyboard_arrow_up_black_24dp);
+            toggleButton.setBackgroundResource(R.drawable.ic_material_hardware_keyboard_arrow_up);
         } else {
             body.setVisibility(View.GONE);
             image.setVisibility(View.VISIBLE);
-            toggleButton.setBackgroundResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+            toggleButton.setBackgroundResource(R.drawable.ic_material_hardware_keyboard_arrow_down);
         }
     }
 }

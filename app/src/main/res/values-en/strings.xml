@@ -137,8 +137,8 @@
     <string name="confirm_transaction_details">OK</string>
     <string name="confirmed_transaction_details_title">Approve Order</string>
     <string name="device_auth_failed">Authentication failed</string>
-    <string name="do_protect_usage_description">Request pattern, PIN or password for usage</string>
-    <string name="dont_protect_usage_description">Use without pattern, PIN or password</string>
+    <string name="do_protect_usage_description">Request biometric, pattern, PIN or password for usage</string>
+    <string name="dont_protect_usage_description">Use without biometric, pattern, PIN or password</string>
     <string name="enter_initial_tan">Please enter this initial TAN in online banking.</string>
     <string name="enter_serial_number">Please enter this serial number in online banking.</string>
     <string name="enter_tan_onlinebanking">Please enter this TAN in online banking:</string>
@@ -152,7 +152,7 @@
     <string name="initialization_failed_outdated">Unfortunately, the activeTAN app needs to be updated.</string>
     <string name="initialization_failed_title">Initialization failed</string>
     <string name="initialization_failed_unknown_reason">A technical error has occurred. Please try again later.</string>
-    <string name="initialization_failed_unprotected_device">The device must be protected by pattern, PIN, or password.</string>
+    <string name="initialization_failed_unprotected_device">The device must be protected by pattern, PIN, or password (lock screen).</string>
     <string name="initialization_failed_wrong_letter">Please check, that you use the latest activation letter and repeat the process.</string>
     <string name="initialization_failed_wrong_serial">A different serial number has been entered in online banking. Do you want to repeat the process?</string>
     <string name="initialization_letter_scanned">You have scanned your activation letter.</string>
@@ -167,7 +167,7 @@
     <string name="instructionDisabledLockScreen">If no lock screen is enabled, the activeTAN app loses its initialization automatically and can no longer be used. You have to re-enable the lock screen to use activeTAN app again.</string>
     <string name="instructionEasyOfflineUse">More features: The QR code can be scanned quick and comfortably. After initial initialization, activeTAN may even be used without internet connection.</string>
     <string name="instructionEnableAutomaticUpdates">Protect all your devices by automatic installation of security updates. Thereby, potential vulnerabilities may be fixed by vendors quickly.</string>
-    <string name="instructionEnableLockScreen">Protect your device with a lock screen (pattern, PIN, or password). Depending on the hardware, you may additionally use biometric identification (fingerprint or iris) to unlock.</string>
+    <string name="instructionEnableLockScreen">Protect your device with a lock screen (pattern, PIN, or password). Depending on the hardware, you may additionally use biometric identification (fingerprint, iris or face) to unlock.</string>
     <string name="instructionEnterOrder">Enter your order in online banking.</string>
     <string name="instructionEnterSerial">The activeTAN app generates a serial number. Enter the serial number in online banking.</string>
     <string name="instructionEnterStartTan">The activeTAN app generates an initial TAN. Enter the initial TAN in online banking.</string>
@@ -223,7 +223,7 @@
                 </li>
                 <li>
                     The following Jetpack libraries from the Android Open Source Project (AOSP) by Google:
-                    Appcompat, ConstraintLayout, RecyclerView, Room
+                    Appcompat, Biometric, ConstraintLayout, RecyclerView, Room
                     <br/>
                     <a href="https://developer.android.com/jetpack">developer.android.com/jetpack</a>
                 </li>
@@ -367,7 +367,7 @@
     <string name="initialization_confirm_quit_title">Quit initialization?</string>
     <string name="initialization_confirm_quit_message">Did you enter the initial TAN in online banking yet?</string>
     <string name="authorize_to_generate_tan">Please enter your device credentials to generate the TAN.</string>
-    <string name="authorize_to_unlock_token">Please enter your device credentials to use activeTAN without pattern, PIN or password.</string>
+    <string name="authorize_to_unlock_token">Please enter your device credentials to use activeTAN without biometric, pattern, PIN or password.</string>
     <string name="invalidated_key_description">For your security, this TAN generator cannot be used anymore, because the lock screen has been disabled. Please lock the TAN generator in online banking and start a new initializaion process.</string>
     <string name="invalidated_key_label">Disabled</string>
     <string name="exhausted_generator_description">This TAN generator has produced the maximum number of TANs and cannot be used anymore. Please start a new initializaion process.</string>
@@ -376,7 +376,24 @@
     <string name="soon_exhausted_generator_label">Soon exhausted</string>
     <string name="initialization_failed_keystore">The TAN generator cannot be stored securely. Please check your device security settings.</string>
     <string name="initialization_failed_tan_computation">A technical error has occurred during TAN computation. Please try again later.</string>
-    <string name="show_details">Details...</string>
+    <string name="show_details">Details…</string>
     <string name="initialization_multiple_generators_description">You have activated this app multiple times. Different TAN generators may be managed in the “settings” menu.</string>
     <string name="initialization_multiple_generators_title">Multiple initializations</string>
+    <string name="unlock_device">Unlock device</string>
+    <string name="initialization_mandatory_user_auth_title">Note</string>
+    <string name="initialization_mandatory_user_auth_description">Unfortunately, your android device does not support TAN generation without additional authentication. You may activate this activeTAN app regularly. However, for each TAN generation it is mandatory to verify your device credentials (biometry, pattern, pin or password).</string>
+    <string name="initialization_failed_incompatible_device">The TAN generator cannot be stored securely. Unfortunately, this device is incompatible. Please contact your bank and indicate this smartphone model.</string>
+    <string name="initialization_failed_missing_user_auth">The smartphone hasn\'t been unlocked after activation of the lock screen. For most devices it suffices to unlock it once. In case this has not been successful, the device needs to be restarted (press power button for a few seconds).</string>
+    <string name="authorize_to_unlock_device">Please confirm your device credentials.</string>
+    <string name="message_cannot_unprotect_usage">Unfortunately, this device doesn\'t support TAN generation without additional user authentication. The option cannot be disabled.</string>
+    <string name="token_failed_title">Error</string>
+    <string name="token_failed_details">TAN generator has failed. Please try to restart the device (press power button for a few seconds). If this didn\'t help, please contact your bank.</string>
+    <string name="share_error_label">Share…</string>
+    <string name="share_error_title">Send error information</string>
+    <string name="share_error_subject">activeTAN Error Report</string>
+    <string name="share_error_instruction">Please send this technical error information to the app developer with no changes in content. Specifications of your device model help to identify unknown errors on devices by particular manufacturers. Although the app has been tested with many different models, there may be incompatibilities due to the large amount of available devices. It follows technical details for the app developer about the exact error cause.</string>
+    <string name="device_model">Device: %1$s %2$s (%3$s)</string>
+    <string name="os_version">Operating system: Android %1$s (SDK %2$d)</string>
+    <string name="app_version">App version: %1$s (%2$d)</string>
+    <string name="security_patch">Android security patch: %1$s</string>
 </resources>

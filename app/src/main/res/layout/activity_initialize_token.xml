@@ -9,9 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:elevation="2dp"
-        android:theme="?android:attr/actionBarStyle"
+        android:layout_height="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/initialization" />
 
@@ -39,8 +37,7 @@
             android:id="@+id/progessBackground"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:alpha="0.75"
-            android:background="?android:attr/colorForeground"
+            android:background="?attr/colorSurface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +52,7 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -74,6 +71,8 @@
             android:layout_margin="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/progressGuide"

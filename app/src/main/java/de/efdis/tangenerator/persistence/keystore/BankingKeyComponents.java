@@ -31,6 +31,12 @@ public class BankingKeyComponents {
     public byte[] portalKeyComponent;
 
     /**
+     * If the key store shall enforce a recent user authentication for usage of the key. This option
+     * cannot be changed for the key in the future.
+     */
+    public Boolean userAuthMandatoryForUsage;
+
+    /**
      * Generate a new device key component using random data
      */
     public void generateDeviceKeyComponent() {

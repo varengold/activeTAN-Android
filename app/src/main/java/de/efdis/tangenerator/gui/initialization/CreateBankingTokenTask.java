@@ -27,6 +27,7 @@ import java.security.KeyStoreException;
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
+import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
@@ -74,6 +75,11 @@ public class CreateBankingTokenTask
             token.id = args[0].tokenId;
             token.name = args[0].tokenName;
             token.keyAlias = tokenAlias;
+            if (Boolean.TRUE.equals(args[0].keyComponents.userAuthMandatoryForUsage)) {
+                token.usage = BankingTokenUsage.MANDATORY_AUTH_PROMPT;
+            } else {
+                token.usage = BankingTokenUsage.DISABLED_AUTH_PROMPT;
+            }
 
             BankingTokenRepository.saveNewToken(args[0].applicationContext, token);
 

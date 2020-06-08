@@ -32,6 +32,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import de.efdis.tangenerator.gui.InitializeTokenActivity;
+import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
 public class InitializeTokenActivityTestMultipleTokens {
@@ -43,7 +44,7 @@ public class InitializeTokenActivityTestMultipleTokens {
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = InMemoryDatabaseRule.withMultipleUnprotectedTanGenerators();
+            = InMemoryDatabaseRule.withMultipleTanGenerators(BankingTokenUsage.DISABLED_AUTH_PROMPT);
 
     @Rule
     public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule

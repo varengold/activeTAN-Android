@@ -35,6 +35,7 @@ import java.util.ListIterator;
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingToken;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
+import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 
 public class TokenSettingsAdapter
         extends RecyclerView.Adapter<TokenSettingsItemHolder>
@@ -70,7 +71,7 @@ public class TokenSettingsAdapter
 
         holder.setSerialNumber(bankingToken.getFormattedSerialNumber());
         holder.setTokenDescription(bankingToken.getDisplayName());
-        holder.setProtectUsage(bankingToken.confirmDeviceCredentialsToUse);
+        holder.setProtectUsage(bankingToken.usage != BankingTokenUsage.DISABLED_AUTH_PROMPT);
         holder.setActiveSince(bankingToken.createdOn);
         holder.setLastUsed(bankingToken.lastUsed);
         holder.setHasValidKey(BankingTokenRepository.hasValidKey(bankingToken));

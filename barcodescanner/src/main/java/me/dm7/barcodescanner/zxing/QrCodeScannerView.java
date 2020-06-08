@@ -1,23 +1,20 @@
 /*
  * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
- * This file is part of the activeTAN app for Android.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * The activeTAN app is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * The activeTAN app is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with the activeTAN app.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-package de.efdis.tangenerator.gui.qrscanner;
+package me.dm7.barcodescanner.zxing;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -51,7 +48,7 @@ import me.dm7.barcodescanner.core.BarcodeScannerView;
  * </ul>
  */
 public class QrCodeScannerView extends BarcodeScannerView {
-    private QrCodeHandler resultHandler;
+    private ResultHandler resultHandler;
     private QRCodeReader qrCodeReader;
 
     public QrCodeScannerView(Context context, AttributeSet attributeSet) {
@@ -60,22 +57,18 @@ public class QrCodeScannerView extends BarcodeScannerView {
         setLaserEnabled(false);
         setSquareViewFinder(true);
 
-        // Workaround for some device cameras, see
-        // https://github.com/dm77/barcodescanner/issues/287
-        setAspectTolerance(.5f);
-
         qrCodeReader = new QRCodeReader();
     }
 
-    public QrCodeHandler getResultHandler() {
+    public ResultHandler getResultHandler() {
         return resultHandler;
     }
 
-    public void setResultHandler(QrCodeHandler resultHandler) {
+    public void setResultHandler(ResultHandler resultHandler) {
         this.resultHandler = resultHandler;
     }
 
-    public void resumeCameraPreview(QrCodeHandler resultHandler) {
+    public void resumeCameraPreview(ResultHandler resultHandler) {
         setResultHandler(resultHandler);
         resumeCameraPreview();
     }
@@ -168,7 +161,7 @@ public class QrCodeScannerView extends BarcodeScannerView {
             @Override
             public void run() {
                 QrCodeScannerView scanner = QrCodeScannerView.this;
-                QrCodeHandler resultHandler = scanner.getResultHandler();
+                ResultHandler resultHandler = scanner.getResultHandler();
 
                 // Stopping the preview can take a little long.
                 // So we want to set result handler to null to discard subsequent calls to

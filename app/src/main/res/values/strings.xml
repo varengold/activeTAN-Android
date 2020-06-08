@@ -84,7 +84,7 @@
                 </li>
                 <li>
                     Folgende Jetpack-Bibliotheken aus dem Android Open Source Project (AOSP) von Google:
-                    Appcompat, ConstraintLayout, RecyclerView, Room
+                    Appcompat, Biometric, ConstraintLayout, RecyclerView, Room
                     <br/>
                     <a href="https://developer.android.com/jetpack">developer.android.com/jetpack</a>
                 </li>
@@ -174,8 +174,9 @@
     <string name="menu_item_settings">Einstellungen</string>
     <string name="default_token_name">Mein Online-Banking</string>
     <string name="protect_usage">Benutzung absichern</string>
-    <string name="do_protect_usage_description">Bei Verwendung Muster, PIN oder Passwort abfragen</string>
-    <string name="dont_protect_usage_description">Ohne Muster, PIN oder Passwort verwenden</string>
+    <string name="do_protect_usage_description">Bei Verwendung Biometrie, Muster, PIN oder Passwort abfragen</string>
+    <string name="dont_protect_usage_description">Ohne Biometrie, Muster, PIN oder Passwort verwenden</string>
+    <string name="message_cannot_unprotect_usage">Das Gerät unterstützt leider keine TAN-Generierung ohne zusätzliche Authentifizierung. Die Option kann nicht deaktiviert werden.</string>
     <string name="active_since_label">Aktiv seit</string>
     <string name="last_used_label">Letzte Verwendung</string>
     <string name="last_used_never">nie</string>
@@ -204,11 +205,22 @@
 
     <string name="repeat">Erneut versuchen</string>
 
+    <string name="share_error_label">Teilen…</string>
+    <string name="share_error_title">Fehlerinformation senden</string>
+    <string name="share_error_subject">activeTAN Fehlerbericht</string>
+    <string name="share_error_instruction">Bitte senden Sie diese technischen Fehlerinformationen unverändert an den Hersteller der App. Die Angaben über Ihr Smartphone-Modell helfen dabei, unbekannte Fehler auf Geräten einzelner Hersteller zu identifizieren. Obwohl die App auf vielen unterschiedlichen Modellen getestet worden ist, kann es aufgrund der großen Anzahl von Geräten zu einzelnen Inkompatibilitäten kommen. Es folgen technische Details für den App-Hersteller, was genau nicht funktioniert hat.</string>
+    <string name="device_model">Gerät: %1$s %2$s (%3$s)</string>
+    <string name="os_version">Betriebssystem: Android %1$s (SDK %2$d)</string>
+    <string name="app_version">App-Version: %1$s (%2$d)</string>
+    <string name="security_patch">Android-Sicherheitspatch: %1$s</string>
+
     <string name="unsupported_data_format_title">Ungültiger Banking QR-Code</string>
     <string name="unsupported_data_format_message">Das Format wird durch diese App nicht unterstützt.</string>
 
+    <string name="unlock_device">Gerät entsperren</string>
+    <string name="authorize_to_unlock_device">Bitte bestätigen Sie Ihre Gerätezugangsdaten.</string>
     <string name="authorize_to_generate_tan">Bitte bestätigen Sie Ihre Gerätezugangsdaten, um die TAN zu generieren.</string>
-    <string name="authorize_to_unlock_token">Bitte bestätigen Sie Ihre Gerätezugangsdaten, um activeTAN ohne Eingabe von Muster, PIN oder Passwort zu verwenden.</string>
+    <string name="authorize_to_unlock_token">Bitte bestätigen Sie Ihre Gerätezugangsdaten, um activeTAN ohne Eingabe von Biometrie, Muster, PIN oder Passwort zu verwenden.</string>
 
     <string name="verify_transaction_details_title">Auftrag prüfen</string>
     <string name="confirmed_transaction_details_title">Auftrag freigeben</string>
@@ -230,6 +242,8 @@
         (siehe Anleitung / Sicherheit).
         Bitte führen Sie eine neue Aktivierung durch.
     </string>
+    <string name="token_failed_title">Fehler</string>
+    <string name="token_failed_details">TAN-Generierung ist fehlgeschlagen. Bitte versuchen Sie, das Gerät neu zu starten (Ein-/Aus-Taste lange drücken). Sollte dies nicht helfen, wenden Sie sich bitte an Ihre Bank.</string>
 
     <string name="initialization">Aktivierung</string>
     <string name="step_no">Schritt %d/2</string>
@@ -239,7 +253,7 @@
     <string name="go_to_scan_qr_code">Betätigen Sie „Weiter“, um den QR-Code im Online-Banking zu scannen.</string>
     <string name="initialization_serial_number_entered">Sie haben die Seriennummer im Online-Banking eingegeben.</string>
     <string name="next_step">Weiter</string>
-    <string name="show_details">Details...</string>
+    <string name="show_details">Details…</string>
     <string name="scan_screen_qr_code">Bitte den QR-Code im Online-Banking scannen (nicht den Aktivierungsbrief).</string>
     <string name="step_store_banking_key">Speichere Schlüssel</string>
     <string name="label_serial_number">Seriennummer</string>
@@ -254,9 +268,13 @@
     <string name="initialization_confirm_return">Zurück</string>
     <string name="initialization_multiple_generators_title">Mehrfache Aktivierung</string>
     <string name="initialization_multiple_generators_description">Sie haben diese App mehrfach aktiviert. Verschiedene TAN-Generatoren können im Menü „Einstellungen“ verwaltet werden.</string>
+    <string name="initialization_mandatory_user_auth_title">Hinweis</string>
+    <string name="initialization_mandatory_user_auth_description">Leider unterstützt Ihr Android-Modell keine TAN-Generierung ohne zusätzliche Authentifizierung. Sie können diese activeTAN-App normal aktivieren, allerdings müssen bei jeder TAN-Generierung Ihre Gerätezugungsdaten geprüft werden (Biometrie, Muster, PIN oder Passwort).</string>
 
     <string name="initialization_failed_title">Aktivierung fehlgeschlagen</string>
-    <string name="initialization_failed_unprotected_device">Das Smartphone muss mit einem Muster, einer PIN oder einem Kennwort geschützt sein.</string>
+    <string name="initialization_failed_unprotected_device">Das Smartphone muss mit einem Muster, einer PIN oder einem Kennwort geschützt sein (Sperrbildschirm).</string>
+    <string name="initialization_failed_incompatible_device">Der TAN-Generator kann nicht sicher gespeichert werden, leider ist dieses Gerät inkompatibel. Bitte wenden Sie sich unter Angabe des Smartphone-Modells an Ihre Bank.</string>
+    <string name="initialization_failed_missing_user_auth">Das Smartphone wurde nach Aktivierung des Sperrbildschirms nicht entsperrt. Bei den meisten Geräten kann dies einfach nachgeholt werden. Falls dies nicht geholfen hat, muss das Gerät leider neu gestartet werden (Ein-/Aus-Taste lange drücken).</string>
     <string name="initialization_failed_no_camera_permission">Kein Zugriff auf die Kamera gestattet.</string>
     <string name="initialization_failed_offline">Während der Aktivierung ist eine Internetverbindung erforderlich.</string>
     <string name="initialization_failed_wrong_letter">Bitte prüfen Sie, ob Sie Ihren aktuellen Aktivierungsbrief benutzen und wiederholen Sie den Vorgang.</string>

@@ -7,12 +7,12 @@
 
     <ImageView
         android:id="@+id/bankLogo"
+        style="@style/AppTheme.BankLogo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:adjustViewBounds="true"
-        android:background="?attr/bankLogoBackgroundColor"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:scaleType="fitCenter"

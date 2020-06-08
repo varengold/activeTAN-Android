@@ -10,8 +10,6 @@
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:elevation="2dp"
-        android:theme="?android:attr/actionBarStyle"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/menu_item_imprint" />
 
@@ -32,7 +30,9 @@
             <TextView
                 android:id="@+id/imprint"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textColor="?android:attr/textColorSecondary" />
 
         </LinearLayout>
     </ScrollView>

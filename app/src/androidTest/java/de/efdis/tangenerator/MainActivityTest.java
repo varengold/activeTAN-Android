@@ -21,6 +21,7 @@ package de.efdis.tangenerator;
 
 import android.Manifest;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.contrib.DrawerActions;
@@ -34,7 +35,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.gui.MainActivity;
+import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
+import de.efdis.tangenerator.screenshot.DayNightRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
@@ -43,10 +46,13 @@ public class MainActivityTest {
     @Rule
     public ScreenshotRule screenshotRule = new ScreenshotRule();
 
+    @Rule
+    public DayNightRule dayNightRule = new DayNightRule();
+
     // Without data, the activity would redirect the user to the welcome activity.
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule
-            = InMemoryDatabaseRule.withSingleUnprotectedTanGenerator();
+            = InMemoryDatabaseRule.withSingleTanGenerator(BankingTokenUsage.DISABLED_AUTH_PROMPT);
 
     @Rule
     public GrantPermissionRule cameraPermissionRule
@@ -58,6 +64,7 @@ public class MainActivityTest {
             = new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
+    @DayNightRule.UiModes({AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO})
     public void takeScreenshots() {
         screenshotRule.captureScreen("main");
 

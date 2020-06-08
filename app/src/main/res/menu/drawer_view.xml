@@ -8,27 +8,27 @@
 
         <item
             android:id="@+id/itemSettings"
-            android:icon="@drawable/ic_settings_black_24dp"
+            android:icon="@drawable/ic_material_action_settings"
             android:title="@string/menu_item_settings" />
 
         <item
             android:id="@+id/itemInstruction"
-            android:icon="@drawable/ic_info_black_24dp"
+            android:icon="@drawable/ic_material_action_info"
             android:title="@string/menu_item_instruction" />
 
         <item
             android:id="@+id/itemPrivacy"
-            android:icon="@drawable/ic_security_black_24dp"
+            android:icon="@drawable/ic_material_hardware_security"
             android:title="@string/menu_item_privacy" />
 
         <item
             android:id="@+id/itemCopyright"
-            android:icon="@drawable/ic_copyright_black_24dp"
+            android:icon="@drawable/ic_material_action_copyright"
             android:title="@string/menu_item_copyright" />
 
         <item
             android:id="@+id/itemImprint"
-            android:icon="@drawable/ic_account_balance_black_24dp"
+            android:icon="@drawable/ic_material_action_account_balance"
             android:title="@string/menu_item_imprint" />
 
     </group>
