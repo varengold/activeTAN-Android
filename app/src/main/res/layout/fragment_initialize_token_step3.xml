@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollY="999dp"
-    tools:context=".gui.InitializeTokenStep3Fragment">
+    tools:context=".gui.initialization.InitializeTokenStep3Fragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             app:srcCompat="@drawable/ic_material_hardware_keyboard_arrow_right"
-            android:tint="?attr/colorAccent"
+            app:tint="?attr/colorAccent"
             app:layout_constraintStart_toStartOf="@+id/generatedTanContainer"
             app:layout_constraintTop_toTopOf="@+id/textView28" />
 
@@ -56,7 +56,7 @@
             android:layout_height="16dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_material_navigation_check"
-            android:tint="?android:attr/textColorSecondary"
+            app:tint="?android:attr/textColorSecondary"
             app:layout_constraintStart_toStartOf="@+id/imageView13"
             app:layout_constraintTop_toTopOf="@+id/textView25" />
 
@@ -66,7 +66,7 @@
             android:layout_height="16dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_material_navigation_check"
-            android:tint="?android:attr/textColorSecondary"
+            app:tint="?android:attr/textColorSecondary"
             app:layout_constraintStart_toStartOf="@+id/imageView13"
             app:layout_constraintTop_toTopOf="@+id/textView27" />
 
@@ -77,7 +77,7 @@
             android:layout_marginStart="16dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_material_navigation_check"
-            android:tint="?android:attr/textColorSecondary"
+            app:tint="?android:attr/textColorSecondary"
             app:layout_constraintStart_toStartOf="@+id/generatedTanContainer"
             app:layout_constraintTop_toTopOf="@+id/textView24" />
 
@@ -182,7 +182,7 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:scaleType="fitCenter"
-                    android:tint="?attr/colorOnSurface"
+                    app:tint="?attr/colorOnSurface"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_material_action_perm_device_information" />

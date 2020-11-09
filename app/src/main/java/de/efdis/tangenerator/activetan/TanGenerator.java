@@ -24,7 +24,6 @@ import java.security.InvalidKeyException;
 import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Arrays;
 
 import javax.crypto.Mac;

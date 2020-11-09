@@ -20,7 +20,6 @@
 package de.efdis.tangenerator.persistence.database;
 
 import android.content.Context;
-import android.os.Build;
 import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 

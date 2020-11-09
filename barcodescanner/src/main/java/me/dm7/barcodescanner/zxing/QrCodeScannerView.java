@@ -91,6 +91,10 @@ public class QrCodeScannerView extends BarcodeScannerView {
                         "Detection thread idle for " + idleTime + "ms ...");
                 Thread.sleep(idleTime);
             } catch (InterruptedException e) {
+                Log.e(getClass().getSimpleName(),
+                        "Thread interrupted, stopping detection", e);
+                stopCameraPreview();
+                Thread.currentThread().interrupt();
                 return;
             }
 

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:padding="16dp"
-    tools:context=".gui.InstructionFirstUseFragment">
+    tools:context=".gui.instruction.InstructionFirstUseFragment">
 
     <ImageView
         android:id="@+id/cardImage"
@@ -34,13 +34,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cardToggleButton" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <ImageButton
         android:id="@+id/cardToggleButton"
-        style="@style/Widget.AppCompat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_material_hardware_keyboard_arrow_down"
-        android:backgroundTint="?attr/colorSecondary"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_material_hardware_keyboard_arrow_down"
+        android:tint="?attr/colorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardImage" />
 

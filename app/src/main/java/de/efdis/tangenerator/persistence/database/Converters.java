@@ -19,9 +19,9 @@
 
 package de.efdis.tangenerator.persistence.database;
 
-import java.util.Date;
-
 import androidx.room.TypeConverter;
+
+import java.util.Date;
 
 public class Converters {
 

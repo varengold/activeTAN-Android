@@ -19,13 +19,13 @@
 
 package de.efdis.tangenerator.persistence.database;
 
-import java.util.List;
-
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import java.util.List;
 
 /**
  * This DAO is used for low level access to the database. High level business logic shall use the

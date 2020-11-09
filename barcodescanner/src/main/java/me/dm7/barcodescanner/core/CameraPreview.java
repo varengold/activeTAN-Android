@@ -190,6 +190,11 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
 
     public void setupCameraParameters() {
         Camera.Size optimalSize = getOptimalPreviewSize();
+        if (optimalSize == null) {
+            Log.e(TAG, "Cannot set up camera parameters, camera not ready");
+            return;
+        }
+
         Camera.Parameters parameters = mCameraWrapper.mCamera.getParameters();
         parameters.setPreviewSize(optimalSize.width, optimalSize.height);
         mCameraWrapper.mCamera.setParameters(parameters);

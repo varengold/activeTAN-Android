@@ -31,7 +31,7 @@ import androidx.test.rule.GrantPermissionRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import de.efdis.tangenerator.gui.InitializeTokenActivity;
+import de.efdis.tangenerator.gui.initialization.InitializeTokenActivity;
 import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
@@ -56,6 +56,9 @@ public class InitializeTokenActivityTestMultipleTokens {
                 .perform(ViewActions.click());
 
         InitializeTokenActivityTest.simulatePortalQrCodeInput(activityScenarioRule.getScenario());
+
+        Espresso.onView(ViewMatchers.withId(R.id.initialTAN))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         Espresso.onView(ViewMatchers.withText(R.string.initialization_multiple_generators_title))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));

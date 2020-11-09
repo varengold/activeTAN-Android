@@ -22,12 +22,9 @@ package de.efdis.tangenerator.gui.initialization;
 import android.content.Context;
 import android.util.Log;
 
-import java.io.IOException;
-import java.net.ConnectException;
-import java.net.URL;
-import java.nio.charset.Charset;
-
 import de.efdis.tangenerator.R;
+import de.efdis.tangenerator.api.DeviceKeyApi;
+import de.efdis.tangenerator.api.SecuredRestApiEndpoint;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 
 /**
@@ -36,20 +33,23 @@ import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
  * The backend returns a serial number (<code>tokenId</code>) for the stored device key information.
  */
 public class UploadEncryptedDeviceKeyTask
-        extends AbstractApiCallTask<Void, UploadEncryptedDeviceKeyTask.Output> {
+        extends AbstractBackgroundTask<UploadEncryptedDeviceKeyTask.Input, UploadEncryptedDeviceKeyTask.Output> {
+
+    public static class Input {
+        public Context context;
+    }
 
     public static class Output {
         public String tokenId;
         public byte[] deviceKeyComponent;
     }
 
-    public UploadEncryptedDeviceKeyTask(BackgroundTaskListener<Output> listener, URL url, Context context)
-            throws CallFailedException {
-        super(listener, url, context);
+    public UploadEncryptedDeviceKeyTask(BackgroundTaskListener<Output> listener) {
+        super(listener);
     }
 
     @Override
-    protected Output doInBackground(Void... args) {
+    protected Output doInBackground(Input input) {
         Output result = new Output();
         {
             BankingKeyComponents keyComponents = new BankingKeyComponents();
@@ -57,38 +57,30 @@ public class UploadEncryptedDeviceKeyTask
             result.deviceKeyComponent = keyComponents.deviceKeyComponent;
         }
 
-        byte[] rawTokenId;
         try {
-            rawTokenId = performPostRequest(result.deviceKeyComponent);
-        } catch (ConnectException e) {
+            result.tokenId = DeviceKeyApi.uploadDeviceKey(input.context, result.deviceKeyComponent);
+        } catch (SecuredRestApiEndpoint.ConnectException e) {
             Log.e(getClass().getSimpleName(),
                     "unable to upload device key, because server is unreachable", e);
             failedReason = R.string.initialization_failed_offline;
             failedAndProcessShouldBeRepeated = true;
             failedCause = e;
             return null;
-        } catch (IOException e) {
+        } catch (SecuredRestApiEndpoint.IncompatibleClientException e) {
+            Log.e(getClass().getSimpleName(),
+                    "unable to upload device key, because client is old", e);
+            failedReason = R.string.initialization_failed_outdated;
+            failedAndProcessShouldBeRepeated = false;
+            failedCause = e;
+            return null;
+        } catch (SecuredRestApiEndpoint.CallFailedException e) {
             Log.e(getClass().getSimpleName(),
                     "unable to upload device key, because of (temporary) I/O problem", e);
             failedReason = R.string.initialization_failed_communication;
             failedAndProcessShouldBeRepeated = true;
             failedCause = e;
             return null;
-        } catch (OutdatedClientException e) {
-            Log.e(getClass().getSimpleName(),
-                    "unable to upload device key, because client is old", e);
-            failedReason = R.string.initialization_failed_outdated;
-            failedCause = e;
-            return null;
-        } catch (CallFailedException e) {
-            Log.e(getClass().getSimpleName(),
-                    "unable to upload device key, unknown cause", e);
-            failedReason = R.string.initialization_failed_unknown_reason;
-            failedCause = e;
-            return null;
         }
-
-        result.tokenId = new String(rawTokenId, Charset.defaultCharset());
 
         return result;
     }

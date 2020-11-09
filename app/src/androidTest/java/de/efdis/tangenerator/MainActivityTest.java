@@ -34,7 +34,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.MainActivity;
+import de.efdis.tangenerator.gui.misc.MainActivity;
 import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 import de.efdis.tangenerator.screenshot.DayNightRule;

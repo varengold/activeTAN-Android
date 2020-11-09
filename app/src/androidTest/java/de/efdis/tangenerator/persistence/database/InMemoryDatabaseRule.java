@@ -19,10 +19,6 @@
 
 package de.efdis.tangenerator.persistence.database;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.IntentFilter;
-
 import androidx.room.Room;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -34,6 +30,7 @@ import org.junit.runners.model.Statement;
 import java.security.KeyStoreException;
 
 import de.efdis.tangenerator.R;
+import de.efdis.tangenerator.gui.common.AppActivity;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
@@ -136,10 +133,9 @@ public class InMemoryDatabaseRule implements TestRule {
             }
 
             // To test protected tokens, we have to mock the confirmation of device credentials
-            InstrumentationRegistry.getInstrumentation().addMonitor(
-                    new IntentFilter("android.app.action.CONFIRM_DEVICE_CREDENTIAL"),
-                    new Instrumentation.ActivityResult(Activity.RESULT_OK, null),
-                    true);
+            if (usage != BankingTokenUsage.DISABLED_AUTH_PROMPT) {
+                AppActivity.setMockAuthentication(true);
+            }
 
             base.evaluate();
         }

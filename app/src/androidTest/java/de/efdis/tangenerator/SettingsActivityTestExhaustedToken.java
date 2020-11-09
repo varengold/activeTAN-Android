@@ -29,7 +29,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.SettingsActivity;
+import de.efdis.tangenerator.gui.settings.SettingsActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
 

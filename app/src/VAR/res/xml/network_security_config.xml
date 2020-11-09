@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    This file is effective in Android 7.0 or newer only and overrides the usesCleartextTraffic flag
+    in the manifest.
+
+    This file is ignored by Android 6, which instead respects the usesCleartextTraffic flag.
+-->
+<network-security-config>
+
+    <!-- Default: Block everything -->
+    <base-config cleartextTrafficPermitted="false">
+        <!--
+            Empty trust anchor list will cause an error for all TLS connections:
+            "trust anchor for certification path not found"
+        -->
+        <trust-anchors />
+    </base-config>
+
+    <!-- Allow secure access with system certificates to the banking system. -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="false">banking.varengold.de</domain>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+
+</network-security-config>

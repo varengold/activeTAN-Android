@@ -2,8 +2,8 @@
 ext {
     // To unify dependencies between modules
     versions = [
-            compileSdk: 29,
-            targetSdk: 29,
+            compileSdk: 30,
+            targetSdk: 30,
             zxing: '3.3.3',
     ]
 }
@@ -15,7 +15,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:4.1.0'
         
 
         // NOTE: Do not place your application dependencies here; they belong

@@ -34,7 +34,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.VerifyTransactionDetailsActivity;
+import de.efdis.tangenerator.gui.transaction.VerifyTransactionDetailsActivity;
 import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
@@ -54,7 +54,7 @@ public class VerifyTransactionDetailsActivityTestMultipleTokens {
 
     @Test
     public void selectTokenAndComputeTan() {
-        Espresso.onView(ViewMatchers.withId(R.id.button))
+        Espresso.onView(ViewMatchers.withId(R.id.validateButton))
                 .perform(ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText(R.string.choose_token_title))
@@ -69,7 +69,7 @@ public class VerifyTransactionDetailsActivityTestMultipleTokens {
 
     @Test
     public void cancelTokenSelection() {
-        Espresso.onView(ViewMatchers.withId(R.id.button))
+        Espresso.onView(ViewMatchers.withId(R.id.validateButton))
                 .perform(ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText(R.string.choose_token_title))
@@ -88,7 +88,7 @@ public class VerifyTransactionDetailsActivityTestMultipleTokens {
                     }
                 });
 
-        Espresso.onView(ViewMatchers.withId(R.id.button))
+        Espresso.onView(ViewMatchers.withId(R.id.validateButton))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 

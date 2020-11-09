@@ -19,11 +19,7 @@
 
 package de.efdis.tangenerator.persistence.database;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
-
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
 import androidx.room.testing.MigrationTestHelper;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory;

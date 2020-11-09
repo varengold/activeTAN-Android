@@ -128,7 +128,6 @@ public class BankingKeyRepository {
      * Load a secret key from the Android Keystore.
      *
      * @return <code>null</code>, if the key is missing in the key store or permanently destroyed.
-     *
      * @throws KeyStoreException if the key store cannot be used
      */
     public static SecretKey getKey(String keyAlias) throws KeyStoreException {
@@ -196,7 +195,6 @@ public class BankingKeyRepository {
      * Load the secret banking key used for TAN generation of banking transactions.
      *
      * @return <code>null</code>, if the key is missing in the key store or permanently destroyed
-     *
      * @throws KeyStoreException if the key store cannot be used
      */
     public static SecretKey getBankingKey(String bankingTokenAlias) throws KeyStoreException {
@@ -225,16 +223,18 @@ public class BankingKeyRepository {
         // if the device has been unlocked within the last X seconds.
         // We must set this value, because otherwise the key could only be used with biometric
         // authentication. See documentation at UserAuthenticationValidityDuration for details.
+        int timeout;
         switch (userAuthenticationValidityDuration) {
             case LONG:
-                builder.setUserAuthenticationValidityDurationSeconds(24 * 60 * 60);
+                timeout = 24 * 60 * 60;
                 break;
             case SHORT:
-                builder.setUserAuthenticationValidityDurationSeconds(5 * 60);
+                timeout = 5 * 60;
                 break;
             default:
                 throw new IllegalArgumentException("unknown user authentication validity duration");
         }
+        KeyProtectionCompat.setUserAuthenticationParameters(builder, timeout);
 
         return builder.build();
     }
@@ -283,11 +283,11 @@ public class BankingKeyRepository {
      * @param userAuthenticationValidityDuration Long or short duration values. The short value
      *                                           should be supported by any device.
      * @return <code>true</code>, iff. the device supports the value and can use it.
-     * @throws KeyStoreException If the key store is not available or does not support the AES
-     * cipher.
+     * @throws KeyStoreException             If the key store is not available or does not support the AES
+     *                                       cipher.
      * @throws UserNotAuthenticatedException If the device is locked or the user authentication
-     * validity duration has exceeded.  Usually this means that the value is supported by the
-     * device, but cannot be used right now.
+     *                                       validity duration has exceeded.  Usually this means that the value is supported by the
+     *                                       device, but cannot be used right now.
      */
     private static boolean isSupportedByDevice(
             @NonNull UserAuthenticationValidityDuration userAuthenticationValidityDuration)
@@ -329,7 +329,7 @@ public class BankingKeyRepository {
      * a reboot.  bug which affects some devices, see
      * https://github.com/googlearchive/android-ConfirmCredential/issues/6
      * @throws KeyStoreException If the key store is not available or does not support the AES
-     * cipher.
+     *                           cipher.
      */
     public static boolean isDeviceMissingUnlock() throws KeyStoreException {
         // The 'LONG' probe key should be usable if the device is unlocked.
@@ -352,7 +352,7 @@ public class BankingKeyRepository {
      * legacy key store implementations, see
      * https://github.com/googlearchive/android-ConfirmCredential/issues/5
      * @throws KeyStoreException If the key store is not available or does not support the AES
-     * cipher.
+     *                           cipher.
      */
     public static boolean isNoAuthKeySupportedByDevice() throws KeyStoreException {
         try {
@@ -371,7 +371,7 @@ public class BankingKeyRepository {
      * @return <code>true</code>, if the device supports such keys. <code>false</code>, if the
      * device is incompatible with non-biometric keys.
      * @throws KeyStoreException If the key store is not available or does not support the AES
-     * cipher.
+     *                           cipher.
      */
     public static boolean isNonBiometricKeySupportedByDevice() throws KeyStoreException {
         // If this method return false, the device supports keys with biometric authentication only.
@@ -429,12 +429,26 @@ public class BankingKeyRepository {
     }
 
     public static void deleteBankingKey(String tokenAlias)
-            throws KeyStoreException{
+            throws KeyStoreException {
         KeyStore keyStore = getKeyStore();
 
         if (keyStore.containsAlias(tokenAlias)) {
             keyStore.deleteEntry(tokenAlias);
         }
+    }
+
+    private static class KeyProtectionCompat {
+
+        @SuppressWarnings("deprecation")
+        private static void setUserAuthenticationParameters(KeyProtection.Builder builder, int timeoutSeconds) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                builder.setUserAuthenticationParameters(timeoutSeconds,
+                        KeyProperties.AUTH_DEVICE_CREDENTIAL | KeyProperties.AUTH_BIOMETRIC_STRONG);
+            } else {
+                builder.setUserAuthenticationValidityDurationSeconds(timeoutSeconds);
+            }
+        }
+
     }
 
 }

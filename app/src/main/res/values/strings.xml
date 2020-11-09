@@ -189,7 +189,7 @@
     <string name="invalidated_key_label">Deaktiviert</string>
     <string name="invalidated_key_description">Dieser TAN-Generator kann zu Ihrer Sicherheit nicht mehr benutzt werden, weil der Sperrbildschirm deaktiviert worden ist. Bitte sperren Sie den TAN-Generator im Online-Banking und führen Sie eine neue Aktivierung durch.</string>
     <string name="exhausted_generator_label">Aufgebraucht</string>
-    <string name="exhausted_generator_description">Dieser TAN-Generator hat die maximale Anzahl an TANs erzeugt und kann nicht mehr benutzt werden. Bitte führen Sie eine neue Aktivierung durch.</string>
+    <string name="exhausted_generator_description">Dieser TAN-Generator hat die maximale Anzahl an TANs erzeugt und kann zukünftig nicht mehr benutzt werden. Bitte führen Sie eine neue Aktivierung durch.</string>
     <string name="soon_exhausted_generator_label">Bald aufgebraucht</string>
     <string name="soon_exhausted_generator_description">Dieser TAN-Generator hat bald die maximale Anzahl an TANs erzeugt und kann dann nicht mehr benutzt werden. Bitte führen Sie bei Gelegenheit eine neue Aktivierung durch.</string>
 
@@ -204,6 +204,11 @@
     <string name="device_auth_failed">Authentifizierung fehlgeschlagen</string>
 
     <string name="repeat">Erneut versuchen</string>
+
+    <string name="missing_security_patches_title">Sicherheitshinweis</string>
+    <string name="missing_security_patches_description">"Auf diesem Gerät sind keine aktuellen Android-Sicherheitsupdates installiert. Dies kann ein Sicherheitsrisiko darstellen!\n\nBitte nutzen Sie Banking-Anwendungen möglichst auf einem aktuellen Gerät, damit Sicherheitsprobleme durch den Hersteller behoben werden können.\n\nEinzelne Gerätehersteller stellen Betriebssystem-Updates verzögert oder nur für einen begrenzten Support-Zeitraum zur Verfügung. Ohne regelmäßige und zeitnahe Sicherheitsupdates wird empfohlen, die Banking-App auf einem separaten Gerät zu verwenden, damit die Freigabe von Transaktionen auf einem unabhängigen Gerät geprüft werden kann."</string>
+    <string name="ignore_and_continue">Fortsetzen</string>
+    <string name="update_settings">Update-Einstellungen…</string>
 
     <string name="share_error_label">Teilen…</string>
     <string name="share_error_title">Fehlerinformation senden</string>
@@ -225,6 +230,7 @@
     <string name="verify_transaction_details_title">Auftrag prüfen</string>
     <string name="confirmed_transaction_details_title">Auftrag freigeben</string>
     <string name="confirm_transaction_details">OK</string>
+    <string name="confirm_transaction_details_and_release_transaction">Freigeben</string>
     <string name="enter_tan_onlinebanking">Bitte diese TAN im Online-Banking eingeben:</string>
     <string name="enter_tan_and_atc_onlinebanking">Bitte diese Werte im Online-Banking eingeben:</string>
     <string name="verify_transaction_with_details">Bitte die Auftragsdaten auf Richtigkeit prüfen</string>

@@ -42,7 +42,7 @@ import java.math.BigDecimal;
 import de.efdis.tangenerator.activetan.DataElementType;
 import de.efdis.tangenerator.activetan.HHDuc;
 import de.efdis.tangenerator.activetan.VisualisationClass;
-import de.efdis.tangenerator.gui.VerifyTransactionDetailsActivity;
+import de.efdis.tangenerator.gui.transaction.VerifyTransactionDetailsActivity;
 import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 import de.efdis.tangenerator.screenshot.DayNightRule;
@@ -83,7 +83,7 @@ public class VerifyTransactionDetailsActivityTest {
     public void takeScreenshots() {
         screenshotRule.captureScreen("verifyTransaction");
 
-        Espresso.onView(ViewMatchers.withId(R.id.button))
+        Espresso.onView(ViewMatchers.withId(R.id.validateButton))
                 .perform(ViewActions.click());
 
         Espresso.onView(ViewMatchers.withId(R.id.generatedTanContainer))

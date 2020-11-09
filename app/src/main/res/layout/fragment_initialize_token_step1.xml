@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".gui.InitializeTokenStep1Fragment">
+    tools:context=".gui.initialization.InitializeTokenStep1Fragment">
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -41,7 +41,7 @@
                 android:layout_marginStart="16dp"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_material_navigation_check"
-                android:tint="?android:attr/textColorSecondary"
+                app:tint="?android:attr/textColorSecondary"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/textView5" />
 
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_material_hardware_keyboard_arrow_right"
-                android:tint="?attr/colorAccent"
+                app:tint="?attr/colorAccent"
                 app:layout_constraintStart_toStartOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="@+id/textView9" />
 
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 app:srcCompat="@drawable/ic_material_hardware_keyboard_arrow_right"
-                android:tint="?attr/colorAccent"
+                app:tint="?attr/colorAccent"
                 app:layout_constraintStart_toStartOf="@id/cardView"
                 app:layout_constraintTop_toTopOf="@+id/textView4" />
 

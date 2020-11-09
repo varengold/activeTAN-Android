@@ -4,6 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -54,15 +55,26 @@ public class DayNightRule implements TestRule {
         @Override
         public void evaluate() throws Throwable {
             @AppCompatDelegate.NightMode
-            int oldNightMode = AppCompatDelegate.getDefaultNightMode();
+            final int oldNightMode = AppCompatDelegate.getDefaultNightMode();
 
             try {
-                for (@AppCompatDelegate.NightMode int nightMode : uiModes.value()) {
-                    AppCompatDelegate.setDefaultNightMode(nightMode);
+                for (@AppCompatDelegate.NightMode final int nightMode : uiModes.value()) {
+                    InstrumentationRegistry.getInstrumentation().getTargetContext().getMainExecutor().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            AppCompatDelegate.setDefaultNightMode(nightMode);
+                        }
+                    });
+
                     base.evaluate();
                 }
             } finally {
-                AppCompatDelegate.setDefaultNightMode(oldNightMode);
+                InstrumentationRegistry.getInstrumentation().getTargetContext().getMainExecutor().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        AppCompatDelegate.setDefaultNightMode(oldNightMode);
+                    }
+                });
             }
         }
     }

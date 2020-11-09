@@ -57,15 +57,14 @@
         app:layout_constraintStart_toStartOf="@+id/tokenDescription"
         app:layout_constraintTop_toBottomOf="@+id/tokenDescription" />
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/protectUsageSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/protectUsageDescription"
         app:layout_constraintEnd_toEndOf="@+id/tokenDescriptionButton"
         app:layout_constraintStart_toStartOf="@+id/tokenDescriptionButton"
-        app:layout_constraintTop_toTopOf="@+id/protectUsage"
-        tools:checked="true" />
+        app:layout_constraintTop_toTopOf="@+id/protectUsage" />
 
     <TextView
         android:id="@+id/protectUsageDescription"

@@ -7,6 +7,8 @@
     <drawable name="ic_material_action_perm_device_information">@drawable/ic_perm_device_information_black_24dp</drawable>
     <drawable name="ic_material_action_settings">@drawable/ic_settings_black_24dp</drawable>
 
+    <drawable name="ic_material_communication_qr_code">@drawable/ic_qr_code_black_24dp</drawable>
+
     <drawable name="ic_material_hardware_keyboard_arrow_down">@drawable/ic_keyboard_arrow_down_black_24dp</drawable>
     <drawable name="ic_material_hardware_keyboard_arrow_right">@drawable/ic_keyboard_arrow_right_black_24dp</drawable>
     <drawable name="ic_material_hardware_keyboard_arrow_up">@drawable/ic_keyboard_arrow_up_black_24dp</drawable>

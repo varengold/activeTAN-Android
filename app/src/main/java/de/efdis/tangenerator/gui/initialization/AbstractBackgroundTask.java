@@ -19,12 +19,18 @@
 
 package de.efdis.tangenerator.gui.initialization;
 
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.StringRes;
 
-public abstract class AbstractBackgroundTask<INPUT, OUTPUT>
-        extends AsyncTask<INPUT, Void, OUTPUT> {
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+public abstract class AbstractBackgroundTask<INPUT, OUTPUT> {
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final Handler handler = new Handler(Looper.getMainLooper());
+
     private BackgroundTaskListener<OUTPUT> listener;
 
     @StringRes
@@ -36,28 +42,46 @@ public abstract class AbstractBackgroundTask<INPUT, OUTPUT>
         this.listener = listener;
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        listener.onStart();
+    protected abstract OUTPUT doInBackground(INPUT input);
+
+    public void execute(final INPUT input) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                listener.onStart();
+            }
+        });
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                OUTPUT output = null;
+                try {
+                    output = doInBackground(input);
+                } catch (Throwable throwable) {
+                    failedCause = throwable;
+                } finally {
+                    onPostExecute(output);
+                }
+            }
+        });
     }
 
-    @Override
-    protected void onPostExecute(OUTPUT output) {
-        if (output != null) {
-            listener.onSuccess(output);
-        } else {
-            listener.onFailure(failedReason, failedAndProcessShouldBeRepeated, failedCause);
-        }
-        listener.onEnd();
+    private void onPostExecute(final OUTPUT output) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (output != null) {
+                    listener.onSuccess(output);
+                } else {
+                    listener.onFailure(failedReason, failedAndProcessShouldBeRepeated, failedCause);
+                }
+                listener.onEnd();
 
-        // prevent leak
-        listener = null;
-    }
-
-    @Override
-    protected void onCancelled() {
-        onPostExecute(null);
+                // prevent leak
+                listener = null;
+            }
+        });
     }
 
     public interface BackgroundTaskListener<OUTPUT> {

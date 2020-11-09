@@ -42,7 +42,7 @@ import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.activetan.HHDkm;
 import de.efdis.tangenerator.activetan.KeyMaterialType;
-import de.efdis.tangenerator.gui.InitializeTokenActivity;
+import de.efdis.tangenerator.gui.initialization.InitializeTokenActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 import de.efdis.tangenerator.screenshot.DayNightRule;

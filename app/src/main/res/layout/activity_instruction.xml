@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".gui.InstructionActivity">
+    tools:context=".gui.instruction.InstructionActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/actionBar"
@@ -34,7 +34,7 @@
 
                 <fragment
                     android:id="@+id/firstUseFragment"
-                    class="de.efdis.tangenerator.gui.InstructionFirstUseFragment"
+                    class="de.efdis.tangenerator.gui.instruction.InstructionFirstUseFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -46,7 +46,7 @@
 
                 <fragment
                     android:id="@+id/primaryUseFragment"
-                    class="de.efdis.tangenerator.gui.InstructionPrimaryUseFragment"
+                    class="de.efdis.tangenerator.gui.instruction.InstructionPrimaryUseFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>
@@ -58,7 +58,7 @@
 
                 <fragment
                     android:id="@+id/securityFragment"
-                    class="de.efdis.tangenerator.gui.InstructionSecurityFragment"
+                    class="de.efdis.tangenerator.gui.instruction.InstructionSecurityFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>

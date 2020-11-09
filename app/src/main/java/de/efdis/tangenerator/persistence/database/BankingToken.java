@@ -19,14 +19,14 @@
 
 package de.efdis.tangenerator.persistence.database;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity(
         tableName = "banking_token",
@@ -107,6 +107,10 @@ public class BankingToken implements Serializable {
                     id.substring(i, Math.min(i + 4, id.length())));
         }
         return formattedSerialNumber.toString();
+    }
+
+    public static String parseFormattedSerialNumber(String formattedSerialNumber) {
+        return formattedSerialNumber.replaceAll("-", "");
     }
 
 }

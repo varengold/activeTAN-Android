@@ -30,7 +30,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.VerifyTransactionDetailsActivity;
+import de.efdis.tangenerator.gui.transaction.VerifyTransactionDetailsActivity;
 import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
@@ -51,7 +51,7 @@ public class VerifyTransactionDetailsActivityTestWithUserAuth {
 
     @Test
     public void computeTan() {
-        Espresso.onView(ViewMatchers.withId(R.id.button))
+        Espresso.onView(ViewMatchers.withId(R.id.validateButton))
                 .perform(ViewActions.click());
 
         Espresso.onView(ViewMatchers.withId(R.id.generatedTanContainer))

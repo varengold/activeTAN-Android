@@ -56,13 +56,13 @@ public class CreateBankingTokenTask
     }
 
     @Override
-    protected Output doInBackground(Input... args) {
+    protected Output doInBackground(Input input) {
         Output result = new Output();
 
         {
             String tokenAlias;
             try {
-                tokenAlias = BankingKeyRepository.insertNewBankingKey(args[0].keyComponents);
+                tokenAlias = BankingKeyRepository.insertNewBankingKey(input.keyComponents);
             } catch (KeyStoreException e) {
                 Log.e(getClass().getSimpleName(),
                         "failed to store banking key in key store", e);
@@ -72,16 +72,16 @@ public class CreateBankingTokenTask
             }
 
             BankingToken token = new BankingToken();
-            token.id = args[0].tokenId;
-            token.name = args[0].tokenName;
+            token.id = input.tokenId;
+            token.name = input.tokenName;
             token.keyAlias = tokenAlias;
-            if (Boolean.TRUE.equals(args[0].keyComponents.userAuthMandatoryForUsage)) {
+            if (Boolean.TRUE.equals(input.keyComponents.userAuthMandatoryForUsage)) {
                 token.usage = BankingTokenUsage.MANDATORY_AUTH_PROMPT;
             } else {
                 token.usage = BankingTokenUsage.DISABLED_AUTH_PROMPT;
             }
 
-            BankingTokenRepository.saveNewToken(args[0].applicationContext, token);
+            BankingTokenRepository.saveNewToken(input.applicationContext, token);
 
             result.bankingToken = token;
         }

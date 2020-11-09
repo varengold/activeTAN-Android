@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".gui.VerifyTransactionDetailsActivity">
+    tools:context=".gui.transaction.VerifyTransactionDetailsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/verify_transaction_details_title" />
 
@@ -200,11 +201,11 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:id="@+id/imageView4"
+                        android:id="@+id/exhaustedIcon"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:scaleType="fitCenter"
-                        android:tint="?attr/colorOnSurface"
+                        app:tint="?attr/colorOnSurface"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_material_action_perm_device_information" />
@@ -219,7 +220,7 @@
                         android:textColor="?attr/colorOnSurface"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView4"
+                        app:layout_constraintStart_toEndOf="@+id/exhaustedIcon"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
@@ -238,19 +239,43 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/button"
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:onClick="onButtonValidate"
-        android:text="@string/confirm_transaction_details"
+        android:baselineAligned="true"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/cancelButton"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="?attr/colorButtonNormal"
+            android:elevation="0dp"
+            android:onClick="onButtonCancel"
+            android:text="@android:string/cancel"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <Button
+            android:id="@+id/validateButton"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onButtonValidate"
+            android:text="@string/confirm_transaction_details_and_release_transaction" />
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/instructionVerifyData"
@@ -262,7 +287,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="?android:attr/textColorSecondary"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/buttonContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="please check details / confirm the order" />

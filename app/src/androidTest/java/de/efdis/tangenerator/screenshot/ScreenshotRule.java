@@ -20,17 +20,13 @@
 package de.efdis.tangenerator.screenshot;
 
 import android.Manifest;
-import android.content.res.Configuration;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
-import androidx.test.runner.screenshot.BasicScreenCaptureProcessor;
 import androidx.test.runner.screenshot.ScreenCapture;
 import androidx.test.runner.screenshot.ScreenCaptureProcessor;
 import androidx.test.runner.screenshot.Screenshot;
@@ -43,28 +39,15 @@ import org.junit.runners.model.Statement;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Locale;
-
-import de.efdis.tangenerator.BuildConfig;
 
 /**
  * This {@link TestRule} simplifies taking screenshots during {@link org.junit.Test}s.
  */
 public class ScreenshotRule implements TestRule {
 
-    // We need permission to write screenshots to the device storage
-    // Note: This test can only be run with build type 'debug',
-    // which permits storage access with an extended manifest.
-    private GrantPermissionRule storagePermissionRule
-            = GrantPermissionRule.grant(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE);
-
     @Override
     public Statement apply(Statement base, Description description) {
-        return storagePermissionRule.apply(
-                new SetUpScreenshotProcessorStatement(base), description);
+        return new SetUpScreenshotProcessorStatement(base);
     }
 
     public void captureScreen(final String captureName) {
@@ -106,29 +89,7 @@ public class ScreenshotRule implements TestRule {
 
         @Override
         public void evaluate() throws Throwable {
-            ScreenCaptureProcessor processor = new BasicScreenCaptureProcessor() {
-                private String getUiMode() {
-                    if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-                        return "dark";
-                    } else {
-                        return "light";
-                    }
-                }
-
-                private String getLanguage() {
-                    Configuration configuration = InstrumentationRegistry.getInstrumentation()
-                            .getTargetContext().getResources().getConfiguration();
-                    return configuration.getLocales().get(0).getLanguage();
-                }
-
-                @Override
-                protected String getFilename(String captureName) {
-                    return BuildConfig.FLAVOR_client
-                            + mFileNameDelimiter + getUiMode()
-                            + mFileNameDelimiter + getLanguage()
-                            + mFileNameDelimiter + captureName;
-                }
-            };
+            ScreenCaptureProcessor processor = new MyScreenCaptureProcessor();
             Screenshot.setScreenshotProcessors(Collections.singleton(processor));
 
             base.evaluate();

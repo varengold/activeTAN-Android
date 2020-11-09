@@ -34,7 +34,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.VerifyTransactionDetailsActivity;
+import de.efdis.tangenerator.gui.transaction.VerifyTransactionDetailsActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
 @RunWith(AndroidJUnit4.class)
@@ -50,7 +50,7 @@ public class VerifyTransactionDetailsActivityTestExhaustedToken {
 
     @Test
     public void attemptComputeTan() {
-        Espresso.onView(ViewMatchers.withId(R.id.button))
+        Espresso.onView(ViewMatchers.withId(R.id.validateButton))
                 .perform(ViewActions.click());
 
         Espresso.onView(ViewMatchers.withText(R.string.no_tokens_available_title))
@@ -70,7 +70,7 @@ public class VerifyTransactionDetailsActivityTestExhaustedToken {
                     }
                 });
 
-        Espresso.onView(ViewMatchers.withId(R.id.button))
+        Espresso.onView(ViewMatchers.withId(R.id.validateButton))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 

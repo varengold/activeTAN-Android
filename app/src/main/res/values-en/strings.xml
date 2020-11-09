@@ -135,6 +135,7 @@
     <string name="camera_permission_rationale">The camera is required to read QR codes.</string>
     <string name="no_tokens_available_title">TAN Generator</string>
     <string name="confirm_transaction_details">OK</string>
+    <string name="confirm_transaction_details_and_release_transaction">Release</string>
     <string name="confirmed_transaction_details_title">Approve Order</string>
     <string name="device_auth_failed">Authentication failed</string>
     <string name="do_protect_usage_description">Request biometric, pattern, PIN or password for usage</string>
@@ -251,6 +252,10 @@
     </string>
     <string name="protect_usage">Protect usage</string>
     <string name="repeat">Try again</string>
+    <string name="missing_security_patches_title">Security advice</string>
+    <string name="missing_security_patches_description">"This device has no current Android security updates installed. This may be a security risk!\n\nPlease use banking applications on an up-to-date device as possible, so that the manufacturer may fix security problems.\n\nIndividual device vendors provide only delayed operating system updates or cease to support devices after some time. Without regular and timely security updates it is advised to use the banking app on a separate device. Thus, transactions may be verified on an independent device."</string>
+    <string name="ignore_and_continue">Continue</string>
+    <string name="update_settings">Update settings…</string>
     <string name="scan_qr_code">Please scan QR code</string>
     <string name="scan_screen_qr_code">Please scan QR code in online banking (not on activation letter).</string>
     <string name="step_generate_banking_key">Generating device key</string>
@@ -368,11 +373,11 @@
     <string name="initialization_confirm_quit_message">Did you enter the initial TAN in online banking yet?</string>
     <string name="authorize_to_generate_tan">Please enter your device credentials to generate the TAN.</string>
     <string name="authorize_to_unlock_token">Please enter your device credentials to use activeTAN without biometric, pattern, PIN or password.</string>
-    <string name="invalidated_key_description">For your security, this TAN generator cannot be used anymore, because the lock screen has been disabled. Please lock the TAN generator in online banking and start a new initializaion process.</string>
+    <string name="invalidated_key_description">For your security, this TAN generator cannot be used anymore, because the lock screen has been disabled. Please lock the TAN generator in online banking and start a new initialization process.</string>
     <string name="invalidated_key_label">Disabled</string>
-    <string name="exhausted_generator_description">This TAN generator has produced the maximum number of TANs and cannot be used anymore. Please start a new initializaion process.</string>
+    <string name="exhausted_generator_description">This TAN generator has produced the maximum number of TANs and cannot be used anymore in the future. Please start a new initialization process.</string>
     <string name="exhausted_generator_label">Exhausted</string>
-    <string name="soon_exhausted_generator_description">This TAN generator has almost produced the maximum number of TANs. Then it will no longer be possible to use it. Please start a new initializaion process soon.</string>
+    <string name="soon_exhausted_generator_description">This TAN generator has almost produced the maximum number of TANs. Then it will no longer be possible to use it. Please start a new initialization process soon.</string>
     <string name="soon_exhausted_generator_label">Soon exhausted</string>
     <string name="initialization_failed_keystore">The TAN generator cannot be stored securely. Please check your device security settings.</string>
     <string name="initialization_failed_tan_computation">A technical error has occurred during TAN computation. Please try again later.</string>

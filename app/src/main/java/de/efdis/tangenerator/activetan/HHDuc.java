@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,6 +45,11 @@ public class HHDuc {
      * Start codes with visualization class (prefix 1 and 2) have a maximum of 12 digits.
      */
     private static final int MAX_START_CODE_DIGITS = 12;
+
+    /**
+     * Start code prefix for TAN generation and display of the ATC
+     */
+    private static final String DISPLAY_ATC_START_CODE_PREFIX = "08";
 
     private int unpredictableNumber;
     private final VisualisationClass visualisationClass;
@@ -151,7 +157,7 @@ public class HHDuc {
             // Special case:
             // The only supported case for HHDuc w/o visualisation class is start code '08...'
             // for static TAN computation with display of the ATC.
-            startCode.append("08");
+            startCode.append(DISPLAY_ATC_START_CODE_PREFIX);
         } else {
             maxStartCodeDigits = MAX_START_CODE_DIGITS;
 
@@ -183,6 +189,15 @@ public class HHDuc {
         assert startCode.length() == maxStartCodeDigits;
 
         return FieldEncoding.bcdEncode(startCode.toString());
+    }
+
+    /** Shall the ATC be displayed together with the generated TAN? */
+    public boolean isDisplayAtc() {
+        byte[] startCode = getStartCode();
+        byte[] encodedStartCodePrefix = FieldEncoding.bcdEncode(DISPLAY_ATC_START_CODE_PREFIX);
+        return (Arrays.equals(
+                Arrays.copyOf(startCode, encodedStartCodePrefix.length),
+                encodedStartCodePrefix));
     }
 
     /** In Germany only one value is allowed according to HHDuc version 1.4 */

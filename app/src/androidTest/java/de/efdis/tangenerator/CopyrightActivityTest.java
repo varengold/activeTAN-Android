@@ -27,7 +27,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.CopyrightActivity;
+import de.efdis.tangenerator.gui.misc.CopyrightActivity;
 import de.efdis.tangenerator.screenshot.DayNightRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
 

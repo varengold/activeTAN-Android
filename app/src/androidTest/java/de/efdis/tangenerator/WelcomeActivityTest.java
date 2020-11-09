@@ -27,7 +27,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import de.efdis.tangenerator.gui.WelcomeActivity;
+import de.efdis.tangenerator.gui.misc.WelcomeActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 import de.efdis.tangenerator.screenshot.DayNightRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
