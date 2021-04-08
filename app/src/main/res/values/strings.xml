@@ -40,6 +40,12 @@
     <string name="instructionCheckOrder">Auf dem Smartphone werden Auftragsdaten angezeigt. Prüfen Sie die Daten und bestätigen Sie den Auftrag in der activeTAN-App.</string>
     <string name="instructionEnterTan">Die activeTAN-App generiert eine TAN. Geben Sie die TAN im Online-Banking ein.</string>
     <string name="instructionCompletePrimaryUse">Bestätigen Sie die Eingabe im Online-Banking. Der Auftrag wird freigegeben.</string>
+    <string name="instructionBankingAppSubtitle">Mit Banking-App&#x202f;</string> <!-- extra no-break space to prevent italic font clipping -->
+    <string name="instructionSelectTanMethodBankingApp">Falls Sie mehrere TAN-Verfahren benutzen, wählen Sie in den Online-Banking-Einstellungen der Banking-App das activeTAN-Verfahren aus.</string>
+    <string name="instructionEnterOrderBankingApp">Geben Sie Ihren Auftrag in der Banking-App ein.</string>
+    <string name="instructionSwitchFromBankingApp">Beim Senden des Auftrags wird die activeTAN-App automatisch gestartet.</string>
+    <string name="instructionCheckOrderBankingApp">In der activeTAN-App werden Auftragsdaten angezeigt. Prüfen Sie die Daten und geben Sie den Auftrag frei.</string>
+    <string name="instructionSwitchToBankingApp">Die Banking-App führt den Auftrag mit einer TAN automatisch aus. Die manuelle Eingabe der TAN entfällt.</string>
     <string name="instructionSecurityTitle">Sicherheit</string>
     <string name="instructionSecuritySubtitle">Nutzungshinweise&#x202f;</string> <!-- extra no-break space to prevent italic font clipping -->
     <string name="instructionLockScreen">Sperrbildschirm</string>
@@ -48,6 +54,7 @@
     <string name="instructionTwoFactorSecurity">2-Faktor-Sicherheit</string>
     <string name="instructionTwoDevices">Die Verwendung der activeTAN-App macht Ihr Online-Banking sicherer. Die Datenübertragung mittels QR-Code stellt sicher, dass Auftragsdaten auf einem unabhängigen zweiten Gerät geprüft werden können.</string>
     <string name="instructionEasyOfflineUse">Weitere Vorteile: Der QR-Code kann schnell und komfortabel gescannt werden. Nach der einmaligen Aktivierung funktioniert activeTAN sogar ohne Internetverbindung.</string>
+    <string name="instructionBankingAppIntegration">Bei Verwendung unserer Banking-App auf demselben Gerät entfällt das Scannen des QR-Codes und die Eingabe der TAN, so dass Aufträge noch schneller und einfacher freigegeben werden können. Die beiden Apps bleiben dabei durch das Betriebssystem sicher getrennt.</string>
     <string name="instructionUpdates">Aktualisierungen</string>
     <string name="instructionEnableAutomaticUpdates">Sichern Sie alle Ihre Geräte ab, indem Sie Sicherheitsupdates automatisch installieren. So können potentielle Schwachstellen durch die Hersteller schnell behoben werden.</string>
 
@@ -210,6 +217,9 @@
     <string name="ignore_and_continue">Fortsetzen</string>
     <string name="update_settings">Update-Einstellungen…</string>
 
+    <string name="no_matching_tan_generator_title">Hinweis</string>
+    <string name="no_matching_tan_generator_description">"Die lokale Verwendung von activeTAN ist leider nicht möglich und muss über ein separates Gerät erfolgen.\n\nBitte aktivieren Sie die activeTAN-App für die gleichen Zugangsdaten, die Sie in der Banking-App verwenden, oder löschen Sie TAN-Generatoren in den Einstellungen der activeTAN-App, falls Sie diese im Online-Banking deaktiviert haben."</string>
+
     <string name="share_error_label">Teilen…</string>
     <string name="share_error_title">Fehlerinformation senden</string>
     <string name="share_error_subject">activeTAN Fehlerbericht</string>
@@ -271,7 +281,7 @@
     <string name="initialization_confirm_cancel_message">Die Seriennummer geht verloren und die Aktivierung muss auch im Online-Banking abgebrochen werden.</string>
     <string name="initialization_confirm_quit_title">Aktivierung beenden?</string>
     <string name="initialization_confirm_quit_message">Haben Sie die Start-TAN bereits im Online-Banking eingegeben?</string>
-    <string name="initialization_confirm_return">Zurück</string>
+    <string name="confirm_return">Zurück</string>
     <string name="initialization_multiple_generators_title">Mehrfache Aktivierung</string>
     <string name="initialization_multiple_generators_description">Sie haben diese App mehrfach aktiviert. Verschiedene TAN-Generatoren können im Menü „Einstellungen“ verwaltet werden.</string>
     <string name="initialization_mandatory_user_auth_title">Hinweis</string>

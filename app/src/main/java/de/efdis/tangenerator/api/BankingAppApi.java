@@ -20,8 +20,10 @@
 package de.efdis.tangenerator.api;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,6 +37,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.zxing.BinaryBitmap;
@@ -91,82 +94,106 @@ import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 public class BankingAppApi extends Activity {
     private static final String TAG = BankingAppApi.class.getSimpleName();
     private static final int REQUEST_CODE_CHALLENGE = 237846;
+    private static final String PREFERENCE_LAST_WARNING_NO_TAN_GENERATOR = "lastWarningNoTanGenerator";
+    private static final String PREFERENCE_LAST_WARNING_OLD_DEVICE = "lastWarningOldDevice";
 
     private ActivityBankingAppApiBinding binding;
+
+    private Date activityCreationTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityBankingAppApiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        activityCreationTime = new Date();
+
+        loadApiChallenge();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    /**
+     * Show a security warning that the device is missing security updates.
+     *
+     * @return <code>true</code>, if the dialog is shown. <code>false</code>, if the dialog is
+     * not shown, because the user has confirmed the warning already.
+     */
+    private boolean showWarningOldDevice() {
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
+        long lastWarning = preferences.getLong(PREFERENCE_LAST_WARNING_OLD_DEVICE, 0L);
+        long now = System.currentTimeMillis();
 
-        if (isOldDevice()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            builder.setIcon(DrawableUtils.getTintedDrawable(this,
-                    R.drawable.ic_material_hardware_security,
-                    R.attr.colorOnSurface));
-            builder.setTitle(R.string.missing_security_patches_title);
-            builder.setMessage(R.string.missing_security_patches_description);
-
-            builder.setPositiveButton(R.string.ignore_and_continue, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-
-                    loadApiChallenge();
-                }
-            });
-
-            builder.setCancelable(false);
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-
-                    Log.i(TAG, "API call canceled by user, because missing security updates");
-                    setResult(Activity.RESULT_CANCELED);
-                    finish();
-                }
-            });
-
-            final Intent systemUpdateSettings = new Intent("android.settings.SYSTEM_UPDATE_SETTINGS", null);
-            systemUpdateSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (!getPackageManager().queryIntentActivities(systemUpdateSettings, PackageManager.MATCH_DEFAULT_ONLY).isEmpty()) {
-                // We want to prevent the dialog from closing if this button is used,
-                // thus we cannot define a OnClickListener here (see below).
-                builder.setNeutralButton(R.string.update_settings, null);
-            }
-
-            final AlertDialog dialog = builder.create();
-
-            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialogInterface) {
-                    Button neutralButton = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
-                    if (neutralButton != null) {
-                        neutralButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                startActivity(systemUpdateSettings);
-                                // Don't dismiss the dialog.
-                                // If the user returns from the system update settings,
-                                // the dialog will still be visisble.
-                            }
-                        });
-                    }
-                }
-            });
-
-            dialog.show();
-        } else {
-            loadApiChallenge();
+        if (lastWarning > now - (24 * 60 * 60 * 1000) && lastWarning <= now) {
+            // Don't repeat the warning within 24h, if the user has confirmed it already
+            return false;
         }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setIcon(DrawableUtils.getTintedDrawable(this,
+                R.drawable.ic_material_hardware_security,
+                R.attr.colorOnSurface));
+        builder.setTitle(R.string.missing_security_patches_title);
+        builder.setMessage(R.string.missing_security_patches_description);
+
+        builder.setPositiveButton(R.string.ignore_and_continue, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                getPreferences(Context.MODE_PRIVATE)
+                        .edit()
+                        .putLong(PREFERENCE_LAST_WARNING_OLD_DEVICE, System.currentTimeMillis())
+                        .apply();
+
+                // restart the challenge
+                loadApiChallenge();
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                Log.i(TAG, "API call canceled by user, because missing security updates");
+                setResult(Activity.RESULT_CANCELED);
+                finish();
+            }
+        });
+
+        final Intent systemUpdateSettings = new Intent("android.settings.SYSTEM_UPDATE_SETTINGS", null);
+        systemUpdateSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (!getPackageManager().queryIntentActivities(systemUpdateSettings, PackageManager.MATCH_DEFAULT_ONLY).isEmpty()) {
+            // We want to prevent the dialog from closing if this button is used,
+            // thus we cannot define a OnClickListener here (see below).
+            builder.setNeutralButton(R.string.update_settings, null);
+        }
+
+        final AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button neutralButton = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
+                if (neutralButton != null) {
+                    neutralButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(systemUpdateSettings);
+                            // Don't dismiss the dialog.
+                            // If the user returns from the system update settings,
+                            // the dialog will still be visisble.
+                        }
+                    });
+                }
+            }
+        });
+
+        dialog.show();
+
+        return true;
     }
 
     private static boolean isOldDevice() {
@@ -230,14 +257,31 @@ public class BankingAppApi extends Activity {
             return;
         }
 
-        final Collection<BankingToken> eligibleTokens = findMatchingBankingTokens(challenge.tanMediaDescriptions).values();
+        final Collection<BankingToken> eligibleTokens;
+        try {
+            eligibleTokens = findMatchingBankingTokens(challenge.tanMediaDescriptions).values();
+        } catch (TanGeneratorMismatchException e) {
+            Log.e(TAG, "Challenge has no matching TAN generators");
+            setResult(RESULT_CANCELED);
+            finishWithWarning(PREFERENCE_LAST_WARNING_NO_TAN_GENERATOR,
+                    R.string.no_matching_tan_generator_title,
+                    R.string.no_matching_tan_generator_description);
+            return;
+        }
+
         if (eligibleTokens.isEmpty()) {
-            Log.i(TAG,
-                    "This app is not initialized " +
-                            "or initialization does not match expected TAN generators");
+            // Silent exit, if this app has been installed, but never been used.
+            Log.i(TAG, "This app is not initialized");
             setResult(RESULT_CANCELED);
             finish();
             return;
+        }
+
+        if (isOldDevice()) {
+            if (showWarningOldDevice()) {
+                // the user may accept the warning and restart this method or finish this activity
+                return;
+            }
         }
 
         Result decodedQrCode;
@@ -268,6 +312,56 @@ public class BankingAppApi extends Activity {
                 finish();
             }
         }).handleResult(decodedQrCode);
+    }
+
+    /**
+     * Show an error message about why it was not possible to process the challenge and finish
+     * this activity to return to the banking app.
+     *
+     * @param warningDontShowAgainPreferenceKey key for the private activity preferences to suppress a
+     *                                 redisplay of the very same warning within 24h
+     *
+     * @param warningTitleId Title text for the warning dialog
+     * @param warningDescriptionId Body text for the warning dialog
+     */
+    private void finishWithWarning(
+            final String warningDontShowAgainPreferenceKey,
+            @StringRes int warningTitleId,
+            @StringRes int warningDescriptionId) {
+        long lastWarning = getPreferences(Context.MODE_PRIVATE)
+                .getLong(warningDontShowAgainPreferenceKey, 0L);
+        long now = System.currentTimeMillis();
+
+        if (lastWarning > now - (24 * 60 * 60 * 1000) && lastWarning <= now) {
+            // Don't repeat the warning within 24h
+            finish();
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setIcon(DrawableUtils.getTintedDrawable(this,
+                R.drawable.ic_material_action_info,
+                R.attr.colorOnSurface));
+        builder.setTitle(warningTitleId);
+        builder.setMessage(warningDescriptionId);
+
+        builder.setCancelable(false);
+        builder.setNegativeButton(R.string.confirm_return, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                getPreferences(Context.MODE_PRIVATE)
+                        .edit()
+                        .putLong(warningDontShowAgainPreferenceKey, System.currentTimeMillis())
+                        .apply();
+
+                finish();
+            }
+        });
+
+        builder.show();
     }
 
     /**
@@ -350,10 +444,17 @@ public class BankingAppApi extends Activity {
      * {@link BankingToken}s as values. If a TAN media description has no matching
      * {@link BankingToken}, it is removed from the {@link Map}.
      *
-     * @return TAN generators, which may be used for the api call.
+     * @return TAN generators, which may be used for the api call. The list may be empty, if no
+     * TAN generator has been activated.
+     *
+     * @throws TanGeneratorMismatchException Indicates that the TAN generator has been initialized,
+     * but is unknown to the banking app.  On personal devices it indicates a misconfiguration of
+     * this app or the banking app (e. g. the TAN generator has been disabled in online banking).
+     * It can easily be fixed by initializing the TAN generator (again) for the user of the banking
+     * app.
      */
     @NonNull
-    private Map<String, BankingToken> findMatchingBankingTokens(String[] tanMediaDescriptions) {
+    private Map<String, BankingToken> findMatchingBankingTokens(String[] tanMediaDescriptions) throws TanGeneratorMismatchException {
         Map<String, BankingToken> usableTokensById = new HashMap<>();
         for (BankingToken token : BankingTokenRepository.getAllUsable(this)) {
             usableTokensById.put(token.id, token);
@@ -371,6 +472,33 @@ public class BankingAppApi extends Activity {
                     usableTokensByMediaDescription.put(description, usableTokensById.get(tokenId));
                 }
             }
+        }
+
+        // If the TAN generator has been initialized within the last 60 minutes, it is unknown
+        // to the banking app.  Thus, we allow to use any recently created TAN generator, if no
+        // common TAN generator has been identified above.
+        //
+        // This fixes app interoperability for users who set up the banking app before the TAN
+        // generator and want to use it within 60 minutes without performing a resynchronization
+        // process in the banking app.
+        //
+        // It might produce false positives on a shared device, which is used by user A for banking
+        // and user B for the TAN app.  This scenario should be rare and the false positives are
+        // gone after 60 minutes.  So, we accept this possible drawback.
+        if (usableTokensByMediaDescription.isEmpty()) {
+            Calendar newTokenMaxAge = Calendar.getInstance(Locale.US);
+            newTokenMaxAge.setTime(activityCreationTime);
+            newTokenMaxAge.add(Calendar.HOUR, -1);
+
+            for (BankingToken token : usableTokensById.values()) {
+                if (newTokenMaxAge.getTime().before(token.createdOn)) {
+                    usableTokensByMediaDescription.put(token.getFormattedSerialNumber(), token);
+                }
+            }
+        }
+
+        if (!usableTokensById.isEmpty() && usableTokensByMediaDescription.isEmpty()) {
+            throw new TanGeneratorMismatchException();
         }
 
         return usableTokensByMediaDescription;
@@ -471,14 +599,18 @@ public class BankingAppApi extends Activity {
 
         if (tanGeneratorId != null) {
             // Return to the caller only the used TAN generator's TAN media description
-            for (Map.Entry<String, BankingToken> entry : findMatchingBankingTokens(challenge.tanMediaDescriptions).entrySet()) {
-                String tanMediaDescription = entry.getKey();
-                BankingToken bankingToken = entry.getValue();
+            try {
+                for (Map.Entry<String, BankingToken> entry : findMatchingBankingTokens(challenge.tanMediaDescriptions).entrySet()) {
+                    String tanMediaDescription = entry.getKey();
+                    BankingToken bankingToken = entry.getValue();
 
-                if (tanGeneratorId.equals(bankingToken.id)) {
-                    challenge.tanMediaDescriptions = new String[]{tanMediaDescription};
-                    break;
+                    if (tanGeneratorId.equals(bankingToken.id)) {
+                        challenge.tanMediaDescriptions = new String[]{tanMediaDescription};
+                        break;
+                    }
                 }
+            } catch (TanGeneratorMismatchException e) {
+                Log.e(TAG, "Challenge has no matching TAN generators", e);
             }
         }
 
@@ -530,6 +662,9 @@ public class BankingAppApi extends Activity {
         } catch (IOException e) {
             throw new IllegalArgumentException("Cannot write challenge file", e);
         }
+    }
+
+    private static class TanGeneratorMismatchException extends Exception {
     }
 
 }

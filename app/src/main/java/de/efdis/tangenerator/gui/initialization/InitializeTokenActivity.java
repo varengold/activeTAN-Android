@@ -432,7 +432,7 @@ public class InitializeTokenActivity
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(false);
-            builder.setNegativeButton(R.string.initialization_confirm_return, null);
+            builder.setNegativeButton(R.string.confirm_return, null);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

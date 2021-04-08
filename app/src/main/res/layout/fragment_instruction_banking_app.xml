@@ -6,17 +6,17 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:padding="16dp"
-    tools:context=".gui.instruction.InstructionSecurityFragment">
+    tools:context=".gui.instruction.InstructionBankingAppFragment">
 
     <ImageView
         android:id="@+id/cardImage"
         android:layout_width="0dp"
-        android:layout_height="140dp"
+        android:layout_height="107dp"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_device_security"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_banking_app" />
 
     <TextView
         android:id="@+id/cardTitle"
@@ -25,7 +25,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/instructionSecurityTitle"
+        android:text="@string/instructionPrimaryUseTitle"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/cardToggleButton"
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="@string/instructionSecuritySubtitle"
+        android:text="@string/instructionBankingAppSubtitle"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@+id/cardToggleButton"
@@ -69,10 +69,10 @@
 
 
         <TextView
-            android:id="@+id/deviceSecurity"
+            android:id="@+id/instructionStep0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/instructionLockScreen"
+            android:text="@string/instructionStep0"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?attr/colorOnSurface"
             android:textStyle="bold"
@@ -85,12 +85,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/instructionEnableLockScreen"
+            android:text="@string/instructionSelectTanMethodBankingApp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deviceSecurity" />
+            app:layout_constraintTop_toBottomOf="@+id/instructionStep0" />
 
         <TextView
             android:id="@+id/textView8"
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/instructionDisabledLockScreen"
+            android:text="@string/instructionEnterOrderBankingApp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,81 +106,114 @@
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/instructionStep1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/instructionTwoFactorSecurity"
+            android:fontFamily="sans-serif"
+            android:text="@string/instructionStep1"
+            android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?attr/colorOnSurface"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+            app:layout_constraintStart_toStartOf="parent" />
 
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="0dp"
+            android:layout_height="111.2dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:scaleType="fitStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/instructionStep1"
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:srcCompat="@drawable/ic_banking_app" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/textView7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/instructionTwoDevices"
+            android:text="@string/instructionSwitchFromBankingApp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintTop_toBottomOf="@+id/instructionStep1" />
 
         <TextView
-            android:id="@+id/textView15"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/instructionEasyOfflineUse"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="?attr/colorOnSurface"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-        <TextView
-            android:id="@+id/textViewBankingAppIntegration"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="@string/instructionBankingAppIntegration"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="?attr/colorOnSurface"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
-        <TextView
-            android:id="@+id/updates"
+            android:id="@+id/instructionStep2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/instructionUpdates"
+            android:text="@string/instructionStep2"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="?attr/colorOnSurface"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewBankingAppIntegration" />
+            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="0dp"
+            android:layout_height="85.6dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/ic_check_order"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/instructionStep2"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textView13"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/instructionEnableAutomaticUpdates"
+            android:text="@string/instructionCheckOrderBankingApp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?attr/colorOnSurface"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/updates" />
+            app:layout_constraintTop_toBottomOf="@+id/instructionStep2" />
+
+        <TextView
+            android:id="@+id/instructionStep3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/instructionStep3"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="0dp"
+            android:layout_height="108dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:scaleType="fitStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/instructionStep3"
+            app:layout_constraintTop_toBottomOf="@+id/textView13"
+            app:srcCompat="@drawable/ic_banking_app_tan" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/instructionSwitchToBankingApp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/instructionStep3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

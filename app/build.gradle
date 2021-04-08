@@ -3,8 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion versions.compileSdk
     defaultConfig {
-        versionCode 30
-        versionName "2020-12-22"
+        versionCode 31
+        versionName "2021-04-07"
 
         // Requires API level 23 (Android 6.0) to use Android keystore system for cryptography.
         minSdkVersion 23
@@ -84,14 +84,14 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.biometric:biometric:1.1.0-rc01'
+    implementation 'androidx.biometric:biometric:1.1.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-rc01'
 
     implementation 'com.google.zxing:core:' + versions.zxing
 
-    def room_version = '2.2.5'
+    def room_version = '2.2.6'
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     androidTestImplementation "androidx.room:room-testing:$room_version"

@@ -465,7 +465,8 @@ public class VerifyTransactionDetailsActivity
              */
             setResult(RESULT_CODE_REPEAT);
             finish();
-            return;
+
+            // The app crashes if we don't call super.onRestart(), thus no return here.
         }
 
         super.onRestart();

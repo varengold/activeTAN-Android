@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2021 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -19,7 +19,6 @@
 
 package de.efdis.tangenerator.gui.instruction;
 
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,32 +26,22 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import de.efdis.tangenerator.databinding.FragmentInstructionSecurityBinding;
-import de.efdis.tangenerator.gui.common.ContextUtils;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-public class InstructionSecurityFragment extends AbstractInstructionCardFragment {
+import de.efdis.tangenerator.databinding.FragmentInstructionBankingAppBinding;
 
-    private FragmentInstructionSecurityBinding binding;
+public class InstructionBankingAppFragment extends AbstractInstructionCardFragment {
 
-    public InstructionSecurityFragment() {
+    private FragmentInstructionBankingAppBinding binding;
+
+    public InstructionBankingAppFragment() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        binding = FragmentInstructionSecurityBinding.inflate(inflater, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentInstructionBankingAppBinding.inflate(inflater, container, false);
         return binding.getRoot();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        if (ContextUtils.isBankingAppInstalled(getActivity())) {
-            binding.textViewBankingAppIntegration.setVisibility(View.VISIBLE);
-        } else {
-            binding.textViewBankingAppIntegration.setVisibility(View.GONE);
-        }
     }
 
     @Override

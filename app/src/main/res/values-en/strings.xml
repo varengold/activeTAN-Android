@@ -162,7 +162,7 @@
     <string name="instructionActivationSubtitle">Before usage&#x202f;</string>
     <string name="instructionActivationTitle">Initialization</string>
     <string name="instructionArchiveLetter">Archive the activation letter to repeat the initialization at a later date if needed.</string>
-    <string name="instructionCheckOrder">The devices shows order details. Please check the data and approve the order in the activeTAN app.</string>
+    <string name="instructionCheckOrder">The device shows order details. Please check the data and approve the order in the activeTAN app.</string>
     <string name="instructionCompleteActivation">Confirm your input in online banking. The initialization is completed.</string>
     <string name="instructionCompletePrimaryUse">Confirm your input in online banking. The order is released.</string>
     <string name="instructionDisabledLockScreen">If no lock screen is enabled, the activeTAN app loses its initialization automatically and can no longer be used. You have to re-enable the lock screen to use activeTAN app again.</string>
@@ -366,7 +366,7 @@
     <string name="default_token_name">My online banking</string>
     <string name="cannot_resume_initialization">Initialization has been canceled before. Please scan the activation letter again and start a new initialization in online banking.</string>
     <string name="scan_letter_qr_code">Please scan activation letter</string>
-    <string name="initialization_confirm_return">Back</string>
+    <string name="confirm_return">Back</string>
     <string name="initialization_confirm_cancel_message">Serial number will be lost and initialization has to be canceled in online banking as well.</string>
     <string name="initialization_confirm_cancel_title">Cancel initialization?</string>
     <string name="initialization_confirm_quit_title">Quit initialization?</string>
@@ -401,4 +401,13 @@
     <string name="os_version">Operating system: Android %1$s (SDK %2$d)</string>
     <string name="app_version">App version: %1$s (%2$d)</string>
     <string name="security_patch">Android security patch: %1$s</string>
+    <string name="no_matching_tan_generator_title">Note</string>
+    <string name="no_matching_tan_generator_description">"Local use of activeTAN is unfortunately not possible. Use a separate device.\n\nPlease initialize the activeTAN app for the same user credentials which have been used in the banking app, or delete TAN generators in the settings dialog of the activeTAN app, if they have been disabled in online banking."</string>
+    <string name="instructionBankingAppSubtitle">With banking app&#x202f;</string> <!-- extra no-break space to prevent italic font clipping -->
+    <string name="instructionSelectTanMethodBankingApp">If you use different TAN procedures, select activeTAN in the online banking settings of the banking app.</string>
+    <string name="instructionEnterOrderBankingApp">Enter your order in the banking app.</string>
+    <string name="instructionSwitchFromBankingApp">Sending the order automatically starts the activeTAN app.</string>
+    <string name="instructionCheckOrderBankingApp">The device shows order details. Please check the data and release the order in the activeTAN app.</string>
+    <string name="instructionSwitchToBankingApp">The banking app automatically executes the order with a TAN. It is not required to enter the TAN manually.</string>
+    <string name="instructionBankingAppIntegration">When using our banking app on the same device, it is not required to scan a QR code or to enter a TAN. Thus, orders can be released even faster and easier. Both apps are securely separated by the operating system.</string>
 </resources>

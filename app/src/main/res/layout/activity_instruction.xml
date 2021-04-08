@@ -28,6 +28,7 @@
             android:padding="8dp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/firstUseCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="true">
@@ -40,6 +41,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/primaryUseCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="true">
@@ -52,6 +54,20 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/bankingAppCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true">
+
+                <fragment
+                    android:id="@+id/bankingAppFragment"
+                    class="de.efdis.tangenerator.gui.instruction.InstructionBankingAppFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/securityCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="true">

@@ -19,14 +19,24 @@
 
 package de.efdis.tangenerator.gui.instruction;
 
+import android.content.ContentProvider;
+import android.content.ContentProviderClient;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContentResolverCompat;
 
+import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.databinding.ActivityInstructionBinding;
 import de.efdis.tangenerator.gui.common.AppActivity;
+import de.efdis.tangenerator.gui.common.ContextUtils;
 
 public class InstructionActivity extends AppActivity {
+
+    private static final String TAG = InstructionActivity.class.getSimpleName();
 
     private ActivityInstructionBinding binding;
 
@@ -41,4 +51,16 @@ public class InstructionActivity extends AppActivity {
         binding = ActivityInstructionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (ContextUtils.isBankingAppInstalled(this)) {
+            binding.bankingAppCard.setVisibility(View.VISIBLE);
+        } else {
+            binding.bankingAppCard.setVisibility(View.GONE);
+        }
+    }
+
 }

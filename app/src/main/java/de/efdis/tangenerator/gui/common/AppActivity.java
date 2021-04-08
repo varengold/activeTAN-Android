@@ -256,7 +256,7 @@ public abstract class AppActivity
             promptBuilder.setSubtitle(getString(description));
         } else {
             /*
-             * If no biometric sensor ist available and device credential authentication is not
+             * If no biometric sensor is available and device credential authentication is not
              * possible, fall back to the old keyguard dialog.
              */
             authenticateWithKeyguard(callback, getString(description));
