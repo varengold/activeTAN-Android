@@ -27,8 +27,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.databinding.FragmentInstructionSecurityBinding;
-import de.efdis.tangenerator.gui.common.ContextUtils;
 
 public class InstructionSecurityFragment extends AbstractInstructionCardFragment {
 
@@ -48,7 +48,7 @@ public class InstructionSecurityFragment extends AbstractInstructionCardFragment
     public void onStart() {
         super.onStart();
 
-        if (ContextUtils.isBankingAppInstalled(getActivity())) {
+        if (getResources().getBoolean(R.bool.banking_app_enabled)) {
             binding.textViewBankingAppIntegration.setVisibility(View.VISIBLE);
         } else {
             binding.textViewBankingAppIntegration.setVisibility(View.GONE);

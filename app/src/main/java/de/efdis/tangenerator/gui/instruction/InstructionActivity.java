@@ -19,20 +19,14 @@
 
 package de.efdis.tangenerator.gui.instruction;
 
-import android.content.ContentProvider;
-import android.content.ContentProviderClient;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContentResolverCompat;
 
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.databinding.ActivityInstructionBinding;
 import de.efdis.tangenerator.gui.common.AppActivity;
-import de.efdis.tangenerator.gui.common.ContextUtils;
 
 public class InstructionActivity extends AppActivity {
 
@@ -56,7 +50,7 @@ public class InstructionActivity extends AppActivity {
     protected void onStart() {
         super.onStart();
 
-        if (ContextUtils.isBankingAppInstalled(this)) {
+        if (getResources().getBoolean(R.bool.banking_app_enabled)) {
             binding.bankingAppCard.setVisibility(View.VISIBLE);
         } else {
             binding.bankingAppCard.setVisibility(View.GONE);

@@ -94,7 +94,6 @@ import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 public class BankingAppApi extends Activity {
     private static final String TAG = BankingAppApi.class.getSimpleName();
     private static final int REQUEST_CODE_CHALLENGE = 237846;
-    private static final String PREFERENCE_LAST_WARNING_NO_TAN_GENERATOR = "lastWarningNoTanGenerator";
     private static final String PREFERENCE_LAST_WARNING_OLD_DEVICE = "lastWarningOldDevice";
 
     private ActivityBankingAppApiBinding binding;
@@ -263,7 +262,7 @@ public class BankingAppApi extends Activity {
         } catch (TanGeneratorMismatchException e) {
             Log.e(TAG, "Challenge has no matching TAN generators");
             setResult(RESULT_CANCELED);
-            finishWithWarning(PREFERENCE_LAST_WARNING_NO_TAN_GENERATOR,
+            finishWithWarning(
                     R.string.no_matching_tan_generator_title,
                     R.string.no_matching_tan_generator_description);
             return;
@@ -318,26 +317,12 @@ public class BankingAppApi extends Activity {
      * Show an error message about why it was not possible to process the challenge and finish
      * this activity to return to the banking app.
      *
-     * @param warningDontShowAgainPreferenceKey key for the private activity preferences to suppress a
-     *                                 redisplay of the very same warning within 24h
-     *
      * @param warningTitleId Title text for the warning dialog
      * @param warningDescriptionId Body text for the warning dialog
      */
     private void finishWithWarning(
-            final String warningDontShowAgainPreferenceKey,
             @StringRes int warningTitleId,
             @StringRes int warningDescriptionId) {
-        long lastWarning = getPreferences(Context.MODE_PRIVATE)
-                .getLong(warningDontShowAgainPreferenceKey, 0L);
-        long now = System.currentTimeMillis();
-
-        if (lastWarning > now - (24 * 60 * 60 * 1000) && lastWarning <= now) {
-            // Don't repeat the warning within 24h
-            finish();
-            return;
-        }
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setIcon(DrawableUtils.getTintedDrawable(this,
@@ -351,11 +336,6 @@ public class BankingAppApi extends Activity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-
-                getPreferences(Context.MODE_PRIVATE)
-                        .edit()
-                        .putLong(warningDontShowAgainPreferenceKey, System.currentTimeMillis())
-                        .apply();
 
                 finish();
             }

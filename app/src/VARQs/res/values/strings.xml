@@ -1,4 +1,3 @@
 <resources>
-    <string name="banking_app_provider" translatable="false">de.varengold.banking.QS.fileprovider</string>
     <string name="backend_api_url" translatable="false">https://banking.varengold.de/OnlineBankingQS/api/activeTAN/</string>
 </resources>

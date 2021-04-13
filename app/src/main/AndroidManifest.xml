@@ -19,11 +19,13 @@
     <permission android:name="${applicationId}.PUSH"
         android:protectionLevel="signature" />
 
-    <!--
-        Communicate with the banking app (read QR code and write TAN response) w/ ContentProvider.
-    -->
     <queries>
-        <provider android:authorities="@string/banking_app_provider" />
+        <!--
+            We communicate with the banking app (read QR code and write TAN response) with a content
+            provider.  However, that content provider is not exported and we are granted explicit
+            permission by the calling activity to access the challenge data.  Thus, we do not need
+            to query for the provider @string/banking_app_provider.
+        -->
     </queries>
 
     <!-- Camera is used to scan QR codes -->
@@ -112,6 +114,7 @@
         <activity android:name=".api.BankingAppApi"
             android:screenOrientation="portrait"
             android:permission="${applicationId}.PUSH"
+            android:enabled="@bool/banking_app_enabled"
             >
             <intent-filter>
                 <action android:name="de.efdis.activeTAN.PUSH" />
