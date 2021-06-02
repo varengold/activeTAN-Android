@@ -208,12 +208,18 @@ public class SettingsActivity
             return;
         }
 
+        CharSequence message = getText(R.string.message_delete_token_confirmation);
+        if (!getResources().getBoolean(R.bool.email_initialization_enabled)) {
+            message = message + " "
+                    + getText(R.string.message_delete_token_letter_warning);
+        }
+
         if (token.usage == BankingTokenUsage.DISABLED_AUTH_PROMPT) {
             // Use simple alert dialog to confirm deletion
             // of unprotected tokens
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.title_delete_token_confirmation);
-            builder.setMessage(R.string.message_delete_token_confirmation);
+            builder.setMessage(message);
             builder.setPositiveButton(R.string.button_confirm_delete_token, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -230,7 +236,7 @@ public class SettingsActivity
             builder.show();
         } else {
             // Use device authorization to confirm deletion of protected tokens
-            authenticateUser(R.string.message_delete_token_confirmation,
+            authenticateUser(message,
                     new BiometricPrompt.AuthenticationCallback() {
                         @Override
                         public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {

@@ -60,6 +60,12 @@ public class WelcomeActivity
         setContentView(binding.getRoot());
 
         TextUtils.setHtmlText(binding.welcomeTitle, R.string.welcome_title_html);
+
+        if (getResources().getBoolean(R.bool.email_initialization_enabled)) {
+            binding.textInstruction.setText(R.string.welcome_start_activation_instruction_email);
+        } else {
+            binding.textInstruction.setText(R.string.welcome_start_activation_instruction_letter);
+        }
     }
 
     public void onButtonStart(View button) {

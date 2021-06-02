@@ -1,3 +1,4 @@
 <resources>
+    <string name="initialization_app_link_path" translatable="false">/OnlineBankingQS/banking/common/activeTAN-app.xhtml</string>
     <string name="backend_api_url" translatable="false">https://banking.varengold.de/OnlineBankingQS/api/activeTAN/</string>
 </resources>

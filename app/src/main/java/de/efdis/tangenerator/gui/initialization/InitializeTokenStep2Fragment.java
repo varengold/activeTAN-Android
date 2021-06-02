@@ -60,6 +60,14 @@ public class InitializeTokenStep2Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInitializeTokenStep2Binding.inflate(inflater, container, false);
+
+        setLetterOrEmailScanned(binding.textLetterScanned);
+        if (getResources().getBoolean(R.bool.email_initialization_enabled)) {
+            binding.textScanScreen.setText(R.string.scan_screen_qr_code_not_email);
+        } else {
+            binding.textScanScreen.setText(R.string.scan_screen_qr_code_not_letter);
+        }
+
         return binding.getRoot();
     }
 
@@ -75,8 +83,8 @@ public class InitializeTokenStep2Fragment
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         getCameraFragment().setBankingQrCodeListener(listener);
     }

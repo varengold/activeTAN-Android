@@ -33,6 +33,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -90,14 +91,7 @@ public class VerifyTransactionDetailsActivityTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         Espresso.onView(ViewMatchers.withId(R.id.exhaustedGeneratorHintContainer))
-                .check(new ViewAssertion() {
-                    @Override
-                    public void check(View view, NoMatchingViewException noViewFoundException) {
-                        if (view.isShown()) {
-                            throw new AssertionError("no exhaust hint must be displayed");
-                        }
-                    }
-                });
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
 
         screenshotRule.captureScreen("verifyTransactionWithTAN");
     }

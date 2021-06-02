@@ -30,6 +30,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,14 +65,7 @@ public class SettingsActivityTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         Espresso.onView(ViewMatchers.withText(R.string.exhausted_generator_description))
-                .check(new ViewAssertion() {
-                    @Override
-                    public void check(View view, NoMatchingViewException noViewFoundException) {
-                        if (view.isShown()) {
-                            throw new AssertionError("no exhaust hint must be displayed");
-                        }
-                    }
-                });
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
 
         screenshotRule.captureScreen("settings");
     }

@@ -126,6 +126,22 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".gui.initialization.InitializeTokenFromAppLinkActivity"
+            android:screenOrientation="portrait"
+            android:enabled="@bool/email_initialization_enabled"
+            >
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="@string/initialization_app_link_host"
+                    android:path="@string/initialization_app_link_path"
+                    />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

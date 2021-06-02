@@ -155,8 +155,10 @@
     <string name="initialization_failed_unknown_reason">A technical error has occurred. Please try again later.</string>
     <string name="initialization_failed_unprotected_device">The device must be protected by pattern, PIN, or password (lock screen).</string>
     <string name="initialization_failed_wrong_letter">Please check, that you use the latest activation letter and repeat the process.</string>
+    <string name="initialization_failed_wrong_email">Please check, that you use the latest activation e-mail and repeat the process.</string>
     <string name="initialization_failed_wrong_serial">A different serial number has been entered in online banking. Do you want to repeat the process?</string>
     <string name="initialization_letter_scanned">You have scanned your activation letter.</string>
+    <string name="initialization_email_scanned">You have used your activation e-mail.</string>
     <string name="initialization_portal_scanned">You have scanned the QR code in online banking.</string>
     <string name="initialization_serial_number_entered">You have entered the serial number in online banking.</string>
     <string name="instructionActivationSubtitle">Before usage&#x202f;</string>
@@ -240,7 +242,8 @@
     <string name="menu_item_instruction">Manual</string>
     <string name="menu_item_privacy">Privacy</string>
     <string name="menu_item_settings">Settings</string>
-    <string name="message_delete_token_confirmation">This TAN generator will be deleted permanently. To repeat the initialization, the activation letter is required. Please also lock the TAN generator in online banking.</string>
+    <string name="message_delete_token_confirmation">This TAN generator will be deleted permanently. Please also lock the TAN generator in online banking.</string>
+    <string name="message_delete_token_letter_warning">To repeat the initialization, the activation letter is required.</string>
     <string name="next_step">Continue</string>
     <string name="message_token_deleted">TAN generator deleted</string>
     <string name="no_settings_without_activation">This device has not been initialized yet. Please initialize this TAN generator in online banking, before you may adjust its settings.</string>
@@ -257,7 +260,8 @@
     <string name="ignore_and_continue">Continue</string>
     <string name="update_settings">Update settings…</string>
     <string name="scan_qr_code">Please scan QR code</string>
-    <string name="scan_screen_qr_code">Please scan QR code in online banking (not on activation letter).</string>
+    <string name="scan_screen_qr_code_not_letter">Please scan QR code in online banking (not on activation letter).</string>
+    <string name="scan_screen_qr_code_not_email">Please scan QR code in online banking (not on activation e-mail).</string>
     <string name="step_generate_banking_key">Generating device key</string>
     <string name="step_no">Step %d/2</string>
     <string name="step_store_banking_key">Storing key</string>
@@ -350,7 +354,8 @@
     <string name="synchronize_tan_generator">Synchronize TAN generator</string>
     <string name="initialization_failed_no_camera_permission">Camera access not permitted.</string>
     <string name="initialization_failed_wrong_qr_code">Wrong QR Code</string>
-    <string name="welcome_start_activation_instruction">To start initialization now, please scan the QR code from your activeTAN activation letter.</string>
+    <string name="welcome_start_activation_instruction_letter">To start initialization now, please scan the QR code from your activeTAN activation letter.</string>
+    <string name="welcome_start_activation_instruction_email">To start initialization now, please scan the QR code from your activeTAN activation e-mail.</string>
     <string name="welcome_start_activation_label">This app hasn\'t been initialized yet</string>
     <string name="welcome_start_activation_start">Start initialization</string>
     <string name="welcome_subtitle">The modern TAN procedure for your online banking</string>
@@ -364,8 +369,10 @@
         ]]>
     </string>
     <string name="default_token_name">My online banking</string>
-    <string name="cannot_resume_initialization">Initialization has been canceled before. Please scan the activation letter again and start a new initialization in online banking.</string>
+    <string name="cannot_resume_initialization_letter">Initialization has been canceled before. Please scan the activation letter again and start a new initialization in online banking.</string>
+    <string name="cannot_resume_initialization_email">Initialization has been canceled before. Please scan the activation e-mail again and start a new initialization in online banking.</string>
     <string name="scan_letter_qr_code">Please scan activation letter</string>
+    <string name="scan_email_qr_code">Please scan activation e-mail</string>
     <string name="confirm_return">Back</string>
     <string name="initialization_confirm_cancel_message">Serial number will be lost and initialization has to be canceled in online banking as well.</string>
     <string name="initialization_confirm_cancel_title">Cancel initialization?</string>
@@ -410,4 +417,6 @@
     <string name="instructionCheckOrderBankingApp">The device shows order details. Please check the data and release the order in the activeTAN app.</string>
     <string name="instructionSwitchToBankingApp">The banking app automatically executes the order with a TAN. It is not required to enter the TAN manually.</string>
     <string name="instructionBankingAppIntegration">When using our banking app on the same device, it is not required to scan a QR code or to enter a TAN. Thus, orders can be released even faster and easier. Both apps are securely separated by the operating system.</string>
+    <string name="instructionScanEmail">After starting the initialization, you will automatically receive an activation e-mail. Scan the QR code on your activation e-mail with this activeTAN app.</string>
+    <string name="instructionEmailLink">Did you receive the e-mail on your smartphone? Instead, use the link inside the activation e-mail.</string>
 </resources>

@@ -62,6 +62,7 @@ public class InitializeTokenStep1Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInitializeTokenStep1Binding.inflate(inflater, container, false);
+        setLetterOrEmailScanned(binding.textLetterScanned);
         return binding.getRoot();
     }
 
@@ -77,8 +78,8 @@ public class InitializeTokenStep1Fragment
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         binding.buttonContinue.setOnClickListener(
                 new View.OnClickListener() {

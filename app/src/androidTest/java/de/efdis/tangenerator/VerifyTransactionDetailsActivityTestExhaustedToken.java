@@ -30,6 +30,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,14 +62,7 @@ public class VerifyTransactionDetailsActivityTestExhaustedToken {
         Espresso.pressBack();
 
         Espresso.onView(ViewMatchers.withId(R.id.generatedTanContainer))
-                .check(new ViewAssertion() {
-                    @Override
-                    public void check(View view, NoMatchingViewException noViewFoundException) {
-                        if (view.isShown()) {
-                            throw new AssertionError("no TAN must have been computed");
-                        }
-                    }
-                });
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
 
         Espresso.onView(ViewMatchers.withId(R.id.validateButton))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));

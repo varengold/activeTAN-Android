@@ -24,10 +24,17 @@ import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,8 +70,6 @@ import de.efdis.tangenerator.gui.settings.SettingsActivity;
 public abstract class AppActivity
         extends AppCompatActivity {
 
-    private static final int REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS = 10853;
-
     protected abstract Toolbar getToolbar();
 
     protected DrawerLayout getDrawerLayout() {
@@ -73,6 +78,27 @@ public abstract class AppActivity
 
     protected NavigationView getNavigationDrawer() {
         return null;
+    }
+
+    @Override
+    protected void onCreate(@Nullable  Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        keyguardAuthenticationLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    switch (result.getResultCode()) {
+                        case Activity.RESULT_OK:
+                            keyguardAuthenticationCallback.onAuthenticationSucceeded(null);
+                            break;
+                        case Activity.RESULT_CANCELED:
+                            keyguardAuthenticationCallback.onAuthenticationError(
+                                    BiometricPrompt.ERROR_USER_CANCELED, "");
+                            break;
+                    }
+                    keyguardAuthenticationCallback = null;
+                }
+        );
     }
 
     @Override
@@ -204,7 +230,7 @@ public abstract class AppActivity
      * Perform user authentication with device credentials and optional biometrics
      */
     protected void authenticateUser(
-            @StringRes int description,
+            CharSequence description,
             final BiometricPrompt.AuthenticationCallback callback) {
 
         // To simplify testing, we can mock the authentication process.
@@ -244,7 +270,7 @@ public abstract class AppActivity
              * suitable for long text, thus we use the description for an explanation about why the
              * authentication is requested.
              */
-            promptBuilder.setDescription(getString(description));
+            promptBuilder.setDescription(description);
         } else if (BiometricManager.from(this).canAuthenticate(BiometricManager.Authenticators.DEVICE_CREDENTIAL) == BiometricManager.BIOMETRIC_SUCCESS) {
             /*
              * If no fingerprint / biometric is available, authentication immediately falls back to
@@ -253,13 +279,13 @@ public abstract class AppActivity
              * Instead of the description, only the subtitle is forwarded to that dialog. Thus, we
              * must provide the explanation as a subtitle or it would not be displayed.
              */
-            promptBuilder.setSubtitle(getString(description));
+            promptBuilder.setSubtitle(description);
         } else {
             /*
              * If no biometric sensor is available and device credential authentication is not
              * possible, fall back to the old keyguard dialog.
              */
-            authenticateWithKeyguard(callback, getString(description));
+            authenticateWithKeyguard(callback, description);
             return;
         }
 
@@ -271,40 +297,24 @@ public abstract class AppActivity
         biometricPrompt.authenticate(promptInfo);
     }
 
+    protected void authenticateUser(
+            @StringRes int description,
+            final BiometricPrompt.AuthenticationCallback callback) {
+        authenticateUser(getString(description), callback);
+    }
+
     private BiometricPrompt.AuthenticationCallback keyguardAuthenticationCallback;
+    private ActivityResultLauncher<Intent> keyguardAuthenticationLauncher;
 
     @SuppressWarnings("deprecation")
-    private void authenticateWithKeyguard(BiometricPrompt.AuthenticationCallback callback, String description) {
+    private void authenticateWithKeyguard(final BiometricPrompt.AuthenticationCallback callback, CharSequence description) {
         keyguardAuthenticationCallback = callback;
 
         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
                 getString(R.string.app_name), description);
-        startActivityForResult(intent, REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_CODE_CONFIRM_DEVICE_CREDENTIALS) {
-            if (keyguardAuthenticationCallback != null) {
-                try {
-                    switch (resultCode) {
-                        case Activity.RESULT_OK:
-                            keyguardAuthenticationCallback.onAuthenticationSucceeded(null);
-                            break;
-                        case Activity.RESULT_CANCELED:
-                            keyguardAuthenticationCallback.onAuthenticationError(
-                                    BiometricPrompt.ERROR_USER_CANCELED, "");
-                            break;
-                    }
-                } finally {
-                    keyguardAuthenticationCallback = null;
-                }
-            }
-            return;
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
+        keyguardAuthenticationLauncher.launch(intent);
     }
 
 }

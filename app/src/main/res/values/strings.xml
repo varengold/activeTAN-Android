@@ -13,7 +13,8 @@
     <string name="welcome_subtitle_feature3">sicher</string>
     <string name="welcome_subtitle_feature4">Made in Germany</string>
     <string name="welcome_start_activation_label">Diese App wurde noch nicht aktiviert</string>
-    <string name="welcome_start_activation_instruction">Starten Sie jetzt die Aktivierung und lesen Sie den QR-Code von Ihrem activeTAN-Aktivierungsbrief ein.</string>
+    <string name="welcome_start_activation_instruction_letter">Starten Sie jetzt die Aktivierung und lesen Sie den QR-Code von Ihrem activeTAN-Aktivierungsbrief ein.</string>
+    <string name="welcome_start_activation_instruction_email">Starten Sie jetzt die Aktivierung und lesen Sie den QR-Code von Ihrer activeTAN-Aktivierungs-E-Mail ein.</string>
     <string name="welcome_start_activation_start">Aktivierung starten</string>
 
     <string name="menu_item_instruction">Anleitung</string>
@@ -27,6 +28,8 @@
     <string name="instructionGoToTanAdmin">Melden Sie sich im Online-Banking an. Wählen Sie den Menüpunkt: Zugangsdaten und activeTAN-Verwaltung.</string>
     <string name="instructionScanLetter">Scannen Sie mit dieser activeTAN-App den QR-Code von Ihrem Aktivierungsbrief.</string>
     <string name="instructionRequestNewLetter">Haben Sie noch keinen Aktivierungsbrief erhalten? Sie können jederzeit im Online-Banking einen neuen Aktivierungsbrief anfordern.</string>
+    <string name="instructionScanEmail">Mit dem Start der Aktivierung erhalten Sie automatisch eine Aktivierungs-E-Mail. Scannen Sie mit dieser activeTAN-App den QR-Code von Ihrer E-Mail.</string>
+    <string name="instructionEmailLink">Haben Sie die E-Mail auf Ihrem Smartphone empfangen? Aktivieren Sie stattdessen den Link in der Aktivierungs-E-Mail.</string>
     <string name="instructionEnterSerial">Die activeTAN-App generiert eine Seriennummer. Geben Sie die Seriennummer im Online-Banking ein.</string>
     <string name="instructionGoToNextStep">Klicken Sie in der App und im Online-Banking jeweils auf „Weiter“, um zum nächsten Schritt zu gelangen.</string>
     <string name="instructionScanQrScreen">Im Online-Banking wird ein QR-Code angezeigt. Scannen Sie den QR-Code mit dieser activeTAN-App und Ihrem Smartphone.</string>
@@ -189,7 +192,8 @@
     <string name="last_used_never">nie</string>
     <string name="title_change_description">Beschreibung ändern</string>
     <string name="title_delete_token_confirmation">TAN-Generator löschen</string>
-    <string name="message_delete_token_confirmation">Dieser TAN-Generator wird permanent gesperrt. Für eine erneute Aktivierung ist der Aktivierungsbrief erforderlich. Bitte vergessen Sie nicht, den TAN-Generator auch im Online-Banking zu sperren.</string>
+    <string name="message_delete_token_confirmation">Dieser TAN-Generator wird permanent gesperrt. Bitte vergessen Sie nicht, den TAN-Generator auch im Online-Banking zu sperren.</string>
+    <string name="message_delete_token_letter_warning">Für eine erneute Aktivierung ist der Aktivierungsbrief erforderlich.</string>
     <string name="button_confirm_delete_token">Löschen</string>
     <string name="message_token_deleted">TAN-Generator gelöscht</string>
     <string name="no_settings_without_activation">Dieses Gerät wurde noch nicht aktiviert. Bitte aktivieren Sie diesen TAN-Generator im Online-Banking, bevor Sie Einstellungen vornehmen können.</string>
@@ -203,10 +207,12 @@
     <string name="camera_permission_rationale">Die Kamera wird für das Lesen von QR-Codes benötigt.</string>
 
     <string name="invalid_banking_qr">Kein Banking QR-Code</string>
-    <string name="cannot_resume_initialization">Die Aktivierung wurde zuvor abgebrochen. Bitte scannen Sie den Aktivierungsbrief erneut und starten Sie eine neue Aktivierung im Online-Banking.</string>
+    <string name="cannot_resume_initialization_letter">Die Aktivierung wurde zuvor abgebrochen. Bitte scannen Sie den Aktivierungsbrief erneut und starten Sie eine neue Aktivierung im Online-Banking.</string>
+    <string name="cannot_resume_initialization_email">Die Aktivierung wurde zuvor abgebrochen. Bitte scannen Sie die Aktivierungs-E-Mail erneut und starten Sie eine neue Aktivierung im Online-Banking.</string>
 
     <string name="scan_qr_code">Bitte QR-Code scannen</string>
     <string name="scan_letter_qr_code">Bitte Aktivierungsbrief scannen</string>
+    <string name="scan_email_qr_code">Bitte Aktivierungs-E-Mail scannen</string>
 
     <string name="device_auth_failed">Authentifizierung fehlgeschlagen</string>
 
@@ -265,12 +271,14 @@
     <string name="step_no">Schritt %d/2</string>
     <string name="step_generate_banking_key">Erstelle Geräteschlüssel</string>
     <string name="initialization_letter_scanned">Sie haben Ihren activeTAN-Aktivierungsbrief gescannt.</string>
+    <string name="initialization_email_scanned">Sie haben Ihre activeTAN-Aktivierungs-E-Mail benutzt.</string>
     <string name="enter_serial_number">Bitte geben Sie diese Seriennummer im Online-Banking ein.</string>
     <string name="go_to_scan_qr_code">Betätigen Sie „Weiter“, um den QR-Code im Online-Banking zu scannen.</string>
     <string name="initialization_serial_number_entered">Sie haben die Seriennummer im Online-Banking eingegeben.</string>
     <string name="next_step">Weiter</string>
     <string name="show_details">Details…</string>
-    <string name="scan_screen_qr_code">Bitte den QR-Code im Online-Banking scannen (nicht den Aktivierungsbrief).</string>
+    <string name="scan_screen_qr_code_not_letter">Bitte den QR-Code im Online-Banking scannen (nicht den Aktivierungsbrief).</string>
+    <string name="scan_screen_qr_code_not_email">Bitte den QR-Code im Online-Banking scannen (nicht die Aktivierungs-E-Mail).</string>
     <string name="step_store_banking_key">Speichere Schlüssel</string>
     <string name="label_serial_number">Seriennummer</string>
     <string name="initialization_portal_scanned">Sie haben den QR-Code im Online-Banking gescannt.</string>
@@ -294,6 +302,7 @@
     <string name="initialization_failed_no_camera_permission">Kein Zugriff auf die Kamera gestattet.</string>
     <string name="initialization_failed_offline">Während der Aktivierung ist eine Internetverbindung erforderlich.</string>
     <string name="initialization_failed_wrong_letter">Bitte prüfen Sie, ob Sie Ihren aktuellen Aktivierungsbrief benutzen und wiederholen Sie den Vorgang.</string>
+    <string name="initialization_failed_wrong_email">Bitte prüfen Sie, ob Sie Ihren aktuelle Aktivierungs-E-Mail benutzen und wiederholen Sie den Vorgang.</string>
     <string name="initialization_failed_wrong_serial">Im Online-Banking wurde eine abweichende Seriennummer eingegeben. Möchten Sie den Vorgang wiederholen?</string>
     <string name="initialization_failed_wrong_qr_code">Falscher QR-Code</string>
     <string name="initialization_failed_outdated">Es ist leider erforderlich, dass Sie die activeTAN-App aktualisieren.</string>

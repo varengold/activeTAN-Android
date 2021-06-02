@@ -29,9 +29,9 @@
                 android:text="@string/enter_serial_number"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 android:textColor="?android:attr/textColorPrimary"
-                app:layout_constraintEnd_toEndOf="@+id/textView5"
+                app:layout_constraintEnd_toEndOf="@+id/textLetterScanned"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView5"
+                app:layout_constraintStart_toStartOf="@+id/textLetterScanned"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <ImageView
@@ -43,7 +43,7 @@
                 app:srcCompat="@drawable/ic_material_navigation_check"
                 app:tint="?android:attr/textColorSecondary"
                 app:layout_constraintStart_toStartOf="@+id/cardView"
-                app:layout_constraintTop_toTopOf="@+id/textView5" />
+                app:layout_constraintTop_toTopOf="@+id/textLetterScanned" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
@@ -54,7 +54,7 @@
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5">
+                app:layout_constraintTop_toBottomOf="@+id/textLetterScanned">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -85,13 +85,13 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/textLetterScanned"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:text="@string/initialization_letter_scanned"
+                tools:text="@string/initialization_letter_scanned"
                 android:textColor="?android:attr/textColorSecondary"
                 app:layout_constraintEnd_toEndOf="@+id/cardView"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"

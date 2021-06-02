@@ -36,6 +36,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,10 +52,10 @@ import de.efdis.tangenerator.screenshot.ScreenshotRule;
 @RunWith(AndroidJUnit4.class)
 public class InitializeTokenActivityTest {
 
-    private static final String SERIAL_NUMBER = "XX1234567890";
-    private static final String WRONG_SERIAL_NUMBER = "XX1234567891";
-    private static final int LETTER_NUMBER = 1;
-    private static final int WRONG_LETTER_NUMBER = LETTER_NUMBER + 1;
+    static final String SERIAL_NUMBER = "XX1234567890";
+    static final String WRONG_SERIAL_NUMBER = "XX1234567891";
+    static final int LETTER_NUMBER = 1;
+    static final int WRONG_LETTER_NUMBER = LETTER_NUMBER + 1;
 
     static Intent getIntentWithTestData() {
         HHDkm hhdkm = new HHDkm();
@@ -203,19 +204,16 @@ public class InitializeTokenActivityTest {
         simulatePortalQrCodeInput(activityScenarioRule.getScenario(),
                 SERIAL_NUMBER, WRONG_LETTER_NUMBER);
 
-        Espresso.onView(ViewMatchers.withText(R.string.initialization_failed_wrong_letter))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        if (InstrumentationRegistry.getInstrumentation().getTargetContext().getResources().getBoolean(R.bool.email_initialization_enabled)) {
+            Espresso.onView(ViewMatchers.withText(R.string.initialization_failed_wrong_email))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        } else {
+            Espresso.onView(ViewMatchers.withText(R.string.initialization_failed_wrong_letter))
+                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        }
 
         Espresso.onView(ViewMatchers.withText(R.string.repeat))
-                .check(new ViewAssertion() {
-                    @Override
-                    public void check(View view, NoMatchingViewException noViewFoundException) {
-                        if (view != null && view.isShown()) {
-                            throw new AssertionError(
-                                    "it is not possible to repeat with a wrong letter");
-                        }
-                    }
-                });
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
     }
 
     @Test
@@ -245,13 +243,6 @@ public class InitializeTokenActivityTest {
         simulatePortalQrCodeInput(activityScenarioRule.getScenario());
 
         Espresso.onView(ViewMatchers.withText(R.string.initialization_multiple_generators_title))
-                .check(new ViewAssertion() {
-                    @Override
-                    public void check(View view, NoMatchingViewException noViewFoundException) {
-                        if (view.isShown()) {
-                            throw new AssertionError("no hint must be displayed");
-                        }
-                    }
-                });
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
     }
 }

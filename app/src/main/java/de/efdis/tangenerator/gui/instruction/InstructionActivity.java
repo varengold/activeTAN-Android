@@ -55,6 +55,14 @@ public class InstructionActivity extends AppActivity {
         } else {
             binding.bankingAppCard.setVisibility(View.GONE);
         }
+
+        if (getResources().getBoolean(R.bool.email_initialization_enabled)) {
+            binding.firstUseLetterCard.setVisibility(View.GONE);
+            binding.firstUseEmailCard.setVisibility(View.VISIBLE);
+        } else {
+            binding.firstUseLetterCard.setVisibility(View.VISIBLE);
+            binding.firstUseEmailCard.setVisibility(View.GONE);
+        }
     }
 
 }

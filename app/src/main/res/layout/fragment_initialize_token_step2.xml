@@ -21,19 +21,19 @@
             app:srcCompat="@drawable/ic_material_hardware_keyboard_arrow_right"
             app:tint="?attr/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView22" />
+            app:layout_constraintTop_toTopOf="@+id/textScanScreen" />
 
         <TextView
-            android:id="@+id/textView22"
+            android:id="@+id/textScanScreen"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:paddingTop="2dp"
-            android:text="@string/scan_screen_qr_code"
+            tools:text="@string/scan_screen_qr_code_not_letter"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?android:attr/textColorPrimary"
-            app:layout_constraintEnd_toEndOf="@+id/textView21"
-            app:layout_constraintStart_toStartOf="@+id/textView21"
+            app:layout_constraintEnd_toEndOf="@+id/textLetterScanned"
+            app:layout_constraintStart_toStartOf="@+id/textLetterScanned"
             app:layout_constraintTop_toBottomOf="@+id/cameraPreview" />
 
         <ImageView
@@ -45,7 +45,7 @@
             app:srcCompat="@drawable/ic_material_navigation_check"
             app:tint="?android:attr/textColorSecondary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView21" />
+            app:layout_constraintTop_toTopOf="@+id/textLetterScanned" />
 
         <ImageView
             android:id="@+id/imageView10"
@@ -59,12 +59,12 @@
             app:layout_constraintTop_toTopOf="@+id/textView23" />
 
         <TextView
-            android:id="@+id/textView21"
+            android:id="@+id/textLetterScanned"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="56dp"
-            android:text="@string/initialization_letter_scanned"
+            tools:text="@string/initialization_letter_scanned"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="?android:attr/textColorSecondary"
             app:layout_constraintEnd_toEndOf="parent"
@@ -79,10 +79,10 @@
             android:text="@string/initialization_serial_number_entered"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintEnd_toEndOf="@+id/textView21"
+            app:layout_constraintEnd_toEndOf="@+id/textLetterScanned"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/textView21"
-            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+            app:layout_constraintStart_toStartOf="@+id/textLetterScanned"
+            app:layout_constraintTop_toBottomOf="@+id/textLetterScanned" />
 
         <fragment
             android:id="@+id/cameraPreview"

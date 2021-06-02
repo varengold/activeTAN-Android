@@ -27,6 +27,10 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
@@ -77,6 +81,8 @@ public class MainActivity
 
     private ActivityMainBinding binding;
 
+    private ActivityResultLauncher<Intent> childActivityLauncher;
+
     @Override
     protected Toolbar getToolbar() {
         return binding.actionBar;
@@ -99,6 +105,17 @@ public class MainActivity
         setContentView(binding.getRoot());
 
         getCameraFragment().setBankingQrCodeListener(new LetterOrTransactionQrCodeListener());
+
+        // Starting the child activity "for result" simplifies
+        // going back to scan a new QR code.
+        // We don't care for the activity's result and
+        // can simply start a new scanning process
+        // once the child activity returns.
+        childActivityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                }
+        );
     }
 
     @Override
@@ -186,7 +203,11 @@ public class MainActivity
 
         binding.textInstruction.setTextSize(TypedValue.COMPLEX_UNIT_SP, INSTRUCTION_SIZE_LARGE);
         if (BankingTokenRepository.getAllUsable(this).isEmpty()) {
-            binding.textInstruction.setText(R.string.scan_letter_qr_code);
+            if (getResources().getBoolean(R.bool.email_initialization_enabled)) {
+                binding.textInstruction.setText(R.string.scan_email_qr_code);
+            } else {
+                binding.textInstruction.setText(R.string.scan_letter_qr_code);
+            }
         } else {
             binding.textInstruction.setText(R.string.scan_qr_code);
         }
@@ -210,12 +231,7 @@ public class MainActivity
                     VerifyTransactionDetailsActivity.class);
             intent.putExtra(VerifyTransactionDetailsActivity.EXTRA_RAW_HHDUC, hhducData);
 
-            // Starting the activity "for result" simplifies
-            // going back to scan a new QR code.
-            // We don't care for the activity's result and
-            // can simply start a new scanning process
-            // once the activity returns.
-            startActivityForResult(intent, 0);
+            childActivityLauncher.launch(intent);
         }
 
         @Override
@@ -228,16 +244,19 @@ public class MainActivity
                         InitializeTokenActivity.class);
                 intent.putExtra(InitializeTokenActivity.EXTRA_LETTER_KEY_MATERIAL, hhdkmData);
 
-                // Starting the activity "for result" simplifies
-                // going back to scan a new QR code and restart initialization.
-                startActivityForResult(intent, 0);
+                childActivityLauncher.launch(intent);
+
                 return;
             }
 
             if (hhdkmData.length >= 1 && hhdkmData[0] == KeyMaterialType.PORTAL.getHHDkmPrefix()) {
                 // The portal QR code is shown in online banking as a second step of initialization.
                 // It should only be scanned during InitializationActivity.
-                showError(R.string.cannot_resume_initialization);
+                if (getResources().getBoolean(R.bool.email_initialization_enabled)) {
+                    showError(R.string.cannot_resume_initialization_email);
+                } else {
+                    showError(R.string.cannot_resume_initialization_letter);
+                }
                 return;
             }
 

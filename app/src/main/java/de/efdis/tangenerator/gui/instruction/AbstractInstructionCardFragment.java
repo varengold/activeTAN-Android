@@ -25,7 +25,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import de.efdis.tangenerator.R;
@@ -37,8 +39,8 @@ public abstract class AbstractInstructionCardFragment extends Fragment {
     protected abstract ImageButton getCardToggleButton();
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             /*
@@ -75,12 +77,12 @@ public abstract class AbstractInstructionCardFragment extends Fragment {
         if (getCardBody().getVisibility() == View.GONE) {
             getCardImage().setVisibility(View.GONE);
             getCardBody().setVisibility(View.VISIBLE);
-            getCardToggleButton().setImageDrawable(getResources().getDrawable(
+            getCardToggleButton().setImageDrawable(ResourcesCompat.getDrawable(getResources(),
                     R.drawable.ic_material_hardware_keyboard_arrow_up, getContext().getTheme()));
         } else {
             getCardBody().setVisibility(View.GONE);
             getCardImage().setVisibility(View.VISIBLE);
-            getCardToggleButton().setImageDrawable(getResources().getDrawable(
+            getCardToggleButton().setImageDrawable(ResourcesCompat.getDrawable(getResources(),
                     R.drawable.ic_material_hardware_keyboard_arrow_down, getContext().getTheme()));
         }
     }

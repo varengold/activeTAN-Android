@@ -35,10 +35,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
@@ -91,14 +96,14 @@ import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
  * This activity checks the challenge data, starts the {@link VerifyTransactionDetailsActivity},
  * and returns the TAN to the api caller by writing it into the JSON file.
  */
-public class BankingAppApi extends Activity {
+public class BankingAppApi extends AppCompatActivity {
     private static final String TAG = BankingAppApi.class.getSimpleName();
-    private static final int REQUEST_CODE_CHALLENGE = 237846;
     private static final String PREFERENCE_LAST_WARNING_OLD_DEVICE = "lastWarningOldDevice";
 
     private ActivityBankingAppApiBinding binding;
 
     private Date activityCreationTime;
+    private ActivityResultLauncher<Intent> challengeLauncher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,6 +112,10 @@ public class BankingAppApi extends Activity {
         setContentView(binding.getRoot());
 
         activityCreationTime = new Date();
+
+        challengeLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> onChallengeResult(result.getResultCode(), result.getData()));
 
         loadApiChallenge();
     }
@@ -499,16 +508,8 @@ public class BankingAppApi extends Activity {
         Intent intent = new Intent(this, VerifyTransactionDetailsActivity.class);
         intent.putExtra(VerifyTransactionDetailsActivity.EXTRA_RAW_HHDUC, hhduc);
         intent.putExtra(VerifyTransactionDetailsActivity.EXTRA_LIMIT_TOKEN_IDS, tokenIds.toArray(new String[0]));
-        startActivityForResult(intent, REQUEST_CODE_CHALLENGE);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_CHALLENGE) {
-            onChallengeResult(resultCode, data);
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
+        challengeLauncher.launch(intent);
     }
 
     /**

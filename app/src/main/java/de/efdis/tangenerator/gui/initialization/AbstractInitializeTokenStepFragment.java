@@ -22,9 +22,13 @@ package de.efdis.tangenerator.gui.initialization;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import de.efdis.tangenerator.R;
 
 public abstract class AbstractInitializeTokenStepFragment
         extends Fragment {
@@ -32,8 +36,8 @@ public abstract class AbstractInitializeTokenStepFragment
     protected abstract ScrollView getScrollView();
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // Scroll to end of instructions on small screens.
         // At the top there is only a list of already completed tasks,
@@ -46,6 +50,14 @@ public abstract class AbstractInitializeTokenStepFragment
                     scrollView.fullScroll(View.FOCUS_DOWN);
                 }
             });
+        }
+    }
+
+    protected void setLetterOrEmailScanned(TextView textView) {
+        if (getResources().getBoolean(R.bool.email_initialization_enabled)) {
+            textView.setText(R.string.initialization_email_scanned);
+        } else {
+            textView.setText(R.string.initialization_letter_scanned);
         }
     }
 

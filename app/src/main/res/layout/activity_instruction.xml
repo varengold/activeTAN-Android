@@ -28,14 +28,27 @@
             android:padding="8dp">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/firstUseCard"
+                android:id="@+id/firstUseLetterCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardUseCompatPadding="true">
 
                 <fragment
-                    android:id="@+id/firstUseFragment"
-                    class="de.efdis.tangenerator.gui.instruction.InstructionFirstUseFragment"
+                    android:id="@+id/firstUseLetterFragment"
+                    class="de.efdis.tangenerator.gui.instruction.InstructionFirstUseLetterFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/firstUseEmailCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true">
+
+                <fragment
+                    android:id="@+id/firstUseEmailFragment"
+                    class="de.efdis.tangenerator.gui.instruction.InstructionFirstUseEmailFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </androidx.cardview.widget.CardView>

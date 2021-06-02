@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="bank_name">Varengold Bank AG</string>
     <string name="imprint">
         <![CDATA[
             <p>
@@ -24,12 +25,12 @@
                 <i>Tax consultant and certified accountant</i>
             </p>
             <p>
-                Michael Stephen Murphy (Deputy Chairman)<br/>
-                <i>Investment banker</i>
+                Vasil Stefanov<br/>
+                <i>Executive Board</i>
             </p>
             <p>
-                Vasil Stefanov<br/>
-                <i>Managing director</i>
+                Francesco Filia<br/>
+                <i>Executive Board</i>
             </p>
             <p>
                 <b>Registration</b><br/>

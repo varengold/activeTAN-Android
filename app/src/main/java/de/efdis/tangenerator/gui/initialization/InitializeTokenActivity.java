@@ -302,7 +302,7 @@ public class InitializeTokenActivity
             letterKeyMaterial = HHDkm.parse(extras.getByteArray(EXTRA_LETTER_KEY_MATERIAL));
         } catch (HHDkm.UnsupportedDataFormatException e) {
             Log.e(getClass().getSimpleName(),
-                    "invalid call of activity");
+                    "invalid call of activity", e);
             finish();
             return;
         }
@@ -487,7 +487,11 @@ public class InitializeTokenActivity
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.initialization_failed_wrong_qr_code);
-        builder.setMessage(R.string.scan_screen_qr_code);
+        if (getResources().getBoolean(R.bool.email_initialization_enabled)) {
+            builder.setMessage(R.string.scan_screen_qr_code_not_email);
+        } else {
+            builder.setMessage(R.string.scan_screen_qr_code_not_letter);
+        }
 
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
@@ -540,8 +544,13 @@ public class InitializeTokenActivity
 
         if (portalKeyMaterial.getLetterNumber() != letterNumber) {
             // A wrong letter has been scanned in the first step
-            onInitializationFailed(R.string.initialization_failed_wrong_letter,
-                    SuggestedActionAfterFailure.NONE);
+            if (getResources().getBoolean(R.bool.email_initialization_enabled)) {
+                onInitializationFailed(R.string.initialization_failed_wrong_email,
+                        SuggestedActionAfterFailure.NONE);
+            } else {
+                onInitializationFailed(R.string.initialization_failed_wrong_letter,
+                        SuggestedActionAfterFailure.NONE);
+            }
             return;
         }
 

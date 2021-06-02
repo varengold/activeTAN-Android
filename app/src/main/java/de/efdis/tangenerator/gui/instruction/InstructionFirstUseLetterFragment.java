@@ -27,19 +27,19 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import de.efdis.tangenerator.databinding.FragmentInstructionFirstUseBinding;
+import de.efdis.tangenerator.databinding.FragmentInstructionFirstUseLetterBinding;
 
-public class InstructionFirstUseFragment extends AbstractInstructionCardFragment {
+public class InstructionFirstUseLetterFragment extends AbstractInstructionCardFragment {
 
-    private FragmentInstructionFirstUseBinding binding;
+    private FragmentInstructionFirstUseLetterBinding binding;
 
-    public InstructionFirstUseFragment() {
+    public InstructionFirstUseLetterFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentInstructionFirstUseBinding.inflate(inflater, container, false);
+        binding = FragmentInstructionFirstUseLetterBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

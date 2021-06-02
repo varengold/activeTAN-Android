@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import de.efdis.tangenerator.activetan.TanGenerator;
@@ -51,6 +52,7 @@ public class InitializeTokenStep3Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInitializeTokenStep3Binding.inflate(inflater, container, false);
+        setLetterOrEmailScanned(binding.textLetterScanned);
         return binding.getRoot();
     }
 
@@ -66,8 +68,8 @@ public class InitializeTokenStep3Fragment
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         Bundle args = getArguments();
         if (args != null) {
