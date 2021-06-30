@@ -3,8 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion versions.compileSdk
     defaultConfig {
-        versionCode 33
-        versionName "2021-06-01"
+        versionCode 34
+        versionName "2021-06-30"
 
         // Requires API level 23 (Android 6.0) to use Android keystore system for cryptography.
         minSdkVersion 23
@@ -94,7 +94,7 @@ dependencies {
     implementation 'androidx.biometric:biometric:1.1.0'
 
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
     implementation 'com.google.zxing:core:' + versions.zxing

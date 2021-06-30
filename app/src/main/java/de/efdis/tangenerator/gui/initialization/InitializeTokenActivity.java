@@ -67,6 +67,8 @@ public class InitializeTokenActivity
     public static final String EXTRA_MOCK_SERIAL_NUMBER = "MOCK_SERIAL_NUMBER";
     public static final String EXTRA_ENFORCE_COMPATIBILITY_MODE = "ENFORCE_COMPATIBILITY_MODE";
 
+    private static final int REQUEST_CAMERA_PERMISSION_CODE = 203;
+
     private enum SuggestedActionAfterFailure {
         NONE, REPEAT, USER_AUTHENTICATION, SYSTEM_SETTINGS
     }
@@ -173,12 +175,7 @@ public class InitializeTokenActivity
          * Without access to the camera, we cannot scan the banking QR code in step 2.
          */
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            /*
-             * This should not happen. This activity is started as a result of scanning the letter
-             * QR code. Thus, the camera permission should already have been granted.
-             */
-            onInitializationFailed(R.string.initialization_failed_no_camera_permission,
-                    SuggestedActionAfterFailure.NONE);
+            requestCameraPermission();
             return false;
         }
 
@@ -194,6 +191,27 @@ public class InitializeTokenActivity
          */
 
         return true;
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CAMERA_PERMISSION_CODE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Now that we have camera permission, start the process
+                    doStartProcess();
+                } else {
+                    onInitializationFailed(R.string.initialization_failed_no_camera_permission,
+                            SuggestedActionAfterFailure.REPEAT);
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void onInitializationFailed(@StringRes int reason,

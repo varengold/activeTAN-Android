@@ -4,6 +4,7 @@
     in the manifest.
 
     This file is ignored by Android 6, which instead respects the usesCleartextTraffic flag.
+    The latter will disable CRL and OCSP in Android 6, which might lead to timeouts.
 -->
 <network-security-config>
 
@@ -19,6 +20,14 @@
     <!-- Allow secure access with system certificates to the banking system. -->
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="false">efdis-online.de</domain>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </domain-config>
+
+    <!-- Allow cleartext access to the certificate issuer of the banking system (for CRL and OCSP). -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">digicert.com</domain>
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>

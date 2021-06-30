@@ -207,6 +207,7 @@
     <string name="camera_permission_rationale">Die Kamera wird für das Lesen von QR-Codes benötigt.</string>
 
     <string name="invalid_banking_qr">Kein Banking QR-Code</string>
+    <string name="invalid_initialization_url">%1$s: Ungültiger Link</string>
     <string name="cannot_resume_initialization_letter">Die Aktivierung wurde zuvor abgebrochen. Bitte scannen Sie den Aktivierungsbrief erneut und starten Sie eine neue Aktivierung im Online-Banking.</string>
     <string name="cannot_resume_initialization_email">Die Aktivierung wurde zuvor abgebrochen. Bitte scannen Sie die Aktivierungs-E-Mail erneut und starten Sie eine neue Aktivierung im Online-Banking.</string>
 
@@ -299,7 +300,7 @@
     <string name="initialization_failed_unprotected_device">Das Smartphone muss mit einem Muster, einer PIN oder einem Kennwort geschützt sein (Sperrbildschirm).</string>
     <string name="initialization_failed_incompatible_device">Der TAN-Generator kann nicht sicher gespeichert werden, leider ist dieses Gerät inkompatibel. Bitte wenden Sie sich unter Angabe des Smartphone-Modells an Ihre Bank.</string>
     <string name="initialization_failed_missing_user_auth">Das Smartphone wurde nach Aktivierung des Sperrbildschirms nicht entsperrt. Bei den meisten Geräten kann dies einfach nachgeholt werden. Falls dies nicht geholfen hat, muss das Gerät leider neu gestartet werden (Ein-/Aus-Taste lange drücken).</string>
-    <string name="initialization_failed_no_camera_permission">Kein Zugriff auf die Kamera gestattet.</string>
+    <string name="initialization_failed_no_camera_permission">Kein Zugriff auf die Kamera gestattet. Die Kamera wird für das Lesen von QR-Codes benötigt.</string>
     <string name="initialization_failed_offline">Während der Aktivierung ist eine Internetverbindung erforderlich.</string>
     <string name="initialization_failed_wrong_letter">Bitte prüfen Sie, ob Sie Ihren aktuellen Aktivierungsbrief benutzen und wiederholen Sie den Vorgang.</string>
     <string name="initialization_failed_wrong_email">Bitte prüfen Sie, ob Sie Ihren aktuelle Aktivierungs-E-Mail benutzen und wiederholen Sie den Vorgang.</string>

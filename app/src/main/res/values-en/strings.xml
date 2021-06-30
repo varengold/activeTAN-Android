@@ -195,6 +195,7 @@
     <string name="instructionTwoFactorSecurity">2-factor security</string>
     <string name="instructionUpdates">Updates</string>
     <string name="invalid_banking_qr">Invalid banking QR code</string>
+    <string name="invalid_initialization_url">%1$s: Invalid link</string>
     <string name="label_serial_number">Serial number</string>
     <string name="last_used_label">Last usage</string>
     <string name="last_used_never">never</string>
@@ -352,7 +353,7 @@
     <string name="labelATC">ATC</string>
     <string name="labelTAN">TAN</string>
     <string name="synchronize_tan_generator">Synchronize TAN generator</string>
-    <string name="initialization_failed_no_camera_permission">Camera access not permitted.</string>
+    <string name="initialization_failed_no_camera_permission">Camera access not permitted. The camera is required to read QR codes.</string>
     <string name="initialization_failed_wrong_qr_code">Wrong QR Code</string>
     <string name="welcome_start_activation_instruction_letter">To start initialization now, please scan the QR code from your activeTAN activation letter.</string>
     <string name="welcome_start_activation_instruction_email">To start initialization now, please scan the QR code from your activeTAN activation e-mail.</string>

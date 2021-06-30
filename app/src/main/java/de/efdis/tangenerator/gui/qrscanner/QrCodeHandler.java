@@ -20,20 +20,21 @@
 package de.efdis.tangenerator.gui.qrscanner;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.google.zxing.qrcode.decoder.Mode;
 
-import java.io.ByteArrayInputStream;
 import java.util.Arrays;
-import java.util.zip.Checksum;
 
-import de.efdis.tangenerator.activetan.CRC16Checksum;
+import de.efdis.tangenerator.activetan.BQRContainer;
 import me.dm7.barcodescanner.zxing.ResultHandler;
 
 /** Filter and parse QR codes in Banking QR code format */
 public class QrCodeHandler implements ResultHandler {
+
+    private static final String TAG = QrCodeHandler.class.getSimpleName();
 
     private final BankingQrCodeListener listener;
 
@@ -56,66 +57,34 @@ public class QrCodeHandler implements ResultHandler {
         try {
             bqr = extractBinaryQrCodeContent(result);
         } catch (NoBankingQrCodeException e) {
+            Log.e(TAG, "invalid QR code content encoding", e);
             listener.onInvalidBankingQrCode(e.getMessage());
             return;
         }
 
-        if (bqr.length < 4) {
-            listener.onInvalidBankingQrCode("no BQR container, data too short");
+
+        Pair<BQRContainer.ContentType, byte[]> content;
+        try {
+            content = BQRContainer.unwrap(bqr);
+        } catch (BQRContainer.InvalidBankingQrCodeException e) {
+            Log.e(TAG, "invalid BQR format", e);
+            listener.onInvalidBankingQrCode(e.getMessage());
             return;
         }
 
-        unscramble(bqr);
+        switch (content.first) {
+            case TRANSACTION_DATA:
+                listener.onTransactionData(content.second);
+                return;
 
-        if (!checkCrc16(bqr)) {
-            listener.onInvalidBankingQrCode("invalid CRC-16 checksum");
-            return;
+            case KEY_MATERIAL:
+                listener.onKeyMaterial(content.second);
+                return;
+
+            default:
+                listener.onInvalidBankingQrCode("Unsupported BQR content type");
+                return;
         }
-
-        // 2 bytes prefix
-        // wrapped content
-        // 2 bytes CRC-16
-        ByteArrayInputStream blockInputStream
-                = new ByteArrayInputStream(bqr, 2, bqr.length - 4);
-
-        if (blockInputStream.available() == 0) {
-            listener.onInvalidBankingQrCode("empty BQR container");
-            return;
-        }
-
-        // 'DK' prefix: chipTAN QR codes with transaction data
-        if (bqr[0] == 0x44 && bqr[1] == 0x4b) {
-            try {
-                boolean amsFlag = readAmsFlag(blockInputStream);
-                byte[] hhduc = readDataBlock(blockInputStream);
-
-                if (amsFlag) {
-                    // skip optional AMS data block
-                    // content is ignored
-                    readDataBlock(blockInputStream);
-                }
-
-                if (blockInputStream.available() > 0) {
-                    throw new NoBankingQrCodeException(
-                            "Unexpected data after last block found");
-                }
-
-                listener.onTransactionData(hhduc);
-            } catch (NoBankingQrCodeException e) {
-                listener.onInvalidBankingQrCode(e.getMessage());
-            }
-            return;
-        }
-
-        // 'KM' prefix: key material for device initialization
-        if (bqr[0] == 0x4b && bqr[1] == 0x4d) {
-            byte[] hhdkm = new byte[blockInputStream.available()];
-            blockInputStream.read(hhdkm, 0, hhdkm.length);
-            listener.onKeyMaterial(hhdkm);
-            return;
-        }
-
-        listener.onInvalidBankingQrCode("unsupported prefix");
     }
 
     private byte[] extractBinaryQrCodeContent(Result result) throws NoBankingQrCodeException {
@@ -169,68 +138,6 @@ public class QrCodeHandler implements ResultHandler {
                 contentOffset, contentOffset + length);
 
         return content;
-    }
-
-    private void unscramble(byte[] bqr) {
-        if (bqr.length < 2) {
-            return;
-        }
-
-        for (int i = 2; i < bqr.length; i++) {
-            bqr[i] = (byte) ((bqr[i] & 0xff) ^ bqr[i % 2]);
-        }
-    }
-
-    private boolean checkCrc16(byte[] bqr) {
-        final int expectedChecksum =
-                ((bqr[bqr.length - 2] & 0xff) << 8) | (bqr[bqr.length - 1] & 0xff);
-
-        final int actualChecksum;
-        {
-            Checksum checksum = new CRC16Checksum(0);
-            checksum.update(bqr, 0, bqr.length - 2);
-            actualChecksum = (int) checksum.getValue();
-
-        }
-
-        return expectedChecksum == actualChecksum;
-    }
-
-    private boolean readAmsFlag(ByteArrayInputStream in) throws NoBankingQrCodeException {
-        int flag = in.read();
-        if (flag < 0) {
-            throw new NoBankingQrCodeException(
-                    "No AMS flag available");
-        }
-
-        switch (flag) {
-            case 0x4e: // N
-               return false;
-            case 0x4a: // J
-                return true;
-            default:
-                throw new NoBankingQrCodeException(
-                        "Invalid AMS flag value");
-        }
-    }
-
-    private byte[] readDataBlock(ByteArrayInputStream in) throws NoBankingQrCodeException {
-        // according to specification, maximum length is limited to 255 Bytes
-        int length = in.read();
-        if (length < 0) {
-            throw new NoBankingQrCodeException(
-                    "No data block available");
-        }
-
-        byte[] block = new byte[length + 1];
-        block[0] = (byte) length;
-
-        if (length != in.read(block, 1, length)) {
-            throw new NoBankingQrCodeException(
-                    "Declared block length is too large");
-        }
-
-        return block;
     }
 
     private static class NoBankingQrCodeException extends Exception {
