@@ -1,0 +1,7 @@
+activeTAN is the secure and modern TAN process for your online banking.
+With the activeTAN app you can approve transactions comfortably on your
+smartphone.
+
+The fast data transfer via QR code enables an easy two-factor authentication
+that works everywhere at all times.
+

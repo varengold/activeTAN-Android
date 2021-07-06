@@ -1,0 +1,13 @@
+activeTAN ist das sichere moderne TAN-Verfahren für Ihr Online-Banking.
+Mit der activeTAN-App geben Sie bequem Aufträge und Transaktionen auf Ihrem
+Smartphone frei.
+
+Die schnelle Datenübertragung per QR-Code ermöglicht eine einfache
+Zwei-Faktor-Authentifizierung, die überall und zu jeder Zeit funktioniert.
+
+Die activeTAN-App zeigt Auftragsdaten (z. B. IBAN und Betrag) auf Ihrem
+unabhängigen Smartphone an und generiert dazu eine TAN. Diese TAN kann
+ausschließlich für die angezeigte Transaktion verwendet werden. Ihre Bank
+führt den Auftrag nur mit dieser TAN aus, Ihr Konto bleibt somit optimal
+geschützt.
+
