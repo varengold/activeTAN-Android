@@ -1,14 +1,25 @@
-*.iml
+# Gradle Cache
 .gradle
+
+# Gradle Wrapper
+/gradle
+/gradlew
+/gradlew.bat
+
+# Local gradle settings
 /local.properties
+
 /.idea
+*.iml
+
 .DS_Store
+
+/build
 */build
+
 /captures
 .externalNativeBuild
-/gradle*
 
-/app/schemas
 /app/release
 /app/*/release
 

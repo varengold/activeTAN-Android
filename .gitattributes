@@ -1,2 +1,2 @@
-/.git* export-ignore
 /*.py export-ignore
+/*.sh export-ignore
