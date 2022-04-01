@@ -82,12 +82,9 @@ public class InitializeTokenStep1Fragment
         super.onViewCreated(view, savedInstanceState);
 
         binding.buttonContinue.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (listener != null) {
-                            listener.onStep1Continue();
-                        }
+                v -> {
+                    if (listener != null) {
+                        listener.onStep1Continue();
                     }
                 }
         );

@@ -78,22 +78,12 @@ public class DayNightRule implements TestRule {
 
             try {
                 for (@AppCompatDelegate.NightMode final int nightMode : uiModes.value()) {
-                    InstrumentationRegistry.getInstrumentation().getTargetContext().getMainExecutor().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            AppCompatDelegate.setDefaultNightMode(nightMode);
-                        }
-                    });
+                    InstrumentationRegistry.getInstrumentation().getTargetContext().getMainExecutor().execute(() -> AppCompatDelegate.setDefaultNightMode(nightMode));
 
                     base.evaluate();
                 }
             } finally {
-                InstrumentationRegistry.getInstrumentation().getTargetContext().getMainExecutor().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        AppCompatDelegate.setDefaultNightMode(oldNightMode);
-                    }
-                });
+                InstrumentationRegistry.getInstrumentation().getTargetContext().getMainExecutor().execute(() -> AppCompatDelegate.setDefaultNightMode(oldNightMode));
             }
         }
     }

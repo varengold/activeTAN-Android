@@ -27,11 +27,15 @@ import android.net.Uri;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.contrib.ActivityResultMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
+
+import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -121,6 +125,12 @@ public class BankingApiActivityTest {
     }
 
     @Rule
+    public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
+
+    @Rule
+    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
+
+    @Rule
     public ScreenshotRule screenshotRule = new ScreenshotRule();
 
     @Rule
@@ -142,9 +152,27 @@ public class BankingApiActivityTest {
     // finished: "Current state was null unexpectedly" in moveToState.
     // Thus, we don't explicitly close the scenario in the following tests.
 
+    private ActivityScenario<Activity> launch() {
+        ActivityScenario<Activity> scenario = ActivityScenario.launch(getIntentWithTestData());
+
+        // Skip security warning
+        if (BankingAppApi.isOldDevice()) {
+            try {
+                Espresso.onView(ViewMatchers.withText(R.string.missing_security_patches_description))
+                        .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+                Espresso.onView(ViewMatchers.withText(R.string.ignore_and_continue))
+                        .perform(ViewActions.click());
+            } catch (NoMatchingViewException e) {
+                // The warning is shown only once within 24 hours.
+            }
+        }
+
+        return scenario;
+    }
+
     @Test
     public void releaseTransaction() throws IOException {
-        ActivityScenario<Activity> scenario = ActivityScenario.launch(getIntentWithTestData());
+        ActivityScenario<Activity> scenario = launch();
 
         Espresso.onView(ViewMatchers.withId(R.id.validateButton))
                 .perform(ViewActions.click());
@@ -160,7 +188,7 @@ public class BankingApiActivityTest {
 
     @Test
     public void cancelTransaction() throws IOException {
-        ActivityScenario<Activity> scenario = ActivityScenario.launch(getIntentWithTestData());
+        ActivityScenario<Activity> scenario = launch();
 
         Espresso.onView(ViewMatchers.withId(R.id.cancelButton))
                 .perform(ViewActions.click());
@@ -176,7 +204,7 @@ public class BankingApiActivityTest {
 
     @Test
     public void backButton() {
-        ActivityScenario<Activity> scenario = ActivityScenario.launch(getIntentWithTestData());
+        ActivityScenario<Activity> scenario = launch();
 
         Espresso.pressBackUnconditionally();
 

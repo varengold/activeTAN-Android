@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

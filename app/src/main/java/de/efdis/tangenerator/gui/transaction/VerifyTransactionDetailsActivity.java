@@ -20,7 +20,6 @@
 package de.efdis.tangenerator.gui.transaction;
 
 import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -149,12 +148,9 @@ public class VerifyTransactionDetailsActivity
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.unsupported_data_format_title);
                 builder.setMessage(R.string.unsupported_data_format_message);
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        setResult(RESULT_CANCELED);
-                        finish();
-                    }
+                builder.setOnDismissListener(dialog1 -> {
+                    setResult(RESULT_CANCELED);
+                    finish();
                 });
                 dialog = builder.create();
             }
@@ -385,20 +381,10 @@ public class VerifyTransactionDetailsActivity
             builder.setMessage(binding.exhaustedDescription.getText());
             builder.setIcon(binding.exhaustedIcon.getDrawable());
 
-            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
+            builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> dialogInterface.dismiss());
 
             builder.setOnDismissListener(
-                    new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            VerifyTransactionDetailsActivity.this.finish();
-                        }
-                    }
+                    dialogInterface -> VerifyTransactionDetailsActivity.this.finish()
             );
 
             builder.show();
@@ -425,17 +411,14 @@ public class VerifyTransactionDetailsActivity
             binding.exhaustedGeneratorHintContainer.setVisibility(View.VISIBLE);
         }
 
-        binding.scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                // Update layout, because the size of TAN/ATC views has changed
-                binding.generatedTanContainer.requestLayout();
-                binding.exhaustedGeneratorHintContainer.requestLayout();
+        binding.scrollView.post(() -> {
+            // Update layout, because the size of TAN/ATC views has changed
+            binding.generatedTanContainer.requestLayout();
+            binding.exhaustedGeneratorHintContainer.requestLayout();
 
-                // Scroll to end of instructions on small screens.
-                // Near the bottom is the TAN, which is to be entered in online banking.
-                binding.scrollView.fullScroll(View.FOCUS_DOWN);
-            }
+            // Scroll to end of instructions on small screens.
+            // Near the bottom is the TAN, which is to be entered in online banking.
+            binding.scrollView.fullScroll(View.FOCUS_DOWN);
         });
     }
 
@@ -445,12 +428,7 @@ public class VerifyTransactionDetailsActivity
         builder.setMessage(R.string.token_failed_details);
         builder.setError(cause);
 
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
 
         builder.show();
     }

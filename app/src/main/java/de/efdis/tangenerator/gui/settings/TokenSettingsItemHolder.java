@@ -20,7 +20,6 @@
 package de.efdis.tangenerator.gui.settings;
 
 import android.view.View;
-import android.widget.CompoundButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +31,7 @@ import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.databinding.ItemTokenSettingsBinding;
 
 public class TokenSettingsItemHolder extends RecyclerView.ViewHolder {
-    private ItemTokenSettingsBinding binding;
+    private final ItemTokenSettingsBinding binding;
 
     public TokenSettingsItemHolder(View tokenSettingsItem) {
         super(tokenSettingsItem);
@@ -40,26 +39,11 @@ public class TokenSettingsItemHolder extends RecyclerView.ViewHolder {
     }
 
     public void setListener(final TokenSettingsItemListener listener, final int itemPosition) {
-        binding.tokenDescriptionButton.setOnClickListener(listener == null ? null : new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onChangeTokenDescriptionButtonClick(itemPosition);
-            }
-        });
+        binding.tokenDescriptionButton.setOnClickListener(listener == null ? null : v -> listener.onChangeTokenDescriptionButtonClick(itemPosition));
 
-        binding.protectUsageSwitch.setOnCheckedChangeListener(listener == null ? null : new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                listener.onProtectUsageCheckedChange(itemPosition, isChecked);
-            }
-        });
+        binding.protectUsageSwitch.setOnCheckedChangeListener(listener == null ? null : (buttonView, isChecked) -> listener.onProtectUsageCheckedChange(itemPosition, isChecked));
 
-        binding.deleteTokenButton.setOnClickListener(listener == null ? null : new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onDeleteButtonClick(itemPosition);
-            }
-        });
+        binding.deleteTokenButton.setOnClickListener(listener == null ? null : v -> listener.onDeleteButtonClick(itemPosition));
     }
 
     public void setSerialNumber(String serialNumber) {

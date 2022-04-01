@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -30,6 +30,8 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
+import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +44,9 @@ import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
+
+    @Rule
+    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
 
     @Rule
     public ScreenshotRule screenshotRule = new ScreenshotRule();

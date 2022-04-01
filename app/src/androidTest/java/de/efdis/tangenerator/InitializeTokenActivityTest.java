@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -21,13 +21,10 @@ package de.efdis.tangenerator;
 
 import android.Manifest;
 import android.content.Intent;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -36,6 +33,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
+import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
+
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,6 +42,7 @@ import org.junit.runner.RunWith;
 
 import de.efdis.tangenerator.activetan.HHDkm;
 import de.efdis.tangenerator.activetan.KeyMaterialType;
+import de.efdis.tangenerator.gui.initialization.AbstractBackgroundTask;
 import de.efdis.tangenerator.gui.initialization.InitializeTokenActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
@@ -71,6 +71,12 @@ public class InitializeTokenActivityTest {
     }
 
     @Rule
+    public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
+
+    @Rule
+    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
+
+    @Rule
     public GrantPermissionRule cameraPermissionRule
             = GrantPermissionRule.grant(
                 Manifest.permission.CAMERA);
@@ -89,6 +95,9 @@ public class InitializeTokenActivityTest {
     public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule
             = new ActivityScenarioRule<>(getIntentWithTestData());
 
+    @Rule
+    public RegisterIdlingResourceRule registerIdlingResourceRule = new RegisterIdlingResourceRule(AbstractBackgroundTask.getIdlingResource());
+
     static void simulatePortalQrCodeInput(ActivityScenario<InitializeTokenActivity> activityScenario) {
         simulatePortalQrCodeInput(activityScenario, SERIAL_NUMBER, LETTER_NUMBER);
     }
@@ -106,12 +115,7 @@ public class InitializeTokenActivityTest {
         hhdkm.setLetterNumber(letterNumber);
         hhdkm.setDeviceSerialNumber(serialNumber);
 
-        activityScenario.onActivity(new ActivityScenario.ActivityAction<InitializeTokenActivity>() {
-            @Override
-            public void perform(InitializeTokenActivity activity) {
-                activity.onKeyMaterial(hhdkm.getBytes());
-            }
-        });
+        activityScenario.onActivity(activity -> activity.onKeyMaterial(hhdkm.getBytes()));
     }
 
     static void simulateLetterQrCodeInput(ActivityScenario<InitializeTokenActivity> activityScenario) {
@@ -123,12 +127,7 @@ public class InitializeTokenActivityTest {
         hhdkm.setAesKeyComponent(new byte[16]);
         hhdkm.setLetterNumber(LETTER_NUMBER);
 
-        activityScenario.onActivity(new ActivityScenario.ActivityAction<InitializeTokenActivity>() {
-            @Override
-            public void perform(InitializeTokenActivity activity) {
-                activity.onKeyMaterial(hhdkm.getBytes());
-            }
-        });
+        activityScenario.onActivity(activity -> activity.onKeyMaterial(hhdkm.getBytes()));
     }
 
     @Test
@@ -213,7 +212,7 @@ public class InitializeTokenActivityTest {
         }
 
         Espresso.onView(ViewMatchers.withText(R.string.repeat))
-                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
+                .check(ViewAssertions.doesNotExist());
     }
 
     @Test

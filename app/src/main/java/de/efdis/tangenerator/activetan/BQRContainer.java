@@ -22,6 +22,7 @@ package de.efdis.tangenerator.activetan;
 import android.util.Pair;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.zip.Checksum;
 
@@ -131,6 +132,34 @@ public class BQRContainer {
             default:
                 throw new InvalidBankingQrCodeException("Unsupported BQR prefix");
         }
+    }
+
+    public static byte[] wrap(ContentType contentType, byte[] payload) {
+        // 2 bytes prefix
+        // wrapped content
+        // 2 bytes CRC-16
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(payload.length + 4);
+        Checksum checksum = new CRC16Checksum(0);
+
+        baos.write(contentType.getPrefixBytes(), 0, 2);
+        checksum.update(contentType.getPrefixBytes(), 0, 2);
+
+        baos.write(payload, 0, payload.length);
+        checksum.update(payload, 0, payload.length);
+
+        baos.write((((int) checksum.getValue()) & 0xff00) >> 8);
+        baos.write(((int) checksum.getValue()) & 0x00ff);
+
+        byte[] bqr = baos.toByteArray();
+
+        // We need to scramble the content, which is the same operation like unscrambling
+        try {
+            bqr = unscramble(bqr);
+        } catch (InvalidBankingQrCodeException e) {
+            throw new IllegalArgumentException(e);
+        }
+
+        return bqr;
     }
 
     private static byte[] unscramble(byte[] scrambledBqr) throws InvalidBankingQrCodeException {

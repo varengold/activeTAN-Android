@@ -29,9 +29,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 import de.efdis.tangenerator.R;
-import de.efdis.tangenerator.gui.common.TextUtils;
 import de.efdis.tangenerator.databinding.ActivityCopyrightBinding;
 import de.efdis.tangenerator.gui.common.AppActivity;
+import de.efdis.tangenerator.gui.common.TextUtils;
 
 public class CopyrightActivity
         extends AppActivity {

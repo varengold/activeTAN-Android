@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -23,11 +23,16 @@ import android.os.Handler;
 import android.os.Looper;
 
 import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
+import androidx.test.espresso.IdlingResource;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public abstract class AbstractBackgroundTask<INPUT, OUTPUT> {
+    private static final CountingIdlingResource idlingResource = new CountingIdlingResource(AbstractBackgroundTask.class.getName(), true);
+
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
 
@@ -42,45 +47,42 @@ public abstract class AbstractBackgroundTask<INPUT, OUTPUT> {
         this.listener = listener;
     }
 
+    @VisibleForTesting
+    public static IdlingResource getIdlingResource() {
+        return idlingResource;
+    }
+
     protected abstract OUTPUT doInBackground(INPUT input);
 
     public void execute(final INPUT input) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                listener.onStart();
-            }
-        });
+        idlingResource.increment();
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                OUTPUT output = null;
-                try {
-                    output = doInBackground(input);
-                } catch (Throwable throwable) {
-                    failedCause = throwable;
-                } finally {
-                    onPostExecute(output);
-                }
+        handler.post(() -> listener.onStart());
+
+        executor.execute(() -> {
+            OUTPUT output = null;
+            try {
+                output = doInBackground(input);
+            } catch (Throwable throwable) {
+                failedCause = throwable;
+            } finally {
+                onPostExecute(output);
+                idlingResource.decrement();
             }
         });
     }
 
     private void onPostExecute(final OUTPUT output) {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (output != null) {
-                    listener.onSuccess(output);
-                } else {
-                    listener.onFailure(failedReason, failedAndProcessShouldBeRepeated, failedCause);
-                }
-                listener.onEnd();
-
-                // prevent leak
-                listener = null;
+        handler.post(() -> {
+            if (output != null) {
+                listener.onSuccess(output);
+            } else {
+                listener.onFailure(failedReason, failedAndProcessShouldBeRepeated, failedCause);
             }
+            listener.onEnd();
+
+            // prevent leak
+            listener = null;
         });
     }
 

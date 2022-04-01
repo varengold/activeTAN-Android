@@ -40,7 +40,7 @@ import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 public class TokenSettingsAdapter
         extends RecyclerView.Adapter<TokenSettingsItemHolder>
         implements TokenSettingsItemHolder.TokenSettingsItemListener {
-    private List<BankingToken> data;
+    private final List<BankingToken> data;
     private final TokenSettingsListener listener;
 
     public TokenSettingsAdapter(List<BankingToken> data, TokenSettingsListener listener) {
@@ -84,12 +84,7 @@ public class TokenSettingsAdapter
     private <T> void doOnMainThread(final Consumer<T> consumer, final T arg) {
         // For UI updates, notifications must be executed in the main thread
         Handler handler = ((Activity) listener).getWindow().getDecorView().getHandler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                consumer.accept(arg);
-            }
-        });
+        handler.post(() -> consumer.accept(arg));
     }
 
 
@@ -99,12 +94,7 @@ public class TokenSettingsAdapter
             if (token.id.equals(iterator.next().id)) {
                 iterator.set(token);
 
-                doOnMainThread(new Consumer<Integer>() {
-                    @Override
-                    public void accept(Integer arg) {
-                        notifyItemChanged(arg);
-                    }
-                }, i);
+                doOnMainThread(this::notifyItemChanged, i);
 
                 break;
             }
@@ -117,13 +107,10 @@ public class TokenSettingsAdapter
             if (token.id.equals(iterator.next().id)) {
                 iterator.remove();
 
-                doOnMainThread(new Consumer<Integer>() {
-                    @Override
-                    public void accept(Integer arg) {
-                        notifyItemRemoved(arg);
-                        // the index of the remaining items has changed
-                        notifyItemRangeChanged(arg, data.size() - arg);
-                    }
+                doOnMainThread(arg -> {
+                    notifyItemRemoved(arg);
+                    // the index of the remaining items has changed
+                    notifyItemRangeChanged(arg, data.size() - arg);
                 }, i);
 
                 break;

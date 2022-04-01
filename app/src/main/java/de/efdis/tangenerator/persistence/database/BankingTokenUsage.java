@@ -41,6 +41,6 @@ public enum BankingTokenUsage {
      *
      * In contrast to {@link #ENABLED_AUTH_PROMPT} it is not possible to disable this behavior.
      */
-    MANDATORY_AUTH_PROMPT;
+    MANDATORY_AUTH_PROMPT
 
 }

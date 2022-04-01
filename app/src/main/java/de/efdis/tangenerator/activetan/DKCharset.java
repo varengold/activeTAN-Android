@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -111,7 +111,7 @@ public class DKCharset extends Charset {
                         continue;
                 }
 
-                int utf16 = (int) c;
+                int utf16 = c;
                 if (0x20 <= utf16 && utf16 <= 0x7f) {
                     out.put((byte) utf16);
                 } else {

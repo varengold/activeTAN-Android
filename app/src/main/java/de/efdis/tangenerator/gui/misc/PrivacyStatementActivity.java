@@ -24,9 +24,9 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
 import de.efdis.tangenerator.R;
-import de.efdis.tangenerator.gui.common.TextUtils;
 import de.efdis.tangenerator.databinding.ActivityPrivacyStatementBinding;
 import de.efdis.tangenerator.gui.common.AppActivity;
+import de.efdis.tangenerator.gui.common.TextUtils;
 
 public class PrivacyStatementActivity extends AppActivity {
 

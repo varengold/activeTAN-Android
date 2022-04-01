@@ -54,20 +54,12 @@ public abstract class AbstractInstructionCardFragment extends Fragment {
             getCardBody().setVisibility(View.GONE);
 
             // Use the button to toggle visibility of the card's body
-            getCardToggleButton().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View cardToggleButton) {
-                    toggleBodyVisibility();
-                }
-            });
+            getCardToggleButton().setOnClickListener(cardToggleButton -> toggleBodyVisibility());
 
             // Also allow to show the body by clicking anywhere at the card
-            getView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View card) {
-                    if (getCardBody().getVisibility() == View.GONE) {
-                        toggleBodyVisibility();
-                    }
+            getView().setOnClickListener(card -> {
+                if (getCardBody().getVisibility() == View.GONE) {
+                    toggleBodyVisibility();
                 }
             });
         }

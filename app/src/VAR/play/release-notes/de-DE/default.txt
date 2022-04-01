@@ -1,0 +1,3 @@
+– Unterstützung für Android 12
+– Unterstützung für ein neues Format beim Aktivierungslink
+– Aktualisierung von Dritthersteller-Bibliotheken

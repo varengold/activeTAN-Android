@@ -94,7 +94,7 @@
                 </li>
                 <li>
                     Folgende Jetpack-Bibliotheken aus dem Android Open Source Project (AOSP) von Google:
-                    Appcompat, Biometric, ConstraintLayout, RecyclerView, Room
+                    Appcompat, Biometric, ConstraintLayout, RecyclerView, Room, Test
                     <br/>
                     <a href="https://developer.android.com/jetpack">developer.android.com/jetpack</a>
                 </li>

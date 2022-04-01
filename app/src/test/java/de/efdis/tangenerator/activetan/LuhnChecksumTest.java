@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -44,7 +44,7 @@ public class LuhnChecksumTest {
     }
 
     @Test
-    public void twoDatablocksExample() throws HHDuc.UnsupportedDataFormatException {
+    public void twoDatablocksExample() {
         // Example data from
         // HandHeld-Device (HHD) zur TAN-Erzeugung,
         // HHD-Erweiterung für optische Schnittstellen Version V 1.5.1,

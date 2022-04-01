@@ -38,6 +38,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -239,69 +240,41 @@ public class InitializeTokenActivity
         builder.setMessage(reason);
         builder.setError(cause);
 
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
 
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                InitializeTokenActivity.this.finish();
-            }
-        });
+        builder.setOnCancelListener(dialog -> InitializeTokenActivity.this.finish());
 
         switch (suggestedAction) {
             case NONE:
                 break;
             case REPEAT:
-                builder.setPositiveButton(R.string.repeat, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doStartProcess();
-                       }
-                });
+                builder.setPositiveButton(R.string.repeat, (dialog, which) -> doStartProcess());
                 break;
             case USER_AUTHENTICATION:
-                builder.setPositiveButton(R.string.unlock_device, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        InitializeTokenActivity.this.authenticateUser(
-                                R.string.authorize_to_unlock_device,
-                                new BiometricPrompt.AuthenticationCallback() {
-                                    @Override
-                                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                                        doStartProcess();
-                                    }
-                                    @Override
-                                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                                        doStartProcess();
-                                    }
-                                }
+                builder.setPositiveButton(R.string.unlock_device, (dialog, which) -> InitializeTokenActivity.this.authenticateUser(
+                        R.string.authorize_to_unlock_device,
+                        new BiometricPrompt.AuthenticationCallback() {
+                            @Override
+                            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                                doStartProcess();
+                            }
+                            @Override
+                            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                                doStartProcess();
+                            }
+                        }
 
-                        );
-                    }
-                });
+                ));
                 break;
             case SYSTEM_SETTINGS:
-                builder.setPositiveButton(R.string.menu_item_settings, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                        startActivity(intent);
-                    }
+                builder.setPositiveButton(R.string.menu_item_settings, (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                    startActivity(intent);
                 });
                 break;
         }
 
-        builder.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                InitializeTokenActivity.this.dialog = dialog;
-            }
-        });
+        builder.setOnShowListener(dialog -> InitializeTokenActivity.this.dialog = dialog);
 
         builder.show();
     }
@@ -381,29 +354,16 @@ public class InitializeTokenActivity
         builder.setTitle(R.string.initialization_mandatory_user_auth_title);
         builder.setMessage(R.string.initialization_mandatory_user_auth_description);
 
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                InitializeTokenActivity.this.finish();
-            }
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> InitializeTokenActivity.this.finish());
+
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.cancel());
+
+        builder.setOnCancelListener(dialog -> {
+            keyComponents.userAuthMandatoryForUsage = Boolean.TRUE;
+            doStartProcess();
         });
 
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                keyComponents.userAuthMandatoryForUsage = Boolean.TRUE;
-                doStartProcess();
-            }
-        });
-
-        builder.show();
+        ContextCompat.getMainExecutor(this).execute(builder::show);
     }
 
     private void doStepUploadEncryptedDeviceKey() {
@@ -451,12 +411,7 @@ public class InitializeTokenActivity
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(false);
             builder.setNegativeButton(R.string.confirm_return, null);
-            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    InitializeTokenActivity.super.onBackPressed();
-                }
-            });
+            builder.setPositiveButton(android.R.string.ok, (dialog, which) -> InitializeTokenActivity.super.onBackPressed());
 
             if (!initializationCompleted) {
                 builder.setTitle(R.string.initialization_confirm_cancel_title);
@@ -511,26 +466,11 @@ public class InitializeTokenActivity
             builder.setMessage(R.string.scan_screen_qr_code_not_letter);
         }
 
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                InitializeTokenActivity.this.finish();
-            }
-        });
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> InitializeTokenActivity.this.finish());
 
-        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                cameraPreview.onResume();
-            }
-        });
+        builder.setOnCancelListener(dialog -> cameraPreview.onResume());
 
-        builder.setPositiveButton(R.string.repeat, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setPositiveButton(R.string.repeat, (dialog, which) -> dialog.cancel());
 
         builder.show();
     }

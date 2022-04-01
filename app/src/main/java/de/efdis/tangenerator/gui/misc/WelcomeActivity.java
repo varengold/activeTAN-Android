@@ -29,9 +29,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 import de.efdis.tangenerator.R;
-import de.efdis.tangenerator.gui.common.TextUtils;
 import de.efdis.tangenerator.databinding.ActivityWelcomeBinding;
 import de.efdis.tangenerator.gui.common.AppActivity;
+import de.efdis.tangenerator.gui.common.TextUtils;
 
 public class WelcomeActivity
         extends AppActivity {
@@ -73,6 +73,5 @@ public class WelcomeActivity
         intent.putExtra(MainActivity.EXTRA_SKIP_WELCOME_ACTIVITY, true);
         startActivity(intent);
         finish();
-        return;
     }
 }

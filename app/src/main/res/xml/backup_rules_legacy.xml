@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    This file is used in Android 11 and older to define
+    the backup content for this app.
+
+    For Android 12 and newer, see backup_rules.xml.
+
+    The app database contains references to cryptographic
+    keys in the Android keystore, which cannot be copied.
+    If the app is restored on a new device, the
+    initialization has to be repeated by the user.
+    Thus, there is no need to backup the database.
+-->
+<full-backup-content>
+    <exclude domain="database" />
+</full-backup-content>

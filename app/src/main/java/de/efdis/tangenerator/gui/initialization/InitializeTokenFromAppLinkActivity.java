@@ -67,31 +67,41 @@ public class InitializeTokenFromAppLinkActivity extends InitializeTokenActivity 
     }
 
     private void loadKeyMaterial(Uri uri) {
-        String query = uri.getQuery();
-        if (query == null || query.isEmpty()) {
-            throw new IllegalArgumentException("url without query parameter");
+        String bqrEncoded;
+        if (uri.getFragment() != null) {
+            // New version:
+            // key material is encoded as an url fragment
+            bqrEncoded = uri.getFragment();
+        } else {
+            // Old version (for backwards compatibility):
+            // key material has been encoded as an url query
+            bqrEncoded = uri.getQuery();
+        }
+
+        if (bqrEncoded == null || bqrEncoded.isEmpty()) {
+            throw new IllegalArgumentException("url without parameter");
         }
 
         // The query parameter is BASE64 encoded and contains the same data like a QR code
         // for initialization.
         byte[] bqr;
         try {
-            bqr = Base64.decode(query, Base64.URL_SAFE);
+            bqr = Base64.decode(bqrEncoded, Base64.URL_SAFE);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("wrong encoding of query parameter", e);
+            throw new IllegalArgumentException("wrong encoding of url parameter", e);
         }
 
         Pair<BQRContainer.ContentType, byte[]> hhdkm;
         try {
             hhdkm = BQRContainer.unwrap(bqr);
         } catch (BQRContainer.InvalidBankingQrCodeException e) {
-            throw new IllegalArgumentException("invalid query parameter", e);
+            throw new IllegalArgumentException("invalid url parameter", e);
         }
 
         if (BQRContainer.ContentType.KEY_MATERIAL == hhdkm.first) {
             getIntent().putExtra(EXTRA_LETTER_KEY_MATERIAL, hhdkm.second);
         } else {
-            throw new IllegalArgumentException("unsupported query parameter type");
+            throw new IllegalArgumentException("unsupported url parameter type");
         }
     }
 

@@ -7,8 +7,6 @@ android {
         // We use the vector icons from Material Design, which require version 21
         minSdkVersion 21
         targetSdkVersion versions.targetSdk
-        versionCode 1
-        versionName "3.0.1"
 
         sourceSets {
             main.res.srcDirs = files(file("src/main").listFiles(new FileFilter() {

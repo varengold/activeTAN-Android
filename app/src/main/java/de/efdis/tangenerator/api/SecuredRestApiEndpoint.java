@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -245,7 +244,7 @@ public class SecuredRestApiEndpoint {
     }
 
     public synchronized byte[] performRequest(@NonNull byte[] postData)
-            throws CallFailedException, ConnectException, IncompatibleClientException {
+            throws CallFailedException {
         prepareCrypto();
         HttpsURLConnection connection;
         try {

@@ -109,24 +109,16 @@ public class ErrorDialogBuilder extends AlertDialog.Builder {
                             + stackTrace);
             shareIntent.setType("text/plain");
 
-            setNeutralButton(R.string.share_error_label, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    getContext().startActivity(
-                            Intent.createChooser(shareIntent, null));
-                }
-            });
+            setNeutralButton(R.string.share_error_label, (dialog, which) -> getContext().startActivity(
+                    Intent.createChooser(shareIntent, null)));
 
             final AlertDialog detailsDialog = super.create();
             detailsDialog.setOnShowListener(onShowListener);
 
-            setNeutralButton(R.string.show_details, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
+            setNeutralButton(R.string.show_details, (dialogInterface, i) -> {
+                dialogInterface.dismiss();
 
-                    detailsDialog.show();
-                }
+                detailsDialog.show();
             });
         }
 

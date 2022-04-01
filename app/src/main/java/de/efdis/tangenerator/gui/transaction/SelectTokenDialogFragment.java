@@ -21,7 +21,6 @@ package de.efdis.tangenerator.gui.transaction;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -59,7 +58,7 @@ import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
  */
 public class SelectTokenDialogFragment extends DialogFragment {
 
-    private Set<String> eligibleTokenIds;
+    private final Set<String> eligibleTokenIds;
     private SelectTokenListener tokenListener;
     private List<BankingToken> availableTokens;
     private BankingToken selectedToken;
@@ -85,7 +84,7 @@ public class SelectTokenDialogFragment extends DialogFragment {
         if (context instanceof SelectTokenListener) {
             tokenListener = (SelectTokenListener) context;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new RuntimeException(context
                     + " must implement " + SelectTokenListener.class.getSimpleName());
         }
     }
@@ -132,26 +131,11 @@ public class SelectTokenDialogFragment extends DialogFragment {
             int preselectedItem = 0;
 
             selectedToken = availableTokens.get(preselectedItem);
-            builder.setSingleChoiceItems(labels.toArray(new String[0]), preselectedItem, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    SelectTokenDialogFragment.this.selectedToken = availableTokens.get(i);
-                }
-            });
+            builder.setSingleChoiceItems(labels.toArray(new String[0]), preselectedItem, (dialogInterface, i) -> SelectTokenDialogFragment.this.selectedToken = availableTokens.get(i));
 
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
+            builder.setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss());
 
-            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    onTokenSelected();
-                }
-            });
+            builder.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> onTokenSelected());
         }
 
         return builder.create();
@@ -165,12 +149,9 @@ public class SelectTokenDialogFragment extends DialogFragment {
         Dialog dialog = getDialog();
         if (availableTokens != null && availableTokens.size() == 1 && dialog != null) {
             dialog.hide();
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    selectedToken = availableTokens.get(0);
-                    onTokenSelected();
-                }
+            new Handler(Looper.getMainLooper()).post(() -> {
+                selectedToken = availableTokens.get(0);
+                onTokenSelected();
             });
         }
     }

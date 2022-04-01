@@ -2,8 +2,8 @@
 ext {
     // To unify dependencies between modules
     versions = [
-            compileSdk: 30,
-            targetSdk: 30,
+            compileSdk: 31,
+            targetSdk: 31,
             zxing: '3.4.1',
     ]
 }
@@ -15,7 +15,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath 'com.android.tools.build:gradle:7.1.2'
         
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -27,6 +27,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+
+        maven { url 'https://jitpack.io' }
     }
 }
 

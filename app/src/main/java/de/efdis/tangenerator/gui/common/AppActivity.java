@@ -25,14 +25,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.DrawableRes;
@@ -150,33 +145,22 @@ public abstract class AppActivity
         setToolbarNavigationIcon(R.drawable.ic_material_navigation_menu);
 
         actionBar.setNavigationOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        drawerLayout.openDrawer(GravityCompat.START);
-                    }
-                }
+                v -> drawerLayout.openDrawer(GravityCompat.START)
         );
 
-        navigationDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                handleNavigationMenuItem(menuItem);
-                drawerLayout.closeDrawers();
-                return false;
-            }
+        navigationDrawer.setNavigationItemSelectedListener(menuItem -> {
+            handleNavigationMenuItem(menuItem);
+            drawerLayout.closeDrawers();
+            return false;
         });
     }
 
     private void prepareBackArrow(Toolbar actionBar) {
         setToolbarNavigationIcon(R.drawable.ic_material_navigation_arrow_back);
 
-        actionBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        actionBar.setNavigationOnClickListener(v -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
 
     }
@@ -236,12 +220,7 @@ public abstract class AppActivity
         // To simplify testing, we can mock the authentication process.
         if (BuildConfig.DEBUG) {
             if (mockAuthentication) {
-                ContextCompat.getMainExecutor(this).execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onAuthenticationSucceeded(null);
-                    }
-                });
+                ContextCompat.getMainExecutor(this).execute(() -> callback.onAuthenticationSucceeded(null));
                 return;
             }
         }

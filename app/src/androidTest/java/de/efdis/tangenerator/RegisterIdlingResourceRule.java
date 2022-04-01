@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2022 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -19,18 +19,25 @@
 
 package de.efdis.tangenerator;
 
-import org.junit.Test;
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.IdlingResource;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.rules.ExternalResource;
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+public class RegisterIdlingResourceRule extends ExternalResource {
+    private final IdlingResource idlingResource;
+
+    public RegisterIdlingResourceRule(IdlingResource idlingResource) {
+        this.idlingResource = idlingResource;
+    }
+
+    @Override
+    protected void before() throws Throwable {
+        IdlingRegistry.getInstance().register(idlingResource);
+    }
+
+    @Override
+    protected void after() {
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -20,18 +20,17 @@
 package de.efdis.tangenerator;
 
 import android.content.Intent;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
+
+import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
 
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -64,6 +63,12 @@ public class VerifyTransactionDetailsActivityTest {
         intent.putExtra(VerifyTransactionDetailsActivity.EXTRA_RAW_HHDUC, hhduc.getBytes());
         return intent;
     }
+
+    @Rule
+    public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
+
+    @Rule
+    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
 
     @Rule
     public ScreenshotRule screenshotRule = new ScreenshotRule();

@@ -19,7 +19,6 @@
 
 package de.efdis.tangenerator.gui.settings;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -100,34 +99,21 @@ public class SettingsActivity
         input.setText(token.name);
         input.setSelection(input.getText().length());
         builder.setView(input);
-        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onChangeTokenDescriptionConfirmed(token, input.getText().toString());
-            }
-        });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> onChangeTokenDescriptionConfirmed(token, input.getText().toString()));
+        builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
 
         final AlertDialog dialog = builder.show();
 
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 
-        input.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN
-                        && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    dialog.dismiss();
-                    onChangeTokenDescriptionConfirmed(token, input.getText().toString());
-                    return true;
-                }
-                return false;
+        input.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == KeyEvent.ACTION_DOWN
+                    && keyCode == KeyEvent.KEYCODE_ENTER) {
+                dialog.dismiss();
+                onChangeTokenDescriptionConfirmed(token, input.getText().toString());
+                return true;
             }
+            return false;
         });
     }
 
@@ -146,12 +132,7 @@ public class SettingsActivity
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.protect_usage);
             builder.setMessage(R.string.message_cannot_unprotect_usage);
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
 
             builder.show();
 
@@ -220,18 +201,8 @@ public class SettingsActivity
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.title_delete_token_confirmation);
             builder.setMessage(message);
-            builder.setPositiveButton(R.string.button_confirm_delete_token, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    onDeleteTokenConfirmed(token);
-                }
-            });
-            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
+            builder.setPositiveButton(R.string.button_confirm_delete_token, (dialog, which) -> onDeleteTokenConfirmed(token));
+            builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
 
             builder.show();
         } else {

@@ -32,8 +32,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
-import java.util.Objects;
 
 @RunWith(AndroidJUnit4.class)
 public class MigrationTest {
@@ -43,8 +43,10 @@ public class MigrationTest {
     public MigrationTestHelper helper;
 
     public MigrationTest() {
-        helper = new MigrationTestHelper(InstrumentationRegistry.getInstrumentation(),
-                Objects.requireNonNull(AppDatabase.class.getCanonicalName()),
+        helper = new MigrationTestHelper(
+                InstrumentationRegistry.getInstrumentation(),
+                AppDatabase.class,
+                Collections.emptyList(),
                 new FrameworkSQLiteOpenHelperFactory());
     }
 

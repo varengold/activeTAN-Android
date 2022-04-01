@@ -44,12 +44,7 @@ public abstract class AbstractInitializeTokenStepFragment
         // which is not relevant for the next step.
         final ScrollView scrollView = getScrollView();
         if (scrollView != null) {
-            scrollView.post(new Runnable() {
-                @Override
-                public void run() {
-                    scrollView.fullScroll(View.FOCUS_DOWN);
-                }
-            });
+            scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
         }
     }
 

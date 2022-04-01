@@ -33,12 +33,16 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
+import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import de.efdis.tangenerator.activetan.BQRContainer;
 import de.efdis.tangenerator.activetan.HHDkm;
 import de.efdis.tangenerator.activetan.KeyMaterialType;
+import de.efdis.tangenerator.gui.initialization.AbstractBackgroundTask;
 import de.efdis.tangenerator.gui.initialization.InitializeTokenActivity;
 import de.efdis.tangenerator.gui.initialization.InitializeTokenFromAppLinkActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
@@ -55,13 +59,19 @@ public class InitializeTokenFromAppLinkActivityTest {
         hhdkm.setAesKeyComponent(new byte[BankingKeyComponents.BANKING_KEY_LENGTH]);
         hhdkm.setLetterNumber(InitializeTokenActivityTest.LETTER_NUMBER);
 
+        byte[] bqr = BQRContainer.wrap(
+                BQRContainer.ContentType.KEY_MATERIAL,
+                hhdkm.getBytes());
+
+        String bqrEncoded = Base64.encodeToString(bqr, Base64.URL_SAFE);
+
         Uri appLink = new Uri.Builder()
                 .scheme("https")
                 .authority(InstrumentationRegistry.getInstrumentation().getTargetContext()
                         .getString(R.string.initialization_app_link_host))
                 .path(InstrumentationRegistry.getInstrumentation().getTargetContext()
                         .getString(R.string.initialization_app_link_path))
-                .query(Base64.encodeToString(hhdkm.getBytes(), Base64.URL_SAFE))
+                .fragment(bqrEncoded)
                 .build();
 
         // We don't want to test the intent filter here. Thus, we simply use an explicit intent.
@@ -73,6 +83,12 @@ public class InitializeTokenFromAppLinkActivityTest {
                 InitializeTokenActivityTest.SERIAL_NUMBER);
         return intent;
     }
+
+    @Rule
+    public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
+
+    @Rule
+    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
 
     @Rule
     public GrantPermissionRule cameraPermissionRule
@@ -92,6 +108,9 @@ public class InitializeTokenFromAppLinkActivityTest {
     @Rule
     public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule
             = new ActivityScenarioRule<>(getIntentWithTestData());
+
+    @Rule
+    public RegisterIdlingResourceRule registerIdlingResourceRule = new RegisterIdlingResourceRule(AbstractBackgroundTask.getIdlingResource());
 
     @Test
     @DayNightRule.UiModes({AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO})

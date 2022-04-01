@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
+ * Copyright (c) 2019 EFDIS AG Bankensoftware, Freising <info@efdis.de>.
  *
  * This file is part of the activeTAN app for Android.
  *
@@ -28,14 +28,23 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.rule.GrantPermissionRule;
 
+import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
+
 import org.junit.Rule;
 import org.junit.Test;
 
+import de.efdis.tangenerator.gui.initialization.AbstractBackgroundTask;
 import de.efdis.tangenerator.gui.initialization.InitializeTokenActivity;
 import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
 public class InitializeTokenActivityTestMultipleTokens {
+
+    @Rule
+    public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
+
+    @Rule
+    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
 
     @Rule
     public GrantPermissionRule cameraPermissionRule
@@ -49,6 +58,9 @@ public class InitializeTokenActivityTestMultipleTokens {
     @Rule
     public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule
             = new ActivityScenarioRule<>(InitializeTokenActivityTest.getIntentWithTestData());
+
+    @Rule
+    public RegisterIdlingResourceRule registerIdlingResourceRule = new RegisterIdlingResourceRule(AbstractBackgroundTask.getIdlingResource());
 
     @Test
     public void checkMultipleTokenHint() {

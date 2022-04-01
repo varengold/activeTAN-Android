@@ -30,10 +30,13 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
+import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import de.efdis.tangenerator.gui.initialization.AbstractBackgroundTask;
 import de.efdis.tangenerator.gui.initialization.InitializeTokenActivity;
 import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 
@@ -48,6 +51,12 @@ public class InitializeTokenActivityTestIncompatibleDevice {
     }
 
     @Rule
+    public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
+
+    @Rule
+    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
+
+    @Rule
     public GrantPermissionRule cameraPermissionRule
             = GrantPermissionRule.grant(
             Manifest.permission.CAMERA);
@@ -59,6 +68,9 @@ public class InitializeTokenActivityTestIncompatibleDevice {
     @Rule
     public ActivityScenarioRule<InitializeTokenActivity> activityScenarioRule
             = new ActivityScenarioRule<>(getIntentWithTestData());
+
+    @Rule
+    public RegisterIdlingResourceRule registerIdlingResourceRule = new RegisterIdlingResourceRule(AbstractBackgroundTask.getIdlingResource());
 
     @Test
     public void checkCompatibilityMode() {

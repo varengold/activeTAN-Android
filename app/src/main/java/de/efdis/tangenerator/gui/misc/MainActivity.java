@@ -27,8 +27,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -43,11 +41,11 @@ import com.google.android.material.navigation.NavigationView;
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.activetan.KeyMaterialType;
 import de.efdis.tangenerator.databinding.ActivityMainBinding;
-import de.efdis.tangenerator.gui.transaction.VerifyTransactionDetailsActivity;
 import de.efdis.tangenerator.gui.common.AppActivity;
 import de.efdis.tangenerator.gui.initialization.InitializeTokenActivity;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeListener;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment;
+import de.efdis.tangenerator.gui.transaction.VerifyTransactionDetailsActivity;
 import de.efdis.tangenerator.persistence.database.BankingTokenRepository;
 
 /**

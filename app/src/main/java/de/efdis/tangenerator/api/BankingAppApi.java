@@ -32,16 +32,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -144,31 +142,25 @@ public class BankingAppApi extends AppCompatActivity {
         builder.setTitle(R.string.missing_security_patches_title);
         builder.setMessage(R.string.missing_security_patches_description);
 
-        builder.setPositiveButton(R.string.ignore_and_continue, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+        builder.setPositiveButton(R.string.ignore_and_continue, (dialogInterface, i) -> {
+            dialogInterface.dismiss();
 
-                getPreferences(Context.MODE_PRIVATE)
-                        .edit()
-                        .putLong(PREFERENCE_LAST_WARNING_OLD_DEVICE, System.currentTimeMillis())
-                        .apply();
+            getPreferences(Context.MODE_PRIVATE)
+                    .edit()
+                    .putLong(PREFERENCE_LAST_WARNING_OLD_DEVICE, System.currentTimeMillis())
+                    .apply();
 
-                // restart the challenge
-                loadApiChallenge();
-            }
+            // restart the challenge
+            loadApiChallenge();
         });
 
         builder.setCancelable(false);
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+        builder.setNegativeButton(android.R.string.cancel, (dialogInterface, i) -> {
+            dialogInterface.dismiss();
 
-                Log.i(TAG, "API call canceled by user, because missing security updates");
-                setResult(Activity.RESULT_CANCELED);
-                finish();
-            }
+            Log.i(TAG, "API call canceled by user, because missing security updates");
+            setResult(Activity.RESULT_CANCELED);
+            finish();
         });
 
         final Intent systemUpdateSettings = new Intent("android.settings.SYSTEM_UPDATE_SETTINGS", null);
@@ -181,21 +173,15 @@ public class BankingAppApi extends AppCompatActivity {
 
         final AlertDialog dialog = builder.create();
 
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button neutralButton = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
-                if (neutralButton != null) {
-                    neutralButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            startActivity(systemUpdateSettings);
-                            // Don't dismiss the dialog.
-                            // If the user returns from the system update settings,
-                            // the dialog will still be visisble.
-                        }
-                    });
-                }
+        dialog.setOnShowListener(dialogInterface -> {
+            Button neutralButton = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
+            if (neutralButton != null) {
+                neutralButton.setOnClickListener(view -> {
+                    startActivity(systemUpdateSettings);
+                    // Don't dismiss the dialog.
+                    // If the user returns from the system update settings,
+                    // the dialog will still be visisble.
+                });
             }
         });
 
@@ -204,7 +190,8 @@ public class BankingAppApi extends AppCompatActivity {
         return true;
     }
 
-    private static boolean isOldDevice() {
+    @VisibleForTesting
+    public static boolean isOldDevice() {
         Date securityPatch;
         try {
             securityPatch = new SimpleDateFormat("yyyy-MM-dd", Locale.US)
@@ -341,13 +328,10 @@ public class BankingAppApi extends AppCompatActivity {
         builder.setMessage(warningDescriptionId);
 
         builder.setCancelable(false);
-        builder.setNegativeButton(R.string.confirm_return, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
+        builder.setNegativeButton(R.string.confirm_return, (dialogInterface, i) -> {
+            dialogInterface.dismiss();
 
-                finish();
-            }
+            finish();
         });
 
         builder.show();
