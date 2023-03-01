@@ -48,6 +48,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class BankingKeyRepository {
 
+    private static final String TAG = BankingKeyRepository.class.getSimpleName();
+
     private static final String PROVIDER = "AndroidKeyStore";
 
     private static final String BANKING_KEY_ALIAS_PREFIX = "banking_key_";
@@ -118,7 +120,7 @@ public class BankingKeyRepository {
         try {
             keyStore.load(null);
         } catch (CertificateException | NoSuchAlgorithmException | IOException e) {
-            Log.e(BankingKeyRepository.class.getSimpleName(), "error during initialization of key store", e);
+            Log.e(TAG, "error during initialization of key store", e);
         }
 
         return keyStore;
@@ -130,14 +132,14 @@ public class BankingKeyRepository {
      * @return <code>null</code>, if the key is missing in the key store or permanently destroyed.
      * @throws KeyStoreException if the key store cannot be used
      */
-    public static SecretKey getKey(String keyAlias) throws KeyStoreException {
+    public static AutoDestroyable<SecretKey> getKey(String keyAlias) throws KeyStoreException {
         KeyStore keyStore = getKeyStore();
 
         Key key = null;
         try {
             key = keyStore.getKey(keyAlias, null);
         } catch (NoSuchAlgorithmException | UnrecoverableKeyException e) {
-            Log.e(BankingKeyRepository.class.getSimpleName(), "cannot recover key", e);
+            Log.e(TAG, "cannot recover key", e);
         }
 
         if (!(key instanceof SecretKey)) {
@@ -145,19 +147,13 @@ public class BankingKeyRepository {
             return null;
         }
 
-        SecretKey secretKey = (SecretKey) key;
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            /*
-             * Up to and including API 25 Destroyable#isDestroyed()
-             * did not have a default implementation and throws a NoSuchMethodError.
-             */
-        } else {
-            if (secretKey.isDestroyed()) {
-                Log.e(BankingKeyRepository.class.getSimpleName(),
-                        "Key destroyed for alias " + keyAlias);
-                return null;
-            }
+        // Wrap the key in an AutoClosable.
+        // The caller may use a try-with-resources statement to automatically unreference the handle
+        // for the secret key as soon as it is no longer needed.
+        AutoDestroyable<SecretKey> secretKey = new AutoDestroyable<>((SecretKey) key);
+        if (secretKey.isDestroyed()) {
+            Log.e(TAG, "Key permanently destroyed for alias " + keyAlias);
+            return null;
         }
 
         /*
@@ -171,22 +167,24 @@ public class BankingKeyRepository {
         try {
             Cipher aes = Cipher.getInstance(
                     BANKING_KEY_ALGORITHM + "/" + BANKING_KEY_BLOCK_MODE + "/" + BANKING_KEY_PADDING);
-            aes.init(Cipher.ENCRYPT_MODE, secretKey);
+            aes.init(Cipher.ENCRYPT_MODE, secretKey.getKeyMaterial());
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            secretKey.destroy();
             throw new KeyStoreException("Cannot initialize AES cipher", e);
         } catch (KeyPermanentlyInvalidatedException e) {
-            Log.e(BankingKeyRepository.class.getSimpleName(),
-                    "Key permanently invalidated for alias " + keyAlias, e);
+            Log.e(TAG, "Key permanently invalidated for alias " + keyAlias, e);
+            secretKey.destroy();
             return null;
         } catch (UserNotAuthenticatedException e) {
             // the key can probably be used, but the user must repeat authentication
             return secretKey;
         } catch (InvalidKeyException e) {
-            Log.e(BankingKeyRepository.class.getSimpleName(),
-                    "Invalid key for alias " + keyAlias, e);
+            Log.e(TAG, "Invalid key for alias " + keyAlias, e);
+            secretKey.destroy();
             // we assume, that this is a permanent error
             return null;
         }
+
 
         return secretKey;
     }
@@ -197,7 +195,7 @@ public class BankingKeyRepository {
      * @return <code>null</code>, if the key is missing in the key store or permanently destroyed
      * @throws KeyStoreException if the key store cannot be used
      */
-    public static SecretKey getBankingKey(String bankingTokenAlias) throws KeyStoreException {
+    public static AutoDestroyable<SecretKey> getBankingKey(String bankingTokenAlias) throws KeyStoreException {
         return getKey(BANKING_KEY_ALIAS_PREFIX + bankingTokenAlias);
     }
 
@@ -240,7 +238,7 @@ public class BankingKeyRepository {
     }
 
     @NonNull
-    private static synchronized SecretKey getProbeKey(
+    private static synchronized AutoDestroyable<SecretKey> getProbeKey(
             @NonNull UserAuthenticationValidityDuration userAuthenticationValidityDuration)
             throws KeyStoreException {
         String keyAlias;
@@ -255,7 +253,7 @@ public class BankingKeyRepository {
                 throw new IllegalArgumentException("unknown user authentication validity duration");
         }
 
-        SecretKey probeKey = getKey(keyAlias);
+        AutoDestroyable<SecretKey> probeKey = getKey(keyAlias);
 
         // Automatically add the missing key or replace an invalid key
         if (probeKey == null) {
@@ -292,11 +290,6 @@ public class BankingKeyRepository {
     private static boolean isSupportedByDevice(
             @NonNull UserAuthenticationValidityDuration userAuthenticationValidityDuration)
             throws KeyStoreException, UserNotAuthenticatedException {
-        // (Store and) load the key.
-        // The success of this operation should be independent of the
-        // userAuthenticationValidityDuration, since it is only checked when the key is top be used.
-        SecretKey probeKey = getProbeKey(userAuthenticationValidityDuration);
-
         Cipher cipher;
         try {
             cipher = Cipher.getInstance(
@@ -305,8 +298,13 @@ public class BankingKeyRepository {
             throw new KeyStoreException("cipher not supported by key store", e);
         }
 
-        try {
-            cipher.init(Cipher.ENCRYPT_MODE, probeKey,
+        try (
+                // (Store and) load the key.
+                // The success of this operation should be independent of the
+                // userAuthenticationValidityDuration, since it is only checked when the key is top be used.
+                AutoDestroyable<SecretKey> probeKey = getProbeKey(userAuthenticationValidityDuration)
+        ) {
+            cipher.init(Cipher.ENCRYPT_MODE, probeKey.getKeyMaterial(),
                     new IvParameterSpec(new byte[cipher.getBlockSize()]));
             return true;
         } catch (InvalidAlgorithmParameterException e) {
@@ -315,8 +313,7 @@ public class BankingKeyRepository {
             // device not unlocked or user authentication validity duration exceeded
             throw e;
         } catch (InvalidKeyException e) {
-            Log.e(BankingKeyRepository.class.getSimpleName(),
-                    "cannot use the key although the device is unlocked", e);
+            Log.e(TAG, "cannot use the key although the device is unlocked", e);
             return false;
         }
     }
@@ -358,8 +355,7 @@ public class BankingKeyRepository {
         try {
             return isSupportedByDevice(UserAuthenticationValidityDuration.LONG);
         } catch (UserNotAuthenticatedException e) {
-            Log.e(BankingKeyRepository.class.getSimpleName(),
-                    "key should be supported once the device has been unlocked or rebooted", e);
+            Log.e(TAG, "key should be supported once the device has been unlocked or rebooted", e);
             return true;
         }
     }
@@ -381,8 +377,7 @@ public class BankingKeyRepository {
         try {
             return isSupportedByDevice(UserAuthenticationValidityDuration.SHORT);
         } catch (UserNotAuthenticatedException e) {
-            Log.e(BankingKeyRepository.class.getSimpleName(),
-                    "key should be supported once the device has been unlocked or rebooted", e);
+            Log.e(TAG, "key should be supported once the device has been unlocked or rebooted", e);
             return true;
         }
     }
@@ -410,19 +405,20 @@ public class BankingKeyRepository {
         } while (keyStore.containsAlias(BANKING_KEY_ALIAS_PREFIX + tokenAlias));
 
         // Store secret key in key store
-        {
-            SecretKeySpec keySpec = new SecretKeySpec(secretKey, BANKING_KEY_ALGORITHM);
+        try (
+                AutoDestroyable<SecretKeySpec> wrapped = new AutoDestroyable<>(new SecretKeySpec(secretKey, BANKING_KEY_ALGORITHM))
+        ) {
             keyStore.setEntry(BANKING_KEY_ALIAS_PREFIX + tokenAlias,
-                    new KeyStore.SecretKeyEntry(keySpec),
+                    new KeyStore.SecretKeyEntry(wrapped.getKeyMaterial()),
                     getBankingKeyProtection(userAuthenticationValidityDuration));
-        }
-
-        // Clear unprotected secret key data from memory
-        for (int i = 0; i < secretKey.length; i++) {
-            secretKey[i] = 0;
-            keyComponents.deviceKeyComponent[i] = 0;
-            keyComponents.letterKeyComponent[i] = 0;
-            keyComponents.portalKeyComponent[i] = 0;
+        } finally {
+            // Clear unprotected secret key data from memory
+            for (int i = 0; i < secretKey.length; i++) {
+                secretKey[i] = 0;
+                keyComponents.deviceKeyComponent[i] = 0;
+                keyComponents.letterKeyComponent[i] = 0;
+                keyComponents.portalKeyComponent[i] = 0;
+            }
         }
 
         return tokenAlias;

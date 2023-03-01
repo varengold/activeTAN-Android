@@ -26,8 +26,6 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
-
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,9 +42,6 @@ public class SettingsActivityTest {
 
     @Rule
     public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
-
-    @Rule
-    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule

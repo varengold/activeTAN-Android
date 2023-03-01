@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.databinding.FragmentInstructionSecurityBinding;
 
@@ -38,7 +40,7 @@ public class InstructionSecurityFragment extends AbstractInstructionCardFragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInstructionSecurityBinding.inflate(inflater, container, false);
         return binding.getRoot();

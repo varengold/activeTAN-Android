@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
+    namespace 'io.material'
+
     compileSdkVersion versions.compileSdk
 
     defaultConfig {
@@ -12,7 +14,7 @@ android {
             main.res.srcDirs = files(file("src/main").listFiles(new FileFilter() {
                 @Override
                 boolean accept(File resPath) {
-                    return new File(resPath, "drawable-anydpi-v21").isDirectory()
+                    return new File(resPath, "drawable-anydpi").isDirectory()
                 }
             }))
         }

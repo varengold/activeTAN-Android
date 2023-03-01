@@ -34,7 +34,7 @@ import com.google.zxing.qrcode.QRCodeReader;
 import me.dm7.barcodescanner.core.BarcodeScannerView;
 
 /**
- * This is a replacement for {@link me.dm7.barcodescanner.zxing.ZXingScannerView}
+ * This is a replacement for {@code me.dm7.barcodescanner.zxing.ZXingScannerView}
  * with the following optimizations:
  *
  * <ul>
@@ -161,22 +161,19 @@ public class QrCodeScannerView extends BarcodeScannerView {
         }
 
         Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                QrCodeScannerView scanner = QrCodeScannerView.this;
-                ResultHandler resultHandler = scanner.getResultHandler();
+        handler.post(() -> {
+            QrCodeScannerView scanner = QrCodeScannerView.this;
+            ResultHandler resultHandler = scanner.getResultHandler();
 
-                // Stopping the preview can take a little long.
-                // So we want to set result handler to null to discard subsequent calls to
-                // onPreviewFrame.
-                scanner.setResultHandler(null);
+            // Stopping the preview can take a little long.
+            // So we want to set result handler to null to discard subsequent calls to
+            // onPreviewFrame.
+            scanner.setResultHandler(null);
 
-                scanner.stopCameraPreview();
+            scanner.stopCameraPreview();
 
-                if (resultHandler != null) {
-                    resultHandler.handleResult(detectedResult);
-                }
+            if (resultHandler != null) {
+                resultHandler.handleResult(detectedResult);
             }
         });
 

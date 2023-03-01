@@ -19,6 +19,7 @@
 
 package de.efdis.tangenerator.persistence.database;
 
+import androidx.annotation.NonNull;
 import androidx.room.Room;
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -71,7 +72,7 @@ public class InMemoryDatabaseRule implements TestRule {
     }
 
     @Override
-    public Statement apply(Statement base, Description description) {
+    public Statement apply(@NonNull Statement base, Description description) {
         return new MockDatabaseStatement(base);
     }
 

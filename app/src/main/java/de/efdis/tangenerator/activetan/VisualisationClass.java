@@ -19,8 +19,6 @@
 
 package de.efdis.tangenerator.activetan;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -195,7 +193,7 @@ public enum VisualisationClass {
         this.id = id;
         this.visDataLine1 = visDataLine1;
         this.visDataLine2 = visDataLine2;
-        this.dataElements = Collections.unmodifiableList(Arrays.asList(dataElements));
+        this.dataElements = List.of(dataElements);
     }
 
     public int getId() {

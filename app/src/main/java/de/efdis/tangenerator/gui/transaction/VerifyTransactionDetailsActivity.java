@@ -28,6 +28,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.biometric.BiometricPrompt;
@@ -42,7 +43,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import de.efdis.tangenerator.R;
@@ -87,6 +87,54 @@ public class VerifyTransactionDetailsActivity
             DataElementType.IBAN_SENDER,
             DataElementType.IBAN_RECIPIENT,
             DataElementType.IBAN_PAYER));
+
+    @StringRes
+    private static final int[] VISUALIZATION_CLASS_LABELS = new int[]{
+            R.string.VC00, R.string.VC01, R.string.VC02, R.string.VC03, R.string.VC04,
+            R.string.VC05, R.string.VC06, R.string.VC07, R.string.VC08, R.string.VC09,
+            R.string.VC10, R.string.VC11, R.string.VC12, R.string.VC13, R.string.VC14,
+            R.string.VC15, R.string.VC16, R.string.VC17, R.string.VC18, R.string.VC19,
+            R.string.VC20, R.string.VC21, R.string.VC22, R.string.VC23, R.string.VC24,
+            R.string.VC25, R.string.VC26, R.string.VC27, R.string.VC28, R.string.VC29,
+            R.string.VC30, R.string.VC31, R.string.VC32, R.string.VC33, R.string.VC34,
+            R.string.VC35, R.string.VC36, R.string.VC37, R.string.VC38, R.string.VC39,
+            R.string.VC40, R.string.VC41, R.string.VC42, R.string.VC43, R.string.VC44,
+            R.string.VC45, R.string.VC46, R.string.VC47, R.string.VC48, R.string.VC49,
+            R.string.VC50, R.string.VC51, R.string.VC52, R.string.VC53, R.string.VC54,
+            R.string.VC55, R.string.VC56, R.string.VC57, R.string.VC58, R.string.VC59,
+            R.string.VC60, R.string.VC61, R.string.VC62, R.string.VC63, R.string.VC64,
+            R.string.VC65, R.string.VC66, R.string.VC67, R.string.VC68, R.string.VC69,
+            R.string.VC70, R.string.VC71, R.string.VC72, R.string.VC73, R.string.VC74,
+            R.string.VC75, R.string.VC76, R.string.VC77, R.string.VC78, R.string.VC79,
+            R.string.VC80, R.string.VC81,
+    };
+    static {
+        if (VISUALIZATION_CLASS_LABELS[81] != R.string.VC81) {
+            throw new AssertionError("index error in lookup table");
+        }
+    }
+
+    @StringRes
+    private static final int[] DATA_ELEMENT_LABELS = new int[]{
+            0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0,
+            R.string.DE10, R.string.DE11, R.string.DE12, R.string.DE13, R.string.DE14,
+            R.string.DE15, R.string.DE16, R.string.DE17, R.string.DE18, R.string.DE19,
+            R.string.DE20, R.string.DE21, R.string.DE22, R.string.DE23, R.string.DE24,
+            0, R.string.DE26, 0, 0, R.string.DE29,
+            0, 0, R.string.DE32, R.string.DE33, 0,
+            0, R.string.DE36, R.string.DE37, R.string.DE38, R.string.DE39,
+            R.string.DE40, R.string.DE41, R.string.DE42, R.string.DE43, R.string.DE44,
+            R.string.DE45, R.string.DE46, R.string.DE47, R.string.DE48, R.string.DE49,
+            R.string.DE50, R.string.DE51, R.string.DE52, R.string.DE53, R.string.DE54,
+            R.string.DE55, R.string.DE56, R.string.DE57, R.string.DE58, 0,
+            0, R.string.DE61, R.string.DE62, R.string.DE63, R.string.DE64,
+    };
+    static {
+        if (DATA_ELEMENT_LABELS[64] != R.string.DE64) {
+            throw new AssertionError("index error in lookup table");
+        }
+    }
 
     /**
      * Flag, indicating whether this activity has been started from the {@link BankingAppApi}.
@@ -259,19 +307,11 @@ public class VerifyTransactionDetailsActivity
     }
 
     private String getString(VisualisationClass visualisationClass) {
-        String name = String.format(Locale.US, "VC%02d", visualisationClass.getId());
-        return getString(name);
+        return getString(VISUALIZATION_CLASS_LABELS[visualisationClass.getId()]);
     }
 
     private String getString(DataElementType dataElementType) {
-        String name = String.format(Locale.US, "DE%02d", dataElementType.getId());
-        return getString(name);
-    }
-
-    private String getString(String name) {
-        String packageName = getPackageName();
-        int resourceId = getResources().getIdentifier(name, "string", packageName);
-        return getString(resourceId);
+        return getString(DATA_ELEMENT_LABELS[dataElementType.getId()]);
     }
 
     public void onButtonCancel(View button) {

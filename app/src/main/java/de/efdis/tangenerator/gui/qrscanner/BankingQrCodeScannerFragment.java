@@ -21,6 +21,7 @@ package de.efdis.tangenerator.gui.qrscanner;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -63,12 +64,11 @@ public class BankingQrCodeScannerFragment extends Fragment {
         previewImage = new QrCodeScannerView(context, attrs);
 
         // The mask color should not have full opacity
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.BankingQrCodeScannerFragment,
+                0, 0);
         {
-            TypedArray a = context.getTheme().obtainStyledAttributes(
-                    attrs,
-                    R.styleable.BankingQrCodeScannerFragment,
-                    0, 0);
-
             @ColorInt
             int maskColor = a.getColor(R.styleable.BankingQrCodeScannerFragment_maskColor, 0);
 
@@ -83,10 +83,13 @@ public class BankingQrCodeScannerFragment extends Fragment {
                 }
             }
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            a.close();
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         previewImage.setFlash(false);
         previewImage.setAutoFocus(true);

@@ -22,6 +22,7 @@ package de.efdis.tangenerator.gui.common;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
@@ -36,12 +37,16 @@ public abstract class DrawableUtils {
                                              @NonNull Drawable drawable,
                                              @AttrRes int colorAttr
     ) {
+
         TypedArray ta = context.obtainStyledAttributes(
                 new int[]{colorAttr});
-        int textColorPrimary = ta.getColor(0, -1);
-        ta.recycle();
-
-        drawable.setTint(textColorPrimary);
+        {
+            int textColorPrimary = ta.getColor(0, -1);
+            drawable.setTint(textColorPrimary);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            ta.close();
+        }
 
         return drawable;
     }

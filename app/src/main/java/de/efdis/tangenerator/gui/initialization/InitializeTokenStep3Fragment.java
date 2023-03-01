@@ -49,7 +49,7 @@ public class InitializeTokenStep3Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInitializeTokenStep3Binding.inflate(inflater, container, false);
         setLetterOrEmailScanned(binding.textLetterScanned);

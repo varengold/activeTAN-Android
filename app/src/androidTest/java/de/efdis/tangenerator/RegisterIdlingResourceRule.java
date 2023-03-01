@@ -32,7 +32,7 @@ public class RegisterIdlingResourceRule extends ExternalResource {
     }
 
     @Override
-    protected void before() throws Throwable {
+    protected void before() {
         IdlingRegistry.getInstance().register(idlingResource);
     }
 

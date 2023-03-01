@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import de.efdis.tangenerator.databinding.FragmentInstructionFirstUseEmailBinding;
 
 public class InstructionFirstUseEmailFragment extends AbstractInstructionCardFragment {
@@ -37,7 +39,7 @@ public class InstructionFirstUseEmailFragment extends AbstractInstructionCardFra
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInstructionFirstUseEmailBinding.inflate(inflater, container, false);
         return binding.getRoot();

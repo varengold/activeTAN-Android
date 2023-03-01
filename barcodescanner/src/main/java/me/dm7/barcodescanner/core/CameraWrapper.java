@@ -25,9 +25,6 @@ public class CameraWrapper {
     public final int mCameraId;
 
     private CameraWrapper(@NonNull Camera camera, int cameraId) {
-        if (camera == null) {
-            throw new NullPointerException("Camera cannot be null");
-        }
         this.mCamera = camera;
         this.mCameraId = cameraId;
     }

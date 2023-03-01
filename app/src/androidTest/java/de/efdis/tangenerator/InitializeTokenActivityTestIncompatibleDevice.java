@@ -30,8 +30,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
-import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,9 +50,6 @@ public class InitializeTokenActivityTestIncompatibleDevice {
 
     @Rule
     public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
-
-    @Rule
-    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
 
     @Rule
     public GrantPermissionRule cameraPermissionRule

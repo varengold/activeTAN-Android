@@ -1,3 +1,2 @@
-– Support for Android 12
-– Support for a new link format during activation
+– Support for Android 13
 – Update of third-party libraries

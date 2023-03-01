@@ -84,9 +84,9 @@
             app:layout_constraintStart_toStartOf="@+id/textLetterScanned"
             app:layout_constraintTop_toBottomOf="@+id/textLetterScanned" />
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/cameraPreview"
-            class="de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment"
+            android:name="de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="40dp"

@@ -34,6 +34,7 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
+import de.efdis.tangenerator.persistence.keystore.AutoDestroyable;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
 public class BankingTokenRepository {
@@ -52,22 +53,21 @@ public class BankingTokenRepository {
     }
 
     public static boolean hasValidKey(BankingToken bankingToken) {
-        SecretKey bankingKey;
-        try {
-            bankingKey = BankingKeyRepository.getBankingKey(bankingToken.keyAlias);
+        try (
+            AutoDestroyable<SecretKey> bankingKey = BankingKeyRepository.getBankingKey(bankingToken.keyAlias)
+        ) {
+            if (bankingKey == null) {
+                Log.e(BankingTokenRepository.class.getSimpleName(),
+                        "Banking key is missing or invalid for token " + bankingToken.id);
+                return false;
+            }
+
+            return true;
         } catch (KeyStoreException e) {
             Log.e(BankingTokenRepository.class.getSimpleName(),
                     "Cannot read banking key for token " + bankingToken.id);
             return false;
         }
-
-        if (bankingKey == null) {
-            Log.e(BankingTokenRepository.class.getSimpleName(),
-                    "Banking key is missing or invalid for token " + bankingToken.id);
-            return false;
-        }
-
-        return true;
     }
 
     public static boolean isExhausted(BankingToken bankingToken) {
@@ -89,15 +89,15 @@ public class BankingTokenRepository {
             return true;
         }
 
-        SecretKey bankingKey = BankingKeyRepository.getBankingKey(bankingToken.keyAlias);
+        try (
+                AutoDestroyable<SecretKey> bankingKey = BankingKeyRepository.getBankingKey(bankingToken.keyAlias)
+        ) {
+            if (bankingKey == null) {
+                throw new KeyStoreException("Banking key is missing for token " + bankingToken.id);
+            }
 
-        if (bankingKey == null) {
-            throw new KeyStoreException("Banking key is missing for token " + bankingToken.id);
-        }
-
-        try {
             Cipher aes = Cipher.getInstance("AES/CBC/NoPadding");
-            aes.init(Cipher.ENCRYPT_MODE, bankingKey);
+            aes.init(Cipher.ENCRYPT_MODE, bankingKey.getKeyMaterial());
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             throw new KeyStoreException(
                     "Cannot initialize AES cipher", e);

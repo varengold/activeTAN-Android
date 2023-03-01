@@ -36,18 +36,10 @@ public class CameraHandlerThread extends HandlerThread {
 
     public void startCamera(final int cameraId) {
         Handler localHandler = new Handler(getLooper());
-        localHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                final Camera camera = CameraUtils.getCameraInstance(cameraId);
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-                mainHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mScannerView.setupCameraPreview(CameraWrapper.getWrapper(camera, cameraId));
-                    }
-                });
-            }
+        localHandler.post(() -> {
+            final Camera camera = CameraUtils.getCameraInstance(cameraId);
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            mainHandler.post(() -> mScannerView.setupCameraPreview(CameraWrapper.getWrapper(camera, cameraId)));
         });
     }
 }

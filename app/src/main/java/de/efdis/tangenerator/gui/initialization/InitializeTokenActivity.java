@@ -368,7 +368,7 @@ public class InitializeTokenActivity
 
     private void doStepUploadEncryptedDeviceKey() {
         MyTaskListener<UploadEncryptedDeviceKeyTask.Output> onUploadComplete
-                = new MyTaskListener<UploadEncryptedDeviceKeyTask.Output>() {
+                = new MyTaskListener<>() {
             @Override
             @StringRes
             protected int getDescription() {
@@ -533,7 +533,7 @@ public class InitializeTokenActivity
         taskInput.tokenName = getString(R.string.default_token_name);
         taskInput.keyComponents = keyComponents;
 
-        new CreateBankingTokenTask(new MyTaskListener<CreateBankingTokenTask.Output>() {
+        new CreateBankingTokenTask(new MyTaskListener<>() {
             @Override
             @StringRes
             protected int getDescription() {

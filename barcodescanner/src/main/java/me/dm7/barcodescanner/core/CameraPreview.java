@@ -269,13 +269,7 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
             float ratioWidth = (float) parentWidth / (float) tmpWidth;
             float ratioHeight = (float) parentHeight / (float) tmpHeight;
 
-            float compensation;
-
-            if (ratioWidth > ratioHeight) {
-                compensation = ratioWidth;
-            } else {
-                compensation = ratioHeight;
-            }
+            float compensation = Math.max(ratioWidth, ratioHeight);
 
             tmpWidth = Math.round(tmpWidth * compensation);
             tmpHeight = Math.round(tmpHeight * compensation);
@@ -344,13 +338,8 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
         if (sizes == null || sizes.isEmpty()) return null;
 
         // Sort sizes by their smallest dimension.
-        Collections.sort(sizes, new Comparator<Camera.Size>() {
-            @Override
-            public int compare(Camera.Size o1, Camera.Size o2) {
-                return Integer.compare(Math.min(o1.width, o1.height),
-                        Math.min(o2.width, o2.height));
-            }
-        });
+        Collections.sort(sizes, (o1, o2) -> Integer.compare(Math.min(o1.width, o1.height),
+                Math.min(o2.width, o2.height)));
 
         Camera.Size idealSize;
         if (DisplayUtils.getScreenOrientation(getContext()) == Configuration.ORIENTATION_PORTRAIT) {
@@ -413,11 +402,7 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
     };
 
     // Mimic continuous auto-focusing
-    Camera.AutoFocusCallback autoFocusCB = new Camera.AutoFocusCallback() {
-        public void onAutoFocus(boolean success, Camera camera) {
-            scheduleAutoFocus();
-        }
-    };
+    Camera.AutoFocusCallback autoFocusCB = (success, camera) -> scheduleAutoFocus();
 
     private void scheduleAutoFocus() {
         mAutoFocusHandler.postDelayed(doAutoFocus, 1000);

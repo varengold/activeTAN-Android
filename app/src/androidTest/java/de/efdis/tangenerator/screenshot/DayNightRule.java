@@ -46,7 +46,7 @@ public class DayNightRule implements TestRule {
     }
 
     @Override
-    public Statement apply(Statement base, Description description) {
+    public Statement apply(@NonNull Statement base, Description description) {
         UiModes uiModes = description.getAnnotation(UiModes.class);
         if (uiModes == null) {
             return base;

@@ -40,10 +40,10 @@
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_material_image_edit"
-        android:tint="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/tokenDescription"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tokenDescription" />
+        app:layout_constraintTop_toTopOf="@+id/tokenDescription"
+        app:tint="?attr/colorAccent" />
 
     <TextView
         android:id="@+id/protectUsage"
@@ -83,11 +83,11 @@
         android:layout_height="32dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        android:tint="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="@+id/statusDescription"
         app:layout_constraintEnd_toEndOf="@+id/tokenDescriptionButton"
         app:layout_constraintTop_toTopOf="@+id/statusDescription"
-        app:srcCompat="@drawable/ic_material_action_delete_forever" />
+        app:srcCompat="@drawable/ic_material_action_delete_forever"
+        app:tint="?attr/colorAccent" />
 
     <LinearLayout
         android:id="@+id/statusDescription"

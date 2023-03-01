@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="de.efdis.tangenerator">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!--
         Permission to push a QR code into this app.
@@ -62,7 +61,8 @@
         android:hardwareAccelerated="true"
         android:usesCleartextTraffic="false"
         android:networkSecurityConfig="@xml/network_security_config"
-        tools:targetApi="s">
+        android:localeConfig="@xml/locales_config"
+        tools:targetApi="TIRAMISU">
 
         <activity android:name=".gui.misc.MainActivity"
                 android:exported="true"

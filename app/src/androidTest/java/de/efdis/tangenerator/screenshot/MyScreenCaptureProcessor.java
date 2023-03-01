@@ -20,14 +20,17 @@
 package de.efdis.tangenerator.screenshot;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.runner.screenshot.BasicScreenCaptureProcessor;
-import androidx.test.runner.screenshot.ScreenCapture;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import de.efdis.tangenerator.BuildConfig;
 
@@ -38,10 +41,18 @@ import de.efdis.tangenerator.BuildConfig;
  * <p/>
  * Starting with Android 10 the app can use scoped storage.
  */
-public class MyScreenCaptureProcessor extends BasicScreenCaptureProcessor {
+public class MyScreenCaptureProcessor {
+
+    private static final String FILE_NAME_DELIMITER = "-";
+
+    private static final Bitmap.CompressFormat FORMAT = Bitmap.CompressFormat.PNG;
+
+    private static final int QUALITY = 100;
+
+    private final File screenshotPath;
 
     public MyScreenCaptureProcessor() {
-        mDefaultScreenshotPath = ContextCompat.getExternalFilesDirs(
+        screenshotPath = ContextCompat.getExternalFilesDirs(
                 InstrumentationRegistry.getInstrumentation().getTargetContext(), null)[0];
     }
 
@@ -59,17 +70,24 @@ public class MyScreenCaptureProcessor extends BasicScreenCaptureProcessor {
         return configuration.getLocales().get(0).getLanguage();
     }
 
-    @Override
     protected String getFilename(String captureName) {
         return BuildConfig.FLAVOR_client
-                + mFileNameDelimiter + getUiMode()
-                + mFileNameDelimiter + getLanguage()
-                + mFileNameDelimiter + captureName;
+                + FILE_NAME_DELIMITER + getUiMode()
+                + FILE_NAME_DELIMITER + getLanguage()
+                + FILE_NAME_DELIMITER + captureName
+                + "." + FORMAT.name().toLowerCase();
     }
 
-    @Override
-    public String process(ScreenCapture capture) throws IOException {
-        return super.process(capture);
+    public void process(Bitmap screenshot, String captureName) throws IOException {
+        if (!screenshotPath.exists() && !screenshotPath.mkdirs()) {
+            throw new IOException("Cannot create output directory " + screenshotPath);
+        }
+
+        File targetFile = new File(screenshotPath, getFilename(captureName));
+
+        try (OutputStream out = new BufferedOutputStream(new FileOutputStream(targetFile))) {
+            screenshot.compress(FORMAT, QUALITY, out);
+        }
     }
 }
 

@@ -23,8 +23,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,9 +34,6 @@ import de.efdis.tangenerator.screenshot.ScreenshotRule;
 
 @RunWith(AndroidJUnit4.class)
 public class WelcomeActivityTest {
-
-    @Rule
-    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
 
     @Rule
     public InMemoryDatabaseRule mockDatabaseRule

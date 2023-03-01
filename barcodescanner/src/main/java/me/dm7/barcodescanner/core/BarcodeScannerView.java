@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.hardware.Camera;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -70,12 +71,12 @@ public abstract class BarcodeScannerView extends FrameLayout implements Camera.P
     public BarcodeScannerView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
+
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attributeSet,
                 R.styleable.BarcodeScannerView,
                 0, 0);
-
-        try {
+        {
             setShouldScaleToFill(a.getBoolean(R.styleable.BarcodeScannerView_shouldScaleToFill, true));
             mIsLaserEnabled = a.getBoolean(R.styleable.BarcodeScannerView_laserEnabled, mIsLaserEnabled);
             mLaserColor = a.getColor(R.styleable.BarcodeScannerView_laserColor, mLaserColor);
@@ -89,8 +90,9 @@ public abstract class BarcodeScannerView extends FrameLayout implements Camera.P
             mSquaredFinder = a.getBoolean(R.styleable.BarcodeScannerView_squaredFinder, mSquaredFinder);
             mBorderAlpha = a.getFloat(R.styleable.BarcodeScannerView_borderAlpha, mBorderAlpha);
             mViewFinderOffset = a.getDimensionPixelSize(R.styleable.BarcodeScannerView_finderOffset, mViewFinderOffset);
-        } finally {
-            a.recycle();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            a.close();
         }
 
         init();

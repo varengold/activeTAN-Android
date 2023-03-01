@@ -30,8 +30,6 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
-
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
@@ -66,9 +64,6 @@ public class VerifyTransactionDetailsActivityTest {
 
     @Rule
     public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
-
-    @Rule
-    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
 
     @Rule
     public ScreenshotRule screenshotRule = new ScreenshotRule();

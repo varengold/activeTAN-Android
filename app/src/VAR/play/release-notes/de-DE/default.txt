@@ -1,3 +1,2 @@
-– Unterstützung für Android 12
-– Unterstützung für ein neues Format beim Aktivierungslink
+– Unterstützung für Android 13
 – Aktualisierung von Dritthersteller-Bibliotheken

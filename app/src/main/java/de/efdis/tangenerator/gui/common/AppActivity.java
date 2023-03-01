@@ -166,38 +166,28 @@ public abstract class AppActivity
     }
 
     private void handleNavigationMenuItem(@NonNull MenuItem menuItem) {
+        int menuItemId = menuItem.getItemId();
+
         Intent intent;
-
-        switch (menuItem.getItemId()) {
-            case R.id.itemSettings:
-                intent = new Intent(this,
-                        SettingsActivity.class);
-                break;
-
-            case R.id.itemInstruction:
-                intent = new Intent(this,
-                        InstructionActivity.class);
-                break;
-
-            case R.id.itemPrivacy:
-                intent = new Intent(this,
-                        PrivacyStatementActivity.class);
-                break;
-
-            case R.id.itemCopyright:
-                intent = new Intent(this,
-                        CopyrightActivity.class);
-                break;
-
-            case R.id.itemImprint:
-                intent = new Intent(this,
-                        ImprintActivity.class);
-                break;
-
-            default:
-                // TODO implement action for this item
-                Toast.makeText(AppActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                return;
+        if (menuItemId == R.id.itemSettings) {
+            intent = new Intent(this,
+                    SettingsActivity.class);
+        } else if (menuItemId == R.id.itemInstruction) {
+            intent = new Intent(this,
+                    InstructionActivity.class);
+        } else if (menuItemId == R.id.itemPrivacy) {
+            intent = new Intent(this,
+                    PrivacyStatementActivity.class);
+        } else if (menuItemId == R.id.itemCopyright) {
+            intent = new Intent(this,
+                    CopyrightActivity.class);
+        } else if (menuItemId == R.id.itemImprint) {
+            intent = new Intent(this,
+                    ImprintActivity.class);
+        } else {
+            // TODO implement action for this item
+            Toast.makeText(AppActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+            return;
         }
 
         startActivity(intent);

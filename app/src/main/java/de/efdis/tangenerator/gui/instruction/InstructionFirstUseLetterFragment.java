@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import de.efdis.tangenerator.databinding.FragmentInstructionFirstUseLetterBinding;
 
 public class InstructionFirstUseLetterFragment extends AbstractInstructionCardFragment {
@@ -37,7 +39,7 @@ public class InstructionFirstUseLetterFragment extends AbstractInstructionCardFr
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentInstructionFirstUseLetterBinding.inflate(inflater, container, false);
         return binding.getRoot();

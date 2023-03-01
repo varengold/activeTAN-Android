@@ -30,6 +30,7 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 
 import de.efdis.tangenerator.persistence.database.BankingToken;
+import de.efdis.tangenerator.persistence.keystore.AutoDestroyable;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyRepository;
 
 public class TanGenerator {
@@ -134,10 +135,13 @@ public class TanGenerator {
         inputAAC[32] = (byte) (atc & 0x00ff);
 
         // AAC computation
-        SecretKey key = BankingKeyRepository.getBankingKey(token.keyAlias);
-        Mac mac = AesCbcMac.getInstance();
-        mac.init(key);
-        return mac.doFinal(inputAAC);
+        try (
+                AutoDestroyable<SecretKey> key = BankingKeyRepository.getBankingKey(token.keyAlias)
+        ) {
+            Mac mac = AesCbcMac.getInstance();
+            mac.init(key.getKeyMaterial());
+            return mac.doFinal(inputAAC);
+        }
     }
 
     /**

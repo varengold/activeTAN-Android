@@ -39,9 +39,9 @@
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/ic_material_hardware_keyboard_arrow_down"
-        android:tint="?attr/colorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardImage" />
+        app:layout_constraintTop_toBottomOf="@+id/cardImage"
+        app:tint="?attr/colorSecondary" />
 
     <TextView
         android:id="@+id/cardSubtitle"

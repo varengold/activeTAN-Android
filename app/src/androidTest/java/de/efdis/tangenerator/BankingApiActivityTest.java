@@ -35,10 +35,8 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
-
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -128,9 +126,6 @@ public class BankingApiActivityTest {
     public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
 
     @Rule
-    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
-
-    @Rule
     public ScreenshotRule screenshotRule = new ScreenshotRule();
 
     @Rule
@@ -140,20 +135,8 @@ public class BankingApiActivityTest {
     public InMemoryDatabaseRule mockDatabaseRule
             = InMemoryDatabaseRule.withSingleTanGenerator(BankingTokenUsage.DISABLED_AUTH_PROMPT);
 
-    @Test
-    @DayNightRule.UiModes({AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO})
-    public void takeScreenshots() {
-        try (ActivityScenario<Activity> scenario = ActivityScenario.launch(getIntentWithTestData())) {
-            screenshotRule.captureScreen("bankingAppIntegration");
-        }
-    }
-
-    // There seems to be a problem with ActivityScenario.close() if the Activity has already
-    // finished: "Current state was null unexpectedly" in moveToState.
-    // Thus, we don't explicitly close the scenario in the following tests.
-
     private ActivityScenario<Activity> launch() {
-        ActivityScenario<Activity> scenario = ActivityScenario.launch(getIntentWithTestData());
+        ActivityScenario<Activity> scenario = ActivityScenario.launchActivityForResult(getIntentWithTestData());
 
         // Skip security warning
         if (BankingAppApi.isOldDevice()) {
@@ -171,45 +154,53 @@ public class BankingApiActivityTest {
     }
 
     @Test
+    @DayNightRule.UiModes({AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO})
+    public void takeScreenshots() {
+        try (ActivityScenario<Activity> scenario = launch()) {
+            screenshotRule.captureScreen("bankingAppIntegration");
+        }
+    }
+
+    @Test
     public void releaseTransaction() throws IOException {
-        ActivityScenario<Activity> scenario = launch();
+        try(ActivityScenario<Activity> scenario = launch()) {
+            Espresso.onView(ViewMatchers.withId(R.id.validateButton))
+                    .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.validateButton))
-                .perform(ViewActions.click());
+            MatcherAssert.assertThat(scenario.getResult(),
+                    ActivityResultMatchers.hasResultCode(Activity.RESULT_OK));
 
-        Assert.assertThat(scenario.getResult(),
-                ActivityResultMatchers.hasResultCode(Activity.RESULT_OK));
+            String challengeFileContent = readChallengeFile();
 
-        String challengeFileContent = readChallengeFile();
-
-        Assert.assertThat(challengeFileContent, Matchers.containsString("\"tan\":\""));
-        Assert.assertThat(challengeFileContent, Matchers.containsString("\"status\":\"released\""));
+            MatcherAssert.assertThat(challengeFileContent, Matchers.containsString("\"tan\":\""));
+            MatcherAssert.assertThat(challengeFileContent, Matchers.containsString("\"status\":\"released\""));
+        }
     }
 
     @Test
     public void cancelTransaction() throws IOException {
-        ActivityScenario<Activity> scenario = launch();
+        try (ActivityScenario<Activity> scenario = launch()) {
+            Espresso.onView(ViewMatchers.withId(R.id.cancelButton))
+                    .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.cancelButton))
-                .perform(ViewActions.click());
+            MatcherAssert.assertThat(scenario.getResult(),
+                    ActivityResultMatchers.hasResultCode(Activity.RESULT_OK));
 
-        Assert.assertThat(scenario.getResult(),
-                ActivityResultMatchers.hasResultCode(Activity.RESULT_OK));
+            String challengeFileContent = readChallengeFile();
 
-        String challengeFileContent = readChallengeFile();
-
-        Assert.assertThat(readChallengeFile(), Matchers.containsString("\"tan\":null"));
-        Assert.assertThat(challengeFileContent, Matchers.containsString("\"status\":\"declined\""));
+            MatcherAssert.assertThat(readChallengeFile(), Matchers.containsString("\"tan\":null"));
+            MatcherAssert.assertThat(challengeFileContent, Matchers.containsString("\"status\":\"declined\""));
+        }
     }
 
     @Test
     public void backButton() {
-        ActivityScenario<Activity> scenario = launch();
+        try (ActivityScenario<Activity> scenario = launch()) {
+            Espresso.pressBackUnconditionally();
 
-        Espresso.pressBackUnconditionally();
-
-        Assert.assertThat(scenario.getResult(),
-                ActivityResultMatchers.hasResultCode(Activity.RESULT_CANCELED));
+            MatcherAssert.assertThat(scenario.getResult(),
+                    ActivityResultMatchers.hasResultCode(Activity.RESULT_CANCELED));
+        }
     }
 
 }

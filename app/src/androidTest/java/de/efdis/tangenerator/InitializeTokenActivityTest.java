@@ -27,13 +27,12 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
-
-import com.bartoszlipinski.disableanimationsrule.DisableAnimationsRule;
 
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -48,6 +47,7 @@ import de.efdis.tangenerator.persistence.database.InMemoryDatabaseRule;
 import de.efdis.tangenerator.persistence.keystore.BankingKeyComponents;
 import de.efdis.tangenerator.screenshot.DayNightRule;
 import de.efdis.tangenerator.screenshot.ScreenshotRule;
+import me.dm7.barcodescanner.zxing.QrCodeScannerView;
 
 @RunWith(AndroidJUnit4.class)
 public class InitializeTokenActivityTest {
@@ -72,9 +72,6 @@ public class InitializeTokenActivityTest {
 
     @Rule
     public UnlockedDeviceRule unlockedDeviceRule = new UnlockedDeviceRule();
-
-    @Rule
-    public DisableAnimationsRule disableAnimationsRule = new DisableAnimationsRule();
 
     @Rule
     public GrantPermissionRule cameraPermissionRule
@@ -106,7 +103,9 @@ public class InitializeTokenActivityTest {
             ActivityScenario<InitializeTokenActivity> activityScenario,
             final String serialNumber,
             final int letterNumber) {
-        Espresso.onView(ViewMatchers.withId(R.id.cameraPreview))
+        Espresso.onView(
+                        ViewMatchers.withClassName(
+                                Matchers.equalTo(QrCodeScannerView.class.getName())))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         final HHDkm hhdkm = new HHDkm();
@@ -119,7 +118,9 @@ public class InitializeTokenActivityTest {
     }
 
     static void simulateLetterQrCodeInput(ActivityScenario<InitializeTokenActivity> activityScenario) {
-        Espresso.onView(ViewMatchers.withId(R.id.cameraPreview))
+        Espresso.onView(
+                        ViewMatchers.withClassName(
+                                Matchers.equalTo(QrCodeScannerView.class.getName())))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         final HHDkm hhdkm = new HHDkm();
@@ -204,10 +205,14 @@ public class InitializeTokenActivityTest {
                 SERIAL_NUMBER, WRONG_LETTER_NUMBER);
 
         if (InstrumentationRegistry.getInstrumentation().getTargetContext().getResources().getBoolean(R.bool.email_initialization_enabled)) {
-            Espresso.onView(ViewMatchers.withText(R.string.initialization_failed_wrong_email))
+            Espresso.onView(
+                    ViewMatchers.withText(R.string.initialization_failed_wrong_email))
+                    .inRoot(RootMatchers.isDialog())
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         } else {
-            Espresso.onView(ViewMatchers.withText(R.string.initialization_failed_wrong_letter))
+            Espresso.onView(
+                    ViewMatchers.withText(R.string.initialization_failed_wrong_letter))
+                    .inRoot(RootMatchers.isDialog())
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         }
 
@@ -223,6 +228,7 @@ public class InitializeTokenActivityTest {
         simulateLetterQrCodeInput(activityScenarioRule.getScenario());
 
         Espresso.onView(ViewMatchers.withText(R.string.initialization_failed_wrong_qr_code))
+                .inRoot(RootMatchers.isDialog())
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         Espresso.onView(ViewMatchers.withText(R.string.repeat))

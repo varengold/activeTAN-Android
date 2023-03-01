@@ -19,66 +19,57 @@
 
 package de.efdis.tangenerator.screenshot;
 
-import android.view.View;
+import android.graphics.Bitmap;
+import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.test.core.app.DeviceCapture;
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.runner.screenshot.ScreenCapture;
-import androidx.test.runner.screenshot.ScreenCaptureProcessor;
-import androidx.test.runner.screenshot.Screenshot;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
+import androidx.test.runner.lifecycle.Stage;
 
-import org.hamcrest.Matcher;
 import org.junit.Assert;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.concurrent.Callable;
 
 /**
  * This {@link TestRule} simplifies taking screenshots during {@link org.junit.Test}s.
  */
 public class ScreenshotRule implements TestRule {
 
+    private MyScreenCaptureProcessor processor;
+
     @Override
-    public Statement apply(Statement base, Description description) {
+    public Statement apply(@NonNull Statement base, @NonNull Description description) {
         return new SetUpScreenshotProcessorStatement(base);
     }
 
     public void captureScreen(final String captureName) {
-        Espresso.onView(ViewMatchers.isRoot()).perform(new ViewAction() {
-            @Override
-            public Matcher<View> getConstraints() {
-                return ViewMatchers.isDisplayed();
-            }
-
-            @Override
-            public String getDescription() {
-                return "capture screen";
-            }
-
-            @Override
-            public void perform(UiController uiController, View root) {
-                ScreenCapture capture = Screenshot.capture(root);
-
-                capture.setName(captureName);
-
-                try {
-                    capture.process();
-                } catch (IOException e) {
-                    Assert.fail(e.getMessage());
-                }
-            }
+        // allow screenshots on current window
+        Espresso.onIdle((Callable<Void>) () -> {
+            ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED).forEach(
+                    activity -> activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+            );
+            return null;
         });
+
+        Bitmap screenshot = DeviceCapture.takeScreenshot();
+
+        try {
+            processor.process(screenshot, captureName);
+        } catch (IOException e) {
+            Assert.fail(e.getMessage());
+        }
     }
 
     /**
      * Customize the Screenshot processor before the test is evaluated.
      */
-    private static class SetUpScreenshotProcessorStatement extends Statement {
+    private class SetUpScreenshotProcessorStatement extends Statement {
         private final Statement base;
 
         SetUpScreenshotProcessorStatement(Statement base) {
@@ -87,9 +78,7 @@ public class ScreenshotRule implements TestRule {
 
         @Override
         public void evaluate() throws Throwable {
-            ScreenCaptureProcessor processor = new MyScreenCaptureProcessor();
-            Screenshot.setScreenshotProcessors(Collections.singleton(processor));
-
+            processor = new MyScreenCaptureProcessor();
             base.evaluate();
         }
     }

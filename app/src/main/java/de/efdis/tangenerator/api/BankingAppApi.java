@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -165,7 +166,7 @@ public class BankingAppApi extends AppCompatActivity {
 
         final Intent systemUpdateSettings = new Intent("android.settings.SYSTEM_UPDATE_SETTINGS", null);
         systemUpdateSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (!getPackageManager().queryIntentActivities(systemUpdateSettings, PackageManager.MATCH_DEFAULT_ONLY).isEmpty()) {
+        if (intentHasMatchingDefaultActivity(systemUpdateSettings)) {
             // We want to prevent the dialog from closing if this button is used,
             // thus we cannot define a OnClickListener here (see below).
             builder.setNeutralButton(R.string.update_settings, null);
@@ -188,6 +189,24 @@ public class BankingAppApi extends AppCompatActivity {
         dialog.show();
 
         return true;
+    }
+
+    @SuppressWarnings({"deprecation"})
+    private boolean intentHasMatchingDefaultActivity(Intent intent) {
+        List<ResolveInfo> activities;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            activities = getPackageManager()
+                    .queryIntentActivities(
+                            intent,
+                            PackageManager.ResolveInfoFlags.of(PackageManager.MATCH_DEFAULT_ONLY));
+        } else {
+            activities = getPackageManager()
+                    .queryIntentActivities(
+                            intent,
+                            PackageManager.MATCH_DEFAULT_ONLY);
+        }
+
+        return !activities.isEmpty();
     }
 
     @VisibleForTesting
