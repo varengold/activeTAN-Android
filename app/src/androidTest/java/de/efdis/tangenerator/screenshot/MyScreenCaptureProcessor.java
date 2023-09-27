@@ -71,7 +71,7 @@ public class MyScreenCaptureProcessor {
     }
 
     protected String getFilename(String captureName) {
-        return BuildConfig.FLAVOR_client
+        return BuildConfig.FLAVOR
                 + FILE_NAME_DELIMITER + getUiMode()
                 + FILE_NAME_DELIMITER + getLanguage()
                 + FILE_NAME_DELIMITER + captureName

@@ -50,6 +50,15 @@ public class TokenSettingsItemHolder extends RecyclerView.ViewHolder {
         binding.serialNumber.setText(serialNumber);
     }
 
+    public void setBackendName(String backendName) {
+        if (backendName == null || backendName.isBlank()) {
+            binding.backendName.setVisibility(View.GONE);
+        } else {
+            binding.backendName.setText(backendName);
+            binding.backendName.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void setTokenDescription(String tokenDescription) {
         binding.tokenDescription.setText(tokenDescription);
     }

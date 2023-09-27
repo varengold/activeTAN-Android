@@ -1,2 +1,2 @@
-– Support for Android 13
+– Imprint adjusted
 – Update of third-party libraries

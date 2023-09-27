@@ -420,4 +420,10 @@
     <string name="instructionBankingAppIntegration">When using our banking app on the same device, it is not required to scan a QR code or to enter a TAN. Thus, orders can be released even faster and easier. Both apps are securely separated by the operating system.</string>
     <string name="instructionScanEmail">After starting the initialization, you will automatically receive an activation e-mail. Scan the QR code on your activation e-mail with this activeTAN app.</string>
     <string name="instructionEmailLink">Did you receive the e-mail on your smartphone? Instead, use the link inside the activation e-mail.</string>
+    <string name="backends_title">Environment</string>
+    <string name="confirm_change">Change</string>
+    <array name="backend_name">
+        <item>Production system</item>
+        <item>Test system (QA)</item>
+    </array>
 </resources>

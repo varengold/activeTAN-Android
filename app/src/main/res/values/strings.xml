@@ -312,6 +312,13 @@
     <string name="initialization_failed_keystore">Der TAN-Generator kann nicht sicher gespeichert werden. Bitte prüfen Sie Ihre Geräte-Sicherheitseinstellungen.</string>
     <string name="initialization_failed_tan_computation">Es ist ein technischer Fehler bei der TAN-Berechnung aufgetreten. Bitte probieren Sie es später erneut.</string>
 
+    <string name="backends_title">Umgebung</string>
+    <string name="confirm_change">Wechseln</string>
+    <array name="backend_name">
+        <item>Produktivsystem</item>
+        <item>Testsystem (QS)</item>
+    </array>
+
     <!--Data elements for unidirectional mode -->
     <string name="DE10">Adresse</string>
     <string name="DE11">Angebots-Nr.</string>

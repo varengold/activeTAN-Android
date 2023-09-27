@@ -1,0 +1,21 @@
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <!-- Export the activity and enabling link verification for our domain -->
+        <activity android:name=".gui.initialization.InitializeTokenFromAppLinkActivity"
+            android:exported="true"
+            tools:replace="android:exported"
+            >
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+                <data android:host="banking.varengold.de" />
+                <data android:path="/OnlineBankingWebfrontend/banking/common/activeTAN-app.xhtml" />
+                <data android:path="/OnlineBankingQS/banking/common/activeTAN-app.xhtml" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

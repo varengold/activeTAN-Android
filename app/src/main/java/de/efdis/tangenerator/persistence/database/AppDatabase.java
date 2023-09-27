@@ -21,14 +21,23 @@ package de.efdis.tangenerator.persistence.database;
 
 import android.content.Context;
 
+import androidx.room.AutoMigration;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.room.migration.AutoMigrationSpec;
 
 @Database(
         entities = {BankingToken.class},
-        version = 2
+        version = 3,
+        autoMigrations = {
+                @AutoMigration(
+                        // New column backing_token.backend_id will be initialized with the default
+                        from = 2,
+                        to = 3
+                )
+        }
 )
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {

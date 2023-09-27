@@ -135,7 +135,7 @@ public abstract class AppActivity
             Drawable icon = DrawableUtils.getTintedDrawable(
                     actionBar.getContext(),
                     resource,
-                    R.attr.colorOnPrimary);
+                    com.google.android.material.R.attr.colorOnPrimary);
 
             actionBar.setNavigationIcon(icon);
         }

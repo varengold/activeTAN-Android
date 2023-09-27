@@ -20,6 +20,17 @@
         tools:text="XX12-3456-7890" />
 
     <TextView
+        android:id="@+id/backendName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1"
+        android:textColor="?android:attr/textColorPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/serialNumber"
+        app:layout_constraintStart_toStartOf="@+id/serialNumber"
+        app:layout_constraintTop_toBottomOf="@+id/serialNumber"
+        tools:text="Backend Name" />
+
+    <TextView
         android:id="@+id/tokenDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -29,7 +40,7 @@
         android:textColor="?android:attr/textColorPrimary"
         app:layout_constraintEnd_toStartOf="@+id/tokenDescriptionButton"
         app:layout_constraintStart_toStartOf="@+id/serialNumber"
-        app:layout_constraintTop_toBottomOf="@+id/serialNumber"
+        app:layout_constraintTop_toBottomOf="@+id/backendName"
         tools:text="Token Description" />
 
     <ImageButton

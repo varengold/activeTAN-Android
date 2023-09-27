@@ -1,2 +1,2 @@
-– Unterstützung für Android 13
+– Anpassung Impressum
 – Aktualisierung von Dritthersteller-Bibliotheken

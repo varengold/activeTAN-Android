@@ -104,4 +104,49 @@ public class MigrationTest {
         Assert.assertEquals(new Date(3), token2.lastUsed);
     }
 
+    @Test
+    public void migrate2To3() throws IOException {
+        {
+            // Delete and create database with schema version 1
+            SupportSQLiteDatabase db = helper.createDatabase(DATABASE_NAME, 2);
+
+            // Insert test data
+            db.execSQL(
+                    "INSERT INTO `banking_token` (`id`, `name`, `usage`, `key_alias`, `atc`, `created_on`, `last_used`) " +
+                            "VALUES " +
+                            "('XX1234567890', 'My token', 0, 'key1', 12, 1, NULL), " +
+                            "('XX2345678901', null, 1, 'key2', 13, 2, 3)");
+
+            db.close();
+        }
+
+        // Migrate schema to version 3 and validate schema version 3
+        helper.runMigrationsAndValidate(DATABASE_NAME, 3, true);
+
+        // Verify test data after migration
+        BankingTokenDao bankingTokenDao = getMigratedRoomDatabase().bankingTokenDao();
+        Assert.assertEquals(2, bankingTokenDao.getAll().size());
+
+        BankingToken token1 = bankingTokenDao.findById("XX1234567890");
+        Assert.assertNotNull(token1);
+        Assert.assertEquals("XX1234567890", token1.id);
+        Assert.assertEquals(0, token1.backendId);
+        Assert.assertEquals("My token", token1.name);
+        Assert.assertEquals(BankingTokenUsage.DISABLED_AUTH_PROMPT, token1.usage);
+        Assert.assertEquals("key1", token1.keyAlias);
+        Assert.assertEquals(12, token1.transactionCounter);
+        Assert.assertEquals(new Date(1), token1.createdOn);
+        Assert.assertNull(token1.lastUsed);
+
+        BankingToken token2 = bankingTokenDao.findById("XX2345678901");
+        Assert.assertNotNull(token2);
+        Assert.assertEquals("XX2345678901", token2.id);
+        Assert.assertEquals(0, token2.backendId);
+        Assert.assertNull(token2.name);
+        Assert.assertEquals(BankingTokenUsage.ENABLED_AUTH_PROMPT, token2.usage);
+        Assert.assertEquals("key2", token2.keyAlias);
+        Assert.assertEquals(13, token2.transactionCounter);
+        Assert.assertEquals(new Date(2), token2.createdOn);
+        Assert.assertEquals(new Date(3), token2.lastUsed);
+    }
 }

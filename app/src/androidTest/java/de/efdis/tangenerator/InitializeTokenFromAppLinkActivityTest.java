@@ -65,10 +65,8 @@ public class InitializeTokenFromAppLinkActivityTest {
 
         Uri appLink = new Uri.Builder()
                 .scheme("https")
-                .authority(InstrumentationRegistry.getInstrumentation().getTargetContext()
-                        .getString(R.string.initialization_app_link_host))
-                .path(InstrumentationRegistry.getInstrumentation().getTargetContext()
-                        .getString(R.string.initialization_app_link_path))
+                .authority("localhost")
+                .path("/")
                 .fragment(bqrEncoded)
                 .build();
 

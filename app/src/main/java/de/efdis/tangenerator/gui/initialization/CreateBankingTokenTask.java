@@ -45,6 +45,7 @@ public class CreateBankingTokenTask
         public String tokenId;
         public String tokenName;
         public BankingKeyComponents keyComponents;
+        public int backendId;
     }
 
     public static class Output {
@@ -73,6 +74,7 @@ public class CreateBankingTokenTask
 
             BankingToken token = new BankingToken();
             token.id = input.tokenId;
+            token.backendId = input.backendId;
             token.name = input.tokenName;
             token.keyAlias = tokenAlias;
             if (Boolean.TRUE.equals(input.keyComponents.userAuthMandatoryForUsage)) {

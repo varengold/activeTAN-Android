@@ -1,4 +1,0 @@
-<resources>
-    <!-- Use a different app name for testing to tell versions apart. -->
-    <string name="app_name">activeTAN (Test)</string>
-</resources>

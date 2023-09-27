@@ -21,6 +21,7 @@ package de.efdis.tangenerator.gui.settings;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.ListIterator;
+import java.util.function.Predicate;
 
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingToken;
@@ -40,12 +42,22 @@ import de.efdis.tangenerator.persistence.database.BankingTokenUsage;
 public class TokenSettingsAdapter
         extends RecyclerView.Adapter<TokenSettingsItemHolder>
         implements TokenSettingsItemHolder.TokenSettingsItemListener {
+
+    private static final String TAG = TokenSettingsAdapter.class.getSimpleName();
+
     private final List<BankingToken> data;
     private final TokenSettingsListener listener;
+
+    private final boolean displayBackendName;
 
     public TokenSettingsAdapter(List<BankingToken> data, TokenSettingsListener listener) {
         this.data = data;
         this.listener = listener;
+
+        // If the user has initialized a token for a non-default backend,
+        // we must display the backend name for each token.
+        this.displayBackendName = data.stream()
+                .anyMatch(Predicate.not(BankingToken::isDefaultBackend));
     }
 
     @Override
@@ -66,10 +78,21 @@ public class TokenSettingsAdapter
     public void onBindViewHolder(@NonNull TokenSettingsItemHolder holder, int position) {
         BankingToken bankingToken = data.get(position);
 
+        String backendName = null;
+        if (displayBackendName) {
+            String[] backendNames = ((Activity) listener).getResources().getStringArray(R.array.backend_name);
+            if (bankingToken.backendId >= 0 && bankingToken.backendId < backendNames.length) {
+                backendName = backendNames[bankingToken.backendId];
+            } else {
+                Log.e(TAG, "invalid backend ID");
+            }
+        }
+
         // Disable possibly existing listener
         holder.setListener(null, position);
 
         holder.setSerialNumber(bankingToken.getFormattedSerialNumber());
+        holder.setBackendName(backendName);
         holder.setTokenDescription(bankingToken.getDisplayName());
         holder.setProtectUsage(bankingToken.usage != BankingTokenUsage.DISABLED_AUTH_PROMPT);
         holder.setActiveSince(bankingToken.createdOn);

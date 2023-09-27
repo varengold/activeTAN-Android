@@ -53,9 +53,9 @@ public class DeviceKeyApi {
      * @param deviceKey AES key component
      * @return token ID
      */
-    public static String uploadDeviceKey(Context context, byte[] deviceKey)
+    public static String uploadDeviceKey(Context context, int backendId, byte[] deviceKey)
             throws SecuredRestApiEndpoint.CallFailedException {
-        SecuredRestApiEndpoint apiEndpoint = new SecuredRestApiEndpoint(context);
+        SecuredRestApiEndpoint apiEndpoint = new SecuredRestApiEndpoint(context, backendId);
         byte[] rawTokenId = apiEndpoint.performRequest(deviceKey);
         return new String(rawTokenId, StandardCharsets.UTF_8);
     }

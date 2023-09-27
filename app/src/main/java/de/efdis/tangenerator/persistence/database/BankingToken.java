@@ -47,6 +47,17 @@ public class BankingToken implements Serializable {
     public String id;
 
     /**
+     * Offset of the backend for this token.
+     * <p/>
+     * The app may be initialized with different banking systems, e. g., for production and testing.
+     * <p/>
+     * See backend_api_url string array resource.
+     */
+    @ColumnInfo(name = "backend_id", defaultValue = "0")
+    @NonNull
+    public int backendId;
+
+    /**
      * Optional, user-defined name for this token.
      * <p/>
      * It is useful to discriminate multiple tokens inside the app.
@@ -111,6 +122,10 @@ public class BankingToken implements Serializable {
 
     public static String parseFormattedSerialNumber(String formattedSerialNumber) {
         return formattedSerialNumber.replaceAll("-", "");
+    }
+
+    public boolean isDefaultBackend() {
+        return backendId == 0;
     }
 
 }

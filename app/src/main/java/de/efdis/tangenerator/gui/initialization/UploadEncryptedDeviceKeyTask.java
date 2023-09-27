@@ -22,6 +22,8 @@ package de.efdis.tangenerator.gui.initialization;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.List;
+
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.api.DeviceKeyApi;
 import de.efdis.tangenerator.api.SecuredRestApiEndpoint;
@@ -37,6 +39,8 @@ public class UploadEncryptedDeviceKeyTask
 
     public static class Input {
         public Context context;
+        public int backendId;
+        public List<String> knownTokenIds;
     }
 
     public static class Output {
@@ -51,37 +55,53 @@ public class UploadEncryptedDeviceKeyTask
     @Override
     protected Output doInBackground(Input input) {
         Output result = new Output();
-        {
-            BankingKeyComponents keyComponents = new BankingKeyComponents();
-            keyComponents.generateDeviceKeyComponent();
-            result.deviceKeyComponent = keyComponents.deviceKeyComponent;
+
+        for (int attempt = 1; attempt <= 5; attempt++) {
+            {
+                BankingKeyComponents keyComponents = new BankingKeyComponents();
+                keyComponents.generateDeviceKeyComponent();
+                result.deviceKeyComponent = keyComponents.deviceKeyComponent;
+            }
+
+            try {
+                result.tokenId = DeviceKeyApi.uploadDeviceKey(input.context, input.backendId, result.deviceKeyComponent);
+            } catch (SecuredRestApiEndpoint.ConnectException e) {
+                Log.e(getClass().getSimpleName(),
+                        "unable to upload device key, because server is unreachable", e);
+                failedReason = R.string.initialization_failed_offline;
+                failedAndProcessShouldBeRepeated = true;
+                failedCause = e;
+                return null;
+            } catch (SecuredRestApiEndpoint.IncompatibleClientException e) {
+                Log.e(getClass().getSimpleName(),
+                        "unable to upload device key, because client is old", e);
+                failedReason = R.string.initialization_failed_outdated;
+                failedAndProcessShouldBeRepeated = false;
+                failedCause = e;
+                return null;
+            } catch (SecuredRestApiEndpoint.CallFailedException e) {
+                Log.e(getClass().getSimpleName(),
+                        "unable to upload device key, because of (temporary) I/O problem", e);
+                failedReason = R.string.initialization_failed_communication;
+                failedAndProcessShouldBeRepeated = true;
+                failedCause = e;
+                return null;
+            }
+
+            // In the unlikely case that the backend system generates a token ID which is already
+            // known in this app, we must call the API again to get a new token ID.
+            // This simplifies management of tokens in this app, because every token has a unique
+            // ID. Also, this handles the case where two different backends could use the same token
+            // ID.
+            if (!input.knownTokenIds.contains(result.tokenId)) {
+                return result;
+            }
         }
 
-        try {
-            result.tokenId = DeviceKeyApi.uploadDeviceKey(input.context, result.deviceKeyComponent);
-        } catch (SecuredRestApiEndpoint.ConnectException e) {
-            Log.e(getClass().getSimpleName(),
-                    "unable to upload device key, because server is unreachable", e);
-            failedReason = R.string.initialization_failed_offline;
-            failedAndProcessShouldBeRepeated = true;
-            failedCause = e;
-            return null;
-        } catch (SecuredRestApiEndpoint.IncompatibleClientException e) {
-            Log.e(getClass().getSimpleName(),
-                    "unable to upload device key, because client is old", e);
-            failedReason = R.string.initialization_failed_outdated;
-            failedAndProcessShouldBeRepeated = false;
-            failedCause = e;
-            return null;
-        } catch (SecuredRestApiEndpoint.CallFailedException e) {
-            Log.e(getClass().getSimpleName(),
-                    "unable to upload device key, because of (temporary) I/O problem", e);
-            failedReason = R.string.initialization_failed_communication;
-            failedAndProcessShouldBeRepeated = true;
-            failedCause = e;
-            return null;
-        }
-
-        return result;
+        Log.e(getClass().getSimpleName(),
+                "unable to get a unique token ID from the backend");
+        failedReason = R.string.initialization_failed_unknown_reason;
+        failedAndProcessShouldBeRepeated = true;
+        return null;
     }
 }

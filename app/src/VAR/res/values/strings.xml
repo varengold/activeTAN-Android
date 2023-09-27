@@ -5,10 +5,11 @@
     <string name="banking_app_provider" translatable="false">de.varengold.banking.fileprovider</string>
 
     <bool name="email_initialization_enabled">true</bool>
-    <string name="initialization_app_link_host" translatable="false">banking.varengold.de</string>
-    <string name="initialization_app_link_path" translatable="false">/OnlineBankingWebfrontend/banking/common/activeTAN-app.xhtml</string>
 
-    <string name="backend_api_url" translatable="false">https://banking.varengold.de/OnlineBankingWebfrontend/api/activeTAN/</string>
+    <array name="backend_api_url" translatable="false">
+        <item>https://banking.varengold.de/OnlineBankingWebfrontend/api/activeTAN/</item>
+        <item>https://banking.varengold.de/OnlineBankingQS/api/activeTAN/</item>
+    </array>
     <string name="backend_api_key_modulus" translatable="false">19197880095053802916282171027844279606826233874547135288670223465004323827848804832836831120697926835494164148005881561668997212821728192555664377661983166255237454609308677839202141947600206735936432824621310552375308237615612231857369648900353420620108103897939358721416739027408997958530540556688932991308574893471659014074568507785805949546518402555982309258293811755643321834717259538722454575177646799866653934421105225525319650487426881708939443744279121753043403408931100437215973151267616917883364641998213955770200327227864469251061123811687920834771807153969230830888989717284874561559444549541153886199187</string>
     <string name="backend_api_key_exponent" translatable="false">65537</string>
 
@@ -40,8 +41,8 @@
                 <i>Unternehmensvorstand</i>
             </p>
             <p>
-                Francesco Filia<br/>
-                <i>Unternehmensvorstand</i>
+                Marcus Columbu<br/>
+                <i>Fachanwalt für Bank- und Kapitalmarktrecht</i>
             </p>
             <p>
                 <b>Register</b><br/>

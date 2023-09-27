@@ -139,7 +139,7 @@ public class BankingAppApi extends AppCompatActivity {
 
         builder.setIcon(DrawableUtils.getTintedDrawable(this,
                 R.drawable.ic_material_hardware_security,
-                R.attr.colorOnSurface));
+                com.google.android.material.R.attr.colorOnSurface));
         builder.setTitle(R.string.missing_security_patches_title);
         builder.setMessage(R.string.missing_security_patches_description);
 
@@ -342,7 +342,7 @@ public class BankingAppApi extends AppCompatActivity {
 
         builder.setIcon(DrawableUtils.getTintedDrawable(this,
                 R.drawable.ic_material_action_info,
-                R.attr.colorOnSurface));
+                com.google.android.material.R.attr.colorOnSurface));
         builder.setTitle(warningTitleId);
         builder.setMessage(warningDescriptionId);
 

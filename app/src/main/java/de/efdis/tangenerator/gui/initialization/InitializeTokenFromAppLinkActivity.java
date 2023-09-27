@@ -45,6 +45,7 @@ public class InitializeTokenFromAppLinkActivity extends InitializeTokenActivity 
         }
 
         try {
+            loadBackendId(uri);
             loadKeyMaterial(uri);
         } catch (IllegalArgumentException e) {
             Log.e(TAG, "invalid call of activity: invalid app link", e);
@@ -64,6 +65,26 @@ public class InitializeTokenFromAppLinkActivity extends InitializeTokenActivity 
         // Visualize that we are inside the TAN app,
         // since the user might not have noticed the app change.
         getToolbar().setSubtitle(R.string.app_name);
+    }
+
+    private void loadBackendId(Uri appLinkUri) {
+        String[] backendApiUrls = getResources().getStringArray(R.array.backend_api_url);
+        for (int backendId = 0; backendId < backendApiUrls.length; backendId++) {
+            Uri backendUri = Uri.parse(backendApiUrls[backendId]);
+
+            // The app link refers to a landing page in the online banking application,
+            // which also hosts the api for this app.
+            // The online banking application can be identified by the domain
+            // and the first path segment.
+            if (appLinkUri.getAuthority().equals(
+                    backendUri.getAuthority())
+                    && appLinkUri.getPathSegments().stream().findFirst().equals(
+                            backendUri.getPathSegments().stream().findFirst())) {
+                getIntent().putExtra(EXTRA_BACKEND_ID, backendId);
+                return;
+            }
+        }
+        Log.e(TAG, "could not identify backend");
     }
 
     private void loadKeyMaterial(Uri uri) {

@@ -36,15 +36,21 @@ public class InitializeTokenStep1Fragment
         extends AbstractInitializeTokenStepFragment {
 
     private static final String ARG_SERIAL_NUMBER = "SERIAL_NUMBER";
+    private static final String ARG_BACKEND_NAME = "BACKEND_NAME";
 
     private FragmentInitializeTokenStep1Binding binding;
 
-    private OnButtonContinueListener listener;
+    private UserInputListener listener;
 
-    public static InitializeTokenStep1Fragment newInstance(String serialNumber) {
+    private int changeBackendTapCounter;
+
+    public static InitializeTokenStep1Fragment newInstance(String serialNumber, @Nullable String backendName) {
         InitializeTokenStep1Fragment fragment = new InitializeTokenStep1Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_SERIAL_NUMBER, serialNumber);
+        if (backendName != null) {
+            args.putString(ARG_BACKEND_NAME, backendName);
+        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,8 +59,8 @@ public class InitializeTokenStep1Fragment
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        if (context instanceof OnButtonContinueListener) {
-            listener = (OnButtonContinueListener) context;
+        if (context instanceof UserInputListener) {
+            listener = (UserInputListener) context;
         }
     }
 
@@ -89,9 +95,20 @@ public class InitializeTokenStep1Fragment
                 }
         );
 
+        binding.serialNumberContainer.setOnClickListener(
+                v -> {
+                    changeBackendTapCounter++;
+                    if (listener != null && changeBackendTapCounter >= 8) {
+                        changeBackendTapCounter = 0;
+                        listener.changeBackend();
+                    }
+                }
+        );
+
         Bundle args = getArguments();
         if (args != null) {
             setSerialNumber(args.getString(ARG_SERIAL_NUMBER));
+            setBackendName(args.getString(ARG_BACKEND_NAME));
         }
     }
 
@@ -106,8 +123,21 @@ public class InitializeTokenStep1Fragment
         binding.serialNumber.setText(formattedSerialNumber);
     }
 
-    public interface OnButtonContinueListener {
+    private void setBackendName(String backendName) {
+        if (backendName == null) {
+            binding.labelBackendName.setVisibility(View.GONE);
+            binding.backendName.setVisibility(View.GONE);
+        } else {
+            binding.backendName.setText(backendName);
+            binding.labelBackendName.setVisibility(View.VISIBLE);
+            binding.backendName.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public interface UserInputListener {
         void onStep1Continue();
+
+        void changeBackend();
     }
 
 }

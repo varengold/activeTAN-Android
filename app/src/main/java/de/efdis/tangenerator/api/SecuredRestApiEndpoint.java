@@ -103,9 +103,13 @@ public class SecuredRestApiEndpoint {
      */
     private Signature signature;
 
-    SecuredRestApiEndpoint(Context context) {
+    SecuredRestApiEndpoint(Context context, int backendId) {
+        String[] apiUrls = context.getResources().getStringArray(R.array.backend_api_url);
+        if (backendId < 0 || backendId >= apiUrls.length) {
+            throw new ApiConfigurationException("Invalid backend ID");
+        }
         try {
-            this.apiUrl = new URL(context.getResources().getString(R.string.backend_api_url));
+            this.apiUrl = new URL(apiUrls[backendId]);
         } catch (MalformedURLException e) {
             throw new ApiConfigurationException("Invalid api URL", e);
         }

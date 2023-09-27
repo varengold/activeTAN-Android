@@ -1,5 +1,0 @@
-<resources>
-    <string name="bank_name" translatable="false">dailybuild.efdis-online.de</string>
-    <string name="initialization_app_link_host" translatable="false">dailybuild.efdis-online.de</string>
-    <string name="backend_api_url" translatable="false">https://dailybuild.efdis-online.de/OnlineBankingWebfrontend/api/activeTAN/</string>
-</resources>

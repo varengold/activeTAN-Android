@@ -37,6 +37,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import de.efdis.tangenerator.R;
 import de.efdis.tangenerator.persistence.database.BankingToken;
@@ -117,13 +118,25 @@ public class SelectTokenDialogFragment extends DialogFragment {
         } else {
             builder.setTitle(R.string.choose_token_title);
 
+            String[] backendNames = getResources().getStringArray(R.array.backend_name);
+            final boolean displayBackendName = availableTokens.stream()
+                    .anyMatch(Predicate.not(BankingToken::isDefaultBackend));
+
             ArrayList<String> labels = new ArrayList<>(availableTokens.size());
             for (BankingToken token : availableTokens) {
+                StringBuilder label;
                 if (token.name == null || token.name.isEmpty()) {
-                    labels.add(token.getFormattedSerialNumber());
+                    label = new StringBuilder(token.getFormattedSerialNumber());
                 } else {
-                    labels.add(getString(R.string.token_name_and_serial_number_format, token.name, token.getFormattedSerialNumber()));
+                    label = new StringBuilder(getString(R.string.token_name_and_serial_number_format, token.name, token.getFormattedSerialNumber()));
                 }
+
+                if (displayBackendName && token.backendId >= 0 && token.backendId < backendNames.length) {
+                    label.append('\n');
+                    label.append(backendNames[token.backendId]);
+                }
+
+                labels.add(label.toString());
             }
 
             // The list of available tokens is sorted by last usage.
