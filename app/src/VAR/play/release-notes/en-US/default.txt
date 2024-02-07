@@ -1,2 +1,1 @@
-– Imprint adjusted
-– Update of third-party libraries
+– Bug fixes

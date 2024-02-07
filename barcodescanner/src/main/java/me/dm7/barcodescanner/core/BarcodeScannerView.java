@@ -39,7 +39,7 @@ import me.dm7.barcodescanner.R;
  *
  *  --- EFDIS AG Bankensoftware, Feb 2020
  */
-public abstract class BarcodeScannerView extends FrameLayout implements Camera.PreviewCallback  {
+public abstract class BarcodeScannerView extends FrameLayout implements Camera.PreviewCallback  {//android.hardware.camera2
 
     private CameraWrapper mCameraWrapper;
     private CameraPreview mPreview;

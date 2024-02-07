@@ -432,7 +432,7 @@ public class InitializeTokenActivity
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.disallowAddToBackStack();
             transaction.replace(R.id.stepFragment, stepFragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 
@@ -500,7 +500,7 @@ public class InitializeTokenActivity
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.stepFragment, stepFragment);
             transaction.addToBackStack(null);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
     }
 
@@ -661,7 +661,7 @@ public class InitializeTokenActivity
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.disallowAddToBackStack();
             transaction.replace(R.id.stepFragment, stepFragment);
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
         }
 
         initializationCompleted = true;

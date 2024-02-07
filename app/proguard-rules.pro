@@ -22,3 +22,10 @@
     public static int e(...);
     public static int wtf(...);
 }
+-dontwarn org.xmlpull.v1.**
+-dontwarn org.kxml2.io.**
+-dontwarn android.content.res.**
+
+-keep class org.xmlpull.** { *; }
+-keep class de.efdis.tangenerator.activetan.AesCbcMac
+-keepclassmembers class org.xmlpull.** { *; }

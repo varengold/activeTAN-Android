@@ -61,7 +61,7 @@ public class AutoDestroyable<K extends SecretKey> implements AutoCloseable, Dest
                 // erases the password from memory.
                 // Thus, it is not possible to unreference or destroy the key material and we can
                 // ignore the exception.
-                Log.d(TAG, "Could not destroy key material after usage", e);
+                Log.d(TAG, "Could not destroy key material after usage");
             }
         }
 

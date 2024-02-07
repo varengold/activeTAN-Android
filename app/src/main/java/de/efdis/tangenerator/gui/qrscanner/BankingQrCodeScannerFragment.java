@@ -91,6 +91,11 @@ public class BankingQrCodeScannerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (previewImage == null) {
+            previewImage = new QrCodeScannerView(getContext());
+        }
+
         previewImage.setFlash(false);
         previewImage.setAutoFocus(true);
 

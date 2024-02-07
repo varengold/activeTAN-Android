@@ -60,6 +60,16 @@ public class QrCodeScannerView extends BarcodeScannerView {
         qrCodeReader = new QRCodeReader();
     }
 
+    public QrCodeScannerView(Context context) {
+        super(context);
+
+        setLaserEnabled(false);
+        setSquareViewFinder(true);
+
+        qrCodeReader = new QRCodeReader();
+    }
+
+
     public ResultHandler getResultHandler() {
         return resultHandler;
     }
