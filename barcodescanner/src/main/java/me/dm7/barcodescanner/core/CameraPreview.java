@@ -33,7 +33,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /*
@@ -78,7 +77,6 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
     private boolean mSurfaceCreated = false;
     private boolean mShouldScaleToFill = true;
     private Camera.PreviewCallback mPreviewCallback;
-    private float mAspectTolerance = 0.1f;
 
     public CameraPreview(Context context, CameraWrapper cameraWrapper, Camera.PreviewCallback previewCallback) {
         super(context);
@@ -106,7 +104,6 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
     }
 
     public void setAspectTolerance(float aspectTolerance) {
-        mAspectTolerance = aspectTolerance;
     }
 
     @Override
@@ -226,18 +223,6 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
             setScaleY(
                     (float) (targetPreviewSize.x * idealPreviewSize.y)
                             / (idealPreviewSize.x * targetPreviewSize.y));
-        }
-    }
-
-    private void adjustViewSize(Camera.Size cameraSize) {
-        Point previewSize = convertSizeToLandscapeOrientation(new Point(getWidth(), getHeight()));
-        float cameraRatio = ((float) cameraSize.width) / cameraSize.height;
-        float screenRatio = ((float) previewSize.x) / previewSize.y;
-
-        if (screenRatio > cameraRatio) {
-            setViewSize((int) (previewSize.y * cameraRatio), previewSize.y);
-        } else {
-            setViewSize(previewSize.x, (int) (previewSize.x / cameraRatio));
         }
     }
 
@@ -393,7 +378,7 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
         }
     }
 
-    private Runnable doAutoFocus = new Runnable() {
+    private final Runnable doAutoFocus = new Runnable() {
         public void run() {
             if(mCameraWrapper != null && mPreviewing && mAutoFocus && mSurfaceCreated) {
                 safeAutoFocus();
@@ -402,7 +387,7 @@ public class CameraPreview extends TextureView implements TextureView.SurfaceTex
     };
 
     // Mimic continuous auto-focusing
-    Camera.AutoFocusCallback autoFocusCB = (success, camera) -> scheduleAutoFocus();
+    private final Camera.AutoFocusCallback autoFocusCB = (success, camera) -> scheduleAutoFocus();
 
     private void scheduleAutoFocus() {
         mAutoFocusHandler.postDelayed(doAutoFocus, 1000);

@@ -275,7 +275,6 @@ public abstract class AppActivity
     private BiometricPrompt.AuthenticationCallback keyguardAuthenticationCallback;
     private ActivityResultLauncher<Intent> keyguardAuthenticationLauncher;
 
-    @SuppressWarnings("deprecation")
     private void authenticateWithKeyguard(final BiometricPrompt.AuthenticationCallback callback, CharSequence description) {
         keyguardAuthenticationCallback = callback;
 

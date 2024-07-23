@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
@@ -53,6 +54,7 @@ import de.efdis.tangenerator.activetan.TanGenerator;
 import de.efdis.tangenerator.databinding.ActivityInitializeTokenBinding;
 import de.efdis.tangenerator.gui.common.AppActivity;
 import de.efdis.tangenerator.gui.common.ErrorDialogBuilder;
+import de.efdis.tangenerator.gui.misc.MainActivity;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeListener;
 import de.efdis.tangenerator.gui.qrscanner.BankingQrCodeScannerFragment;
 import de.efdis.tangenerator.persistence.database.BankingToken;
@@ -99,6 +101,16 @@ public class InitializeTokenActivity
         super.onCreate(savedInstanceState);
         binding = ActivityInitializeTokenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // This callback is only called when MyFragment is at least started
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBack();
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
 
         // Forbid screenshots to prevent leakage of sensitive information during initialization
         getWindow().setFlags(
@@ -436,8 +448,8 @@ public class InitializeTokenActivity
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    public void handleBack() {
+
         if (this.tokenId != null && getSupportFragmentManager().getBackStackEntryCount() == 0) {
             // By accidentally pressing back, the user would leave this activity
             // and lose the serial number or start TAN.
@@ -446,7 +458,12 @@ public class InitializeTokenActivity
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(false);
             builder.setNegativeButton(R.string.confirm_return, null);
-            builder.setPositiveButton(android.R.string.ok, (dialog, which) -> InitializeTokenActivity.super.onBackPressed());
+            builder.setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+
+            });
 
             if (!initializationCompleted) {
                 builder.setTitle(R.string.initialization_confirm_cancel_title);
@@ -458,10 +475,9 @@ public class InitializeTokenActivity
 
             builder.show();
 
-            // don't leave activity yet
-            return;
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
-        super.onBackPressed();
     }
 
     @Override

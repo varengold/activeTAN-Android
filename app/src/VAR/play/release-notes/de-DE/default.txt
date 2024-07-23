@@ -1,1 +1,2 @@
-– Fehlerbehebungen
+– Anpassung der Versionsnummer
+- Aktualisierungen von Bibliothek

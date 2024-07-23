@@ -30,14 +30,10 @@ public class VisDataBuffer {
     private static final int MAX_DATABLOCK_LENGTH = 12;
     private static final int MAX_HASH_LENGTH = 29;
 
-    ByteArrayOutputStream content;
+    private final ByteArrayOutputStream content;
 
     public VisDataBuffer() {
         content = new ByteArrayOutputStream();
-    }
-
-    public void reset() {
-        content.reset();
     }
 
     public void write(byte[] data) {

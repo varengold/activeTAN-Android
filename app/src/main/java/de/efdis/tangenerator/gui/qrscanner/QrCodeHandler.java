@@ -75,15 +75,15 @@ public class QrCodeHandler implements ResultHandler {
         switch (content.first) {
             case TRANSACTION_DATA:
                 listener.onTransactionData(content.second);
-                return;
+                break;
 
             case KEY_MATERIAL:
                 listener.onKeyMaterial(content.second);
-                return;
+                break;
 
             default:
                 listener.onInvalidBankingQrCode("Unsupported BQR content type");
-                return;
+                break;
         }
     }
 

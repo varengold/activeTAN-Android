@@ -203,7 +203,7 @@ public class SecuredRestApiEndpoint {
     private HttpsURLConnection prepareAndOpenConnection() throws IOException {
         IOException connectionError = null;
 
-        for (int retryCount = 0; connectionError == null || retryCount < 5; retryCount ++) {
+        for (int retryCount = 0; connectionError == null || retryCount < 5; retryCount++) {
             if (retryCount > 0) {
                 Log.i(getClass().getSimpleName(),
                         "Retrying connection automatically ...");

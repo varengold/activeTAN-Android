@@ -136,10 +136,6 @@ public class HHDuc {
         return new ArrayList<>(dataElements.keySet());
     }
 
-    public int getUnpredictableNumber() {
-        return unpredictableNumber;
-    }
-
     public void setUnpredictableNumber(int unpredictableNumber) {
         if (unpredictableNumber < 0) {
             throw new IllegalArgumentException("Random number cannot be negative");

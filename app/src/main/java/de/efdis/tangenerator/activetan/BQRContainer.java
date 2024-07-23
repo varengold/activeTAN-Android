@@ -59,15 +59,6 @@ public class BQRContainer {
             return prefix.getBytes(DKCharset.INSTANCE);
         }
 
-        public static ContentType valueOfPrefix(String prefix) {
-            for (ContentType contentType : ContentType.values()) {
-                if (contentType.getPrefix().equals(prefix)) {
-                    return contentType;
-                }
-            }
-
-            throw new IllegalArgumentException("Unknown prefix");
-        }
 
         public static ContentType valueOfPrefixBytes(byte[] prefix) {
             for (ContentType contentType : ContentType.values()) {

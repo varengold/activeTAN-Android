@@ -49,7 +49,7 @@ import me.dm7.barcodescanner.core.BarcodeScannerView;
  */
 public class QrCodeScannerView extends BarcodeScannerView {
     private ResultHandler resultHandler;
-    private QRCodeReader qrCodeReader;
+    private final QRCodeReader qrCodeReader;
 
     public QrCodeScannerView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);

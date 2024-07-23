@@ -45,7 +45,6 @@ public class SelectBackendDialogFragment extends DialogFragment {
 
     private int newBackendId;
 
-    private List<String> backendNames;
 
     /** Create new Dialog, which offers all available backends. The old one will be preselected */
     public SelectBackendDialogFragment(int oldBackendId) {

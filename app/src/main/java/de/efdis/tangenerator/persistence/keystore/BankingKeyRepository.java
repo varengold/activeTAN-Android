@@ -435,7 +435,6 @@ public class BankingKeyRepository {
 
     private static class KeyProtectionCompat {
 
-        @SuppressWarnings("deprecation")
         private static void setUserAuthenticationParameters(KeyProtection.Builder builder, int timeoutSeconds) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 builder.setUserAuthenticationParameters(timeoutSeconds,

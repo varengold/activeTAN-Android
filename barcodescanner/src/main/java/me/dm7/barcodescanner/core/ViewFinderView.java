@@ -46,7 +46,7 @@ public class ViewFinderView extends View implements IViewFinder {
     private static final int[] SCANNER_ALPHA = {0, 64, 128, 192, 255, 192, 128, 64};
     private int scannerAlpha;
     private static final int POINT_SIZE = 10;
-    private static final long ANIMATION_DELAY = 80l;
+    private static final long ANIMATION_DELAY = 80L;
 
     private final int mDefaultLaserColor = getResources().getColor(R.color.viewfinder_laser);
     private final int mDefaultMaskColor = getResources().getColor(R.color.viewfinder_mask);
@@ -60,7 +60,6 @@ public class ViewFinderView extends View implements IViewFinder {
     protected int mBorderLineLength;
     protected boolean mSquareViewFinder;
     private boolean mIsLaserEnabled;
-    private float mBordersAlpha;
     private int mViewFinderOffset = 0;
 
     public ViewFinderView(Context context) {
@@ -133,7 +132,6 @@ public class ViewFinderView extends View implements IViewFinder {
     @Override
     public void setBorderAlpha(float alpha) {
         int colorAlpha = (int) (255 * alpha);
-        mBordersAlpha = alpha;
         mBorderPaint.setAlpha(colorAlpha);
     }
 

@@ -99,15 +99,13 @@ public class BankingAppApi extends AppCompatActivity {
     private static final String TAG = BankingAppApi.class.getSimpleName();
     private static final String PREFERENCE_LAST_WARNING_OLD_DEVICE = "lastWarningOldDevice";
 
-    private ActivityBankingAppApiBinding binding;
-
     private Date activityCreationTime;
     private ActivityResultLauncher<Intent> challengeLauncher;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityBankingAppApiBinding.inflate(getLayoutInflater());
+        de.efdis.tangenerator.databinding.ActivityBankingAppApiBinding binding = ActivityBankingAppApiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         activityCreationTime = new Date();
@@ -191,7 +189,6 @@ public class BankingAppApi extends AppCompatActivity {
         return true;
     }
 
-    @SuppressWarnings({"deprecation"})
     private boolean intentHasMatchingDefaultActivity(Intent intent) {
         List<ResolveInfo> activities;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
