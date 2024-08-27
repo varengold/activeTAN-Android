@@ -1,2 +1,3 @@
 – Anpassung der Versionsnummer
 - Aktualisierungen von Bibliothek
+- Anpassung des Impressums

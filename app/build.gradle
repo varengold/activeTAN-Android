@@ -6,8 +6,8 @@ android {
     compileSdkVersion versions.compileSdk
 
     defaultConfig {
-        versionCode 52
-        versionName "1.0.12"
+        versionCode 53
+        versionName "1.0.13"
 
         // Requires API level 23 (Android 6.0) to use Android keystore system for cryptography.
         minSdkVersion 23
