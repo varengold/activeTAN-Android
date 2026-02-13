@@ -19,7 +19,7 @@
 
     <!-- Allow secure access with system certificates to the banking system. -->
     <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="false">banking.varengold.de</domain>
+        <domain includeSubdomains="false">banking.ascory-bank.de</domain>
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>

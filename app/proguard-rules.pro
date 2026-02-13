@@ -27,5 +27,7 @@
 -dontwarn android.content.res.**
 
 -keep class org.xmlpull.** { *; }
--keep class de.efdis.tangenerator.activetan.AesCbcMac
 -keepclassmembers class org.xmlpull.** { *; }
+-keep class de.efdis.tangenerator.activetan.AesCbcMac
+-keep class me.dm7.barcodescanner.zxing.** { *; }
+-keepclassmembers class me.dm7.barcodescanner.zxing.** { *; }

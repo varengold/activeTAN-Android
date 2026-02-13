@@ -28,4 +28,6 @@
     <color name="danger">#dc3545</color>
     <color name="light">#f8f9fa</color>
     <color name="dark">#343a40</color>
+    <color name="petrol">#002e32</color>
+    <color name="racing_green">#00351d</color>
 </resources>

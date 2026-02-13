@@ -1,12 +1,15 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="131.72728"
-    android:viewportHeight="131.72728">
-  <group android:translateX="25.613636"
-      android:translateY="38.01364">
-    <path
-        android:pathData="M0,53.2 L33.1,55.7 0.1,0.2 23.9,50.1ZM80.5,53 L47.4,55.6 80.3,0 56.5,49.9ZM13.6,0 L40.4,53 67.4,0 40.4,38.4Z"
-        android:fillColor="#b3b3b3"/>
-  </group>
+    android:viewportWidth="414"
+    android:viewportHeight="414">
+  <path
+      android:pathData="M180.45,179.08h42.56,-0.01s10.55,-0.01 10.55,-0.01c8.86,0 17.19,-3.45 23.46,-9.72l34.44,-34.44 -28.15,-28.15 -56.3,56.3 -56.29,-56.29 -28.15,28.15 34.44,34.44c6.27,6.27 14.6,9.72 23.46,9.72Z"
+      android:fillColor="@color/racing_green"/>
+  <path
+      android:pathData="M180.45,254.15h42.56,-0.01s10.55,-0.01 10.55,-0.01c8.86,0 17.19,-3.45 23.46,-9.72l71.98,-71.98 -28.15,-28.15 -93.84,93.83 -93.82,-93.82 -28.15,28.15 71.98,71.98c6.27,6.27 14.6,9.71 23.46,9.71Z"
+      android:fillColor="@color/racing_green"/>
+  <path
+      android:pathData="M120.73,267.43h172.52v39.81h-172.52z"
+      android:fillColor="@color/racing_green"/>
 </vector>

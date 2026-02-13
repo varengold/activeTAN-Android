@@ -1,14 +1,9 @@
 <resources>
-    <string name="bank_name">Varengold Bank AG</string>
-
-    <bool name="banking_app_enabled">false</bool>
-    <string name="banking_app_provider" translatable="false">de.varengold.banking.fileprovider</string>
-
-    <bool name="email_initialization_enabled">true</bool>
+    <string name="bank_name">Ascory Bank AG</string>
 
     <array name="backend_api_url" translatable="false">
-        <item>https://banking.varengold.de/OnlineBankingWebfrontend/api/activeTAN/</item>
-        <item>https://banking.varengold.de/OnlineBankingQS/api/activeTAN/</item>
+        <item>https://banking.ascory-bank.de/OnlineBankingWebfrontend/api/activeTAN/</item>
+        <item>https://banking.ascory-bank.de/OnlineBankingQS/api/activeTAN/</item>
     </array>
     <string name="backend_api_key_modulus" translatable="false">19197880095053802916282171027844279606826233874547135288670223465004323827848804832836831120697926835494164148005881561668997212821728192555664377661983166255237454609308677839202141947600206735936432824621310552375308237615612231857369648900353420620108103897939358721416739027408997958530540556688932991308574893471659014074568507785805949546518402555982309258293811755643321834717259538722454575177646799866653934421105225525319650487426881708939443744279121753043403408931100437215973151267616917883364641998213955770200327227864469251061123811687920834771807153969230830888989717284874561559444549541153886199187</string>
     <string name="backend_api_key_exponent" translatable="false">65537</string>
@@ -16,30 +11,26 @@
     <string name="imprint">
         <![CDATA[
             <p>
-                <b>Varengold Bank AG</b><br/>
+                <b>Ascory Bank AG</b><br/>
                 Gro&szlig;e Elbstra&szlig;e 39<br/>
                 22767 Hamburg
             </p>
             <p>
                 Tel.: <a href="tel:+49406686490">+49 40 66&#x2009;86&#x2009;49&#x2009;0</a><br/>
                 Fax: +49 40 66&#x2009;86&#x2009;49&#x2009;49<br/>
-                E-Mail: <a href="mailto:info@varengold.de">info@varengold.de</a><br/>
-                Internet: <a href="https://www.varengold.de/">www.varengold.de</a>
+                E-Mail: <a href="mailto:info@ascory.de">info@ascory.de</a><br/>
+                Internet: <a href="https://www.ascory-bank.de/">www.ascory-bank.de</a>
             </p>
             <p>
                 <b>Vorstand</b><br/>
-                Dr. Bernhard Fuhrmann<br/>
-                Frank Otten
+                Matthias Wargers (Sprecher)<br/>
+                Hendrik Harms<br/>
             </p>
             <p>
                 <b>Aufsichtsrat</b><br/>
                 Dirk Auerbach (Vorsitzender)<br/>
-            </p>
-            <p>
-                Dr. Karl-Heinz Lemnitzer<br/>
-            </p>
-            <p>
                 Vasil Stefanov<br/>
+                Tobias Weitzel<br/>
             </p>
             <p>
                 <b>Register</b><br/>

@@ -1,11 +1,6 @@
 <resources>
     <string name="bank_name" translatable="false">efdis-online.de</string>
 
-    <bool name="banking_app_enabled">true</bool>
-    <string name="banking_app_provider" translatable="false">de.efdis.banking.fileprovider</string>
-
-    <bool name="email_initialization_enabled">true</bool>
-
     <array name="backend_name">
         <item>efdis-online.de</item>
         <item>dailybuild.efdis-online.de</item>

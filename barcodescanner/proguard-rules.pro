@@ -14,3 +14,6 @@
     public static int e(...);
     public static int wtf(...);
 }
+
+-keep class me.dm7.barcodescanner.zxing.** { *; }
+-keepclassmembers class me.dm7.barcodescanner.zxing.** { *; }

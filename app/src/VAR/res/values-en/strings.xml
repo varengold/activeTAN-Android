@@ -1,33 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="bank_name">Varengold Bank AG</string>
+    <string name="bank_name">Ascory Bank AG</string>
     <string name="imprint">
         <![CDATA[
             <p>
-                <b>Varengold Bank AG</b><br/>
+                <b>Ascory Bank AG</b><br/>
                 Grosse Elbstrasse 39<br/>
                 22767 Hamburg
             </p>
             <p>
                 Telephone no.: <a href="tel:+49406686490">+49 40 66&#x2009;86&#x2009;49&#x2009;0</a><br/>
                 Fax: +49 40 66&#x2009;86&#x2009;49&#x2009;49<br/>
-                Email: <a href="mailto:info@varengold.de">info@varengold.de</a><br/>
-                Web address: <a href="https://www.varengold.de/">www.varengold.de</a>
+                Email: <a href="mailto:info@ascory.de">info@ascory.de</a><br/>
+                Web address: <a href="https://www.ascory-bank.de/">www.ascory-bank.de</a>
             </p>
             <p>
                 <b>Management Board</b><br/>
-                Dr. Bernhard Fuhrmann<br/>
-                Frank Otten
+                Matthias Wargers (Spokesman)<br/>
+                Hendrik Harms<br/>
             </p>
             <p>
                 <b>Supervisory Board</b><br/>
                 Dirk Auerbach (Chairman)<br/>
-            </p>
-            <p>
-                Dr. Karl-Heinz Lemnitzer<br/>
-            </p>
-            <p>
                 Vasil Stefanov<br/>
+                Tobias Weitzel<br/>
             </p>
             <p>
                 <b>Registration</b><br/>

@@ -12,7 +12,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" />
-                <data android:host="banking.varengold.de" />
+                <data android:host="banking.ascory-bank.de" />
                 <data android:path="/OnlineBankingWebfrontend/banking/common/activeTAN-app.xhtml" />
                 <data android:path="/OnlineBankingQS/banking/common/activeTAN-app.xhtml" />
             </intent-filter>

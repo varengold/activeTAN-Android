@@ -9,6 +9,8 @@
 # Local gradle settings
 /local.properties
 
+/.kotlin
+
 /.idea
 *.iml
 
@@ -24,3 +26,5 @@
 /app/*/release
 
 /*.tar
+
+/tests-*
